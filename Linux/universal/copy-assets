@@ -13,9 +13,14 @@ git clone "$REPO_URL" "$DOWNLOAD_PATH" || {
   exit 1
 }
 
-# Create the main directory if it doesn't exist and move all images from subdirectories
+#* Wallpapers
 sudo mkdir -p /usr/share/backgrounds
 sudo find "$DOWNLOAD_PATH/wallpapers/" -type f -exec mv {} /usr/share/backgrounds/ \;
+
+#* Icons
+sudo mkdir -p /usr/share/icons
+sudo find "$DOWNLOAD_PATH/icons/" -type f -exec mv {} /usr/share/icons/ \;
+
 
 # Clean up
 rm -rf "$DOWNLOAD_PATH"
