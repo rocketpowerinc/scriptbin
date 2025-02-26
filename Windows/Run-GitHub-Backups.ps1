@@ -1,13 +1,4 @@
 # Function to check for admin privileges and relaunch with elevated permissions if necessary
-Function Ensure-Admin {
-    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-        $newProcess = Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -Verb RunAs
-    }
-}
-
-# Ensure the script is running with elevated permissions
-Ensure-Admin
-
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -46,14 +37,16 @@ $form.Controls.Add($statusLabel)
 
 $BackupScriptPath = "$env:APPDATA\github_backup.ps1"
 $TaskName = "GitHubBackup"
-$BackupEnabled = (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) -ne $null
+$BackupEnabled = $null -ne (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue)
+
 
 Function UpdateStatus {
     if ($BackupEnabled) {
         $statusLabel.Text = "Backup: ON"
         $statusLabel.ForeColor = [System.Drawing.Color]::Green
         $btnToggleBackup.Text = "Disable Daily Backup"
-    } else {
+    }
+    else {
         $statusLabel.Text = "Backup: OFF"
         $statusLabel.ForeColor = [System.Drawing.Color]::Red
         $btnToggleBackup.Text = "Enable Daily Backup"
@@ -63,7 +56,7 @@ Function UpdateStatus {
 # Updated DownloadRepos Function
 Function DownloadRepos {
     try {
-        $BackupDir = "D:\Next New HDD\Master-Redundant (Mega2ProtonSyncs)\Important\Tech\Backups\GITHUB REPOS\RocketPowerInc"
+        $BackupDir = "$env:USERPROFILE\GitHub-pwr\Backups"
         $Date = Get-Date -Format "yyyy-MM-dd"
         $ZipFile = "$BackupDir\pwr-repo-backup-$Date.zip"
 
@@ -74,19 +67,20 @@ Function DownloadRepos {
         # Define your list of repository URLs
         $Repos = @(
             "https://github.com/rocketpowerinc/linux-greeter.git"
-            # Add more repositories here
-            "https://github.com/rocketpowerinc/another-repo.git"
-            "https://github.com/rocketpowerinc/yet-another-repo.git"
+            "https://github.com/rocketpowerinc/appbundles.git"
+            "https://github.com/rocketpowerinc/assets"
+            "https://github.com/rocketpowerinc/scriptbin.git"
             # Continue adding as needed
         )
 
         foreach ($Repo in $Repos) {
-            $RepoName = ($Repo -split '/')[-1] -replace '\.git$',''
+            $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
             $RepoPath = "$BackupDir\$RepoName"
 
             if (Test-Path $RepoPath) {
                 git -C $RepoPath pull
-            } else {
+            }
+            else {
                 git clone $Repo $RepoPath
             }
         }
@@ -95,7 +89,7 @@ Function DownloadRepos {
 
         # Delete the original repository directories after zipping
         foreach ($Repo in $Repos) {
-            $RepoName = ($Repo -split '/')[-1] -replace '\.git$',''
+            $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
             $RepoPath = "$BackupDir\$RepoName"
 
             if (Test-Path $RepoPath) {
@@ -104,7 +98,8 @@ Function DownloadRepos {
         }
 
         [System.Windows.Forms.MessageBox]::Show("Backup Completed: $ZipFile. Original files have been deleted.")
-    } catch {
+    }
+    catch {
         [System.Windows.Forms.MessageBox]::Show("An error occurred: $_")
     }
 }
@@ -114,7 +109,8 @@ Function ToggleBackup {
     if ($BackupEnabled) {
         Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
         $BackupEnabled = $false
-    } else {
+    }
+    else {
         # Prepare the backup script content
         $BackupScriptContent = @"
 try {
