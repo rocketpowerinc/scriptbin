@@ -1,3 +1,13 @@
+#TODO Setup
+#1. Create a shortcut to your Powershell script on your desktop
+#2. `"pwsh.exe" -f "$env:USERPROFILE\GitHub-pwr\Backups.Run-GitHub-Backups.ps1”`
+#    - VERY IMPORTANT `"pwsh.exe" -f`  OR else the next step will be greyed out
+#3. Right-click the shortcut and click Properties
+#4. Click the Shortcut tab
+#5. Click Advanced
+#6. Select Run as Administrator
+
+
 # Function to check for admin privileges and relaunch with elevated permissions if necessary
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
