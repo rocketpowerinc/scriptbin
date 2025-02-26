@@ -109,7 +109,7 @@ Function DownloadRepos {
             }
         }
 
-        [System.Windows.Forms.MessageBox]::Show("Backup Completed: $ZipFile. Original files have been deleted.")
+        [System.Windows.Forms.MessageBox]::Show("Backup Completed: $ZipFile.")
     }
     catch {
         [System.Windows.Forms.MessageBox]::Show("An error occurred: $_")
