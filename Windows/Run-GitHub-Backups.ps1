@@ -2,7 +2,7 @@
 #1. Create the actual Script here `$env:USERPROFILE\Bin\Run-GitHub-Backups.ps1`
 #    1. IT IS SAVED ON MY ROCKETPOWERINC Repo ScriptBin → Windows
 #2. Create a shortcut to your Powershell script on your desktop
-#3. Enter this as target path -> "pwsh.exe" -f "$env:USERPROFILE\Bin\Run-GitHub-Backups.ps1"
+#3. Enter this as target path -> "pwsh.exe" -f C:\Users\rocket\Bin\Run-GitHub-Backups.ps1
 #    - VERY IMPORTANT `"pwsh.exe" -f`  OR else the next step will be greyed out
 #4. Right-click the shortcut and click Properties
 #5. Click the Shortcut tab
