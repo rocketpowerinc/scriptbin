@@ -45,13 +45,13 @@ foreach ($Repo in $Repos) {
 
 # Create Backup Script
 if (!(Test-Path $env:USERPROFILE\Bin)) {
-  New-Item -ItemType Directory -Path $env:USERPROFILE\Bin -Force
+    New-Item -ItemType Directory -Path $env:USERPROFILE\Bin -Force
 }
 Set-Content -Path $BackupScript -Value $ScriptContent
 
 # Check if the task already exists and remove it
 if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
-  Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
+    Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false
 }
 
 # Create Scheduled Task
