@@ -68,7 +68,7 @@ Function UpdateStatus {
 # Updated DownloadRepos Function
 Function DownloadRepos {
     try {
-        $BackupDir = "$env:USERPROFILE\GitHub-pwr-BACKUPS"
+        $BackupDir = "$env:USERPROFILE\GitHub-BACKUPS"
         $Date = Get-Date -Format "yyyy-MM-dd"
         $ZipFile = "$BackupDir\pwr-repo-backup-$Date.zip"
 
