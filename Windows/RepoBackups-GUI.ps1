@@ -1,3 +1,6 @@
+#! ADMIN NOT REQUIRED
+#! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
+
 Add-Type -AssemblyName System.Windows.Forms
 
 # Function to check if the scheduled task exists and is enabled
