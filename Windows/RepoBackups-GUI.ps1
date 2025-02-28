@@ -6,10 +6,9 @@
 
 
 #* Checks if git is installed
-# Check if Git is installed
 $gitInstalled = Get-Command git -ErrorAction SilentlyContinue
 
-if ($gitInstalled -eq $null) {
+if ($null -eq $gitInstalled) {
   Write-Output "Git is not installed. Installing Git..."
   # Install Git using winget
   winget install -e --id Git.Git
@@ -17,6 +16,7 @@ if ($gitInstalled -eq $null) {
 else {
   Write-Output "Git is already installed."
 }
+
 
 #* Windows Form GUI
 Add-Type -AssemblyName System.Windows.Forms
