@@ -3,6 +3,22 @@
 #! It will create a second .ps1 script called RepoBackups-TaskScheduler.ps1 in the user's Bin directory. That task scheduler script will be used to run the backup script daily at 3 AM.
 #! If I add repo's I have to add it in the scipt below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
 
+
+
+#* Checks if git is installed
+# Check if Git is installed
+$gitInstalled = Get-Command git -ErrorAction SilentlyContinue
+
+if ($gitInstalled -eq $null) {
+  Write-Output "Git is not installed. Installing Git..."
+  # Install Git using winget
+  winget install -e --id Git.Git
+}
+else {
+  Write-Output "Git is already installed."
+}
+
+#* Windows Form GUI
 Add-Type -AssemblyName System.Windows.Forms
 
 # Function to check if the scheduled task exists and is enabled
