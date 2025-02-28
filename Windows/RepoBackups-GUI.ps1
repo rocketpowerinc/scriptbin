@@ -117,7 +117,7 @@ function DownloadRepos {
 
 # Function to toggle daily backup schedule
 function ToggleBackupSchedule {
-  $BackupScript = "$env:USERPROFILE\Bin\Run-GitHub-Backups.ps1"
+  $BackupScript = "$env:USERPROFILE\Bin\Run-GitHub-TaskScheduler.ps1"
   $TaskName = "GitHubBackup"
 
   if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
