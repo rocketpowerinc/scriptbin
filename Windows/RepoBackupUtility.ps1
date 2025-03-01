@@ -52,7 +52,7 @@ function Show-BackupForm {
 
   # Title Label
   $titleLabel = New-Object Windows.Forms.Label
-  $titleLabel.Text = "GitHub Backup Utility"
+  $titleLabel.Text = "Repo Backup Utility"
   $titleLabel.AutoSize = $true
   $titleLabel.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 14, [System.Drawing.FontStyle]::Bold)
   $titleLabel.ForeColor = [System.Drawing.Color]::White
