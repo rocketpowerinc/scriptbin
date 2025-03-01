@@ -207,6 +207,9 @@ Remove-Item -Path $TempDir -Recurse -Force
 
   # Update status label
   Update-Status
+
+  # Open Task Scheduler after enabling/disabling the task
+  Start-Process "taskschd.msc"
 }
 
 
