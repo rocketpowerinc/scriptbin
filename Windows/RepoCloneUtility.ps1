@@ -28,42 +28,54 @@ Install-RequiredTools
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+# Create the main form
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "🚀 Repo Clone Utility"
-$form.Size = New-Object System.Drawing.Size(420, 270)
+$form.Size = New-Object System.Drawing.Size(420, 320) # Increased height for better layout
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 $form.MaximizeBox = $false
 $form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
 $form.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10)
 
-# Form elements
-$label = New-Object System.Windows.Forms.Label
-$label.Text = "👤 GitHub Username:"
-$label.Location = New-Object System.Drawing.Point(20, 20)
-$label.Size = New-Object System.Drawing.Size(140, 20)
-$label.ForeColor = [System.Drawing.Color]::White
-$form.Controls.Add($label)
+# Title Label
+$titleLabel = New-Object System.Windows.Forms.Label
+$titleLabel.Text = "Repo Clone Utility"
+$titleLabel.AutoSize = $true
+$titleLabel.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 14, [System.Drawing.FontStyle]::Bold)
+$titleLabel.ForeColor = [System.Drawing.Color]::White
+$titleLabel.Location = New-Object System.Drawing.Point(120, 10)
+$form.Controls.Add($titleLabel)
+
+# GitHub Username Label and TextBox
+$usernameLabel = New-Object System.Windows.Forms.Label
+$usernameLabel.Text = "👤 GitHub Username:"
+$usernameLabel.Location = New-Object System.Drawing.Point(20, 50)
+$usernameLabel.Size = New-Object System.Drawing.Size(140, 20)
+$usernameLabel.ForeColor = [System.Drawing.Color]::White
+$form.Controls.Add($usernameLabel)
 
 $usernameBox = New-Object System.Windows.Forms.TextBox
-$usernameBox.Location = New-Object System.Drawing.Point(160, 18)
+$usernameBox.Location = New-Object System.Drawing.Point(160, 48)
 $usernameBox.Size = New-Object System.Drawing.Size(220, 20)
 $form.Controls.Add($usernameBox)
 
+# Destination Folder Label and TextBox
 $folderLabel = New-Object System.Windows.Forms.Label
 $folderLabel.Text = "📂 Destination Folder:"
-$folderLabel.Location = New-Object System.Drawing.Point(20, 50)
+$folderLabel.Location = New-Object System.Drawing.Point(20, 80)
 $folderLabel.Size = New-Object System.Drawing.Size(140, 20)
 $folderLabel.ForeColor = [System.Drawing.Color]::White
 $form.Controls.Add($folderLabel)
 
 $folderBox = New-Object System.Windows.Forms.TextBox
-$folderBox.Location = New-Object System.Drawing.Point(160, 48)
+$folderBox.Location = New-Object System.Drawing.Point(160, 78)
 $folderBox.Size = New-Object System.Drawing.Size(220, 20)
 $form.Controls.Add($folderBox)
 
+# Browse Button
 $browseButton = New-Object System.Windows.Forms.Button
 $browseButton.Text = "📁 Browse..."
-$browseButton.Location = New-Object System.Drawing.Point(160, 75)
+$browseButton.Location = New-Object System.Drawing.Point(160, 105)
 $browseButton.Size = New-Object System.Drawing.Size(220, 30)
 $browseButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $browseButton.ForeColor = [System.Drawing.Color]::White
@@ -71,9 +83,10 @@ $browseButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $browseButton.Add_Click({ SelectFolder })
 $form.Controls.Add($browseButton)
 
+# Clone Repos Button
 $cloneButton = New-Object System.Windows.Forms.Button
 $cloneButton.Text = "📥 Clone Repos"
-$cloneButton.Location = New-Object System.Drawing.Point(160, 110)
+$cloneButton.Location = New-Object System.Drawing.Point(160, 140)
 $cloneButton.Size = New-Object System.Drawing.Size(220, 30)
 $cloneButton.BackColor = [System.Drawing.Color]::FromArgb(34, 177, 76)
 $cloneButton.ForeColor = [System.Drawing.Color]::White
@@ -81,13 +94,15 @@ $cloneButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $cloneButton.Add_Click({ CloneRepos })
 $form.Controls.Add($cloneButton)
 
+# Status Label
 $statusLabel = New-Object System.Windows.Forms.Label
 $statusLabel.Text = "📡 Status: Waiting..."
-$statusLabel.Location = New-Object System.Drawing.Point(20, 150)
+$statusLabel.Location = New-Object System.Drawing.Point(20, 180)
 $statusLabel.Size = New-Object System.Drawing.Size(380, 40)
 $statusLabel.ForeColor = [System.Drawing.Color]::White
 $form.Controls.Add($statusLabel)
 
+# Function to ensure user is authenticated
 function EnsureAuthenticated {
   UpdateStatus "🔄 Checking authentication..."
   $authStatus = PowerShellExec("gh auth status --hostname github.com")
@@ -121,6 +136,7 @@ function EnsureAuthenticated {
   return $true
 }
 
+# Function to select destination folder
 function SelectFolder {
   $folderDialog = New-Object System.Windows.Forms.FolderBrowserDialog
   if ($folderDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
@@ -128,6 +144,7 @@ function SelectFolder {
   }
 }
 
+# Function to clone repositories
 function CloneRepos {
   if (-not (EnsureAuthenticated)) {
     return
@@ -162,6 +179,7 @@ function CloneRepos {
   UpdateStatus "✅ Cloning completed."
 }
 
+# Function to execute PowerShell commands
 function PowerShellExec($command) {
   try {
     return & pwsh -NoProfile -ExecutionPolicy Bypass -Command "$command" 2>&1
@@ -171,6 +189,7 @@ function PowerShellExec($command) {
   }
 }
 
+# Function to update status label
 function UpdateStatus($message) {
   if ($form.InvokeRequired) {
     $form.Invoke([Action] { $statusLabel.Text = $message })
