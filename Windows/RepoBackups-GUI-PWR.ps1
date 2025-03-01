@@ -44,7 +44,7 @@ function CheckTaskStatus {
 
 function Show-BackupForm {
   $form = New-Object Windows.Forms.Form
-  $form.Text = "🚀  GitHub PWR Repo Cloner Utility"
+  $form.Text = "🚀  GitHub PWR Repo Backup Utility"
   $form.Size = New-Object Drawing.Size(500, 300)
   $form.StartPosition = "CenterScreen"
   $form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
