@@ -29,7 +29,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "🚀 GitHub Repo Cloner Utility"
+$form.Text = "🚀 Repo Clone Utility"
 $form.Size = New-Object System.Drawing.Size(420, 270)
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 $form.MaximizeBox = $false
