@@ -2,8 +2,7 @@
 #! Description: A PowerShell script to back up GitHub repositories using the logged-in user's account via gh.
 #! This Script Goes in $env:USERPROFILE\Bin
 
-
-# Check if git and gh are installed
+# Check if Git and gh are installed
 function Install-RequiredTools {
   # Check if Git is installed
   if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
@@ -26,18 +25,18 @@ function Install-RequiredTools {
 
 Install-RequiredTools
 
-
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "🚀  GitHub Generic Repo Cloner Utility"
+$form.Text = "🚀 GitHub Repo Cloner Utility"
 $form.Size = New-Object System.Drawing.Size(420, 270)
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::FixedDialog
 $form.MaximizeBox = $false
 $form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
 $form.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10)
 
+# Form elements
 $label = New-Object System.Windows.Forms.Label
 $label.Text = "👤 GitHub Username:"
 $label.Location = New-Object System.Drawing.Point(20, 20)
@@ -75,13 +74,12 @@ $form.Controls.Add($browseButton)
 $cloneButton = New-Object System.Windows.Forms.Button
 $cloneButton.Text = "📥 Clone Repos"
 $cloneButton.Location = New-Object System.Drawing.Point(160, 110)
-$cloneButton.Size = New-Object System.Drawing.Size(220, 30)  # Same size as Browse button
-$cloneButton.BackColor = [System.Drawing.Color]::FromArgb(34, 177, 76)  # Green color (RGB: 34, 177, 76)
+$cloneButton.Size = New-Object System.Drawing.Size(220, 30)
+$cloneButton.BackColor = [System.Drawing.Color]::FromArgb(34, 177, 76)
 $cloneButton.ForeColor = [System.Drawing.Color]::White
 $cloneButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $cloneButton.Add_Click({ CloneRepos })
 $form.Controls.Add($cloneButton)
-
 
 $statusLabel = New-Object System.Windows.Forms.Label
 $statusLabel.Text = "📡 Status: Waiting..."
@@ -89,6 +87,39 @@ $statusLabel.Location = New-Object System.Drawing.Point(20, 150)
 $statusLabel.Size = New-Object System.Drawing.Size(380, 40)
 $statusLabel.ForeColor = [System.Drawing.Color]::White
 $form.Controls.Add($statusLabel)
+
+function EnsureAuthenticated {
+  UpdateStatus "🔄 Checking authentication..."
+  $authStatus = PowerShellExec("gh auth status --hostname github.com")
+
+  if ($authStatus -match "You are not logged into any GitHub hosts") {
+    [System.Windows.Forms.MessageBox]::Show("You must log in to GitHub.", "Authentication Required", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
+    Start-Process pwsh -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command gh auth login; Read-Host 'Press Enter to continue'" -NoNewWindow -Wait
+
+    # Re-check authentication after login
+    $authStatus = PowerShellExec("gh auth status --hostname github.com")
+    if ($authStatus -match "You are not logged into any GitHub hosts") {
+      [System.Windows.Forms.MessageBox]::Show("Login failed. Please ensure you are logged in.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
+      return $false
+    }
+  }
+
+  # Fetch the authenticated username
+  $loggedInUser = PowerShellExec("gh api user --jq .login").Trim()
+  if ([string]::IsNullOrEmpty($loggedInUser)) {
+    [System.Windows.Forms.MessageBox]::Show("Failed to fetch the authenticated user. Please check your login.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
+    return $false
+  }
+
+  # Compare authenticated user with the target username
+  $targetUsername = $usernameBox.Text.Trim()
+  if ($loggedInUser -ne $targetUsername) {
+    [System.Windows.Forms.MessageBox]::Show("You are logged in as '$loggedInUser', but you are trying to clone repositories for '$targetUsername'. Please log in as the correct user - ONLY PUBLIC REPOS WILL BE CLONED.", "Error", [System.Windows.Forms.MessageBoxButtons]::OK, [System.Windows.Forms.MessageBoxIcon]::Error)
+    return $false
+  }
+
+  return $true
+}
 
 function SelectFolder {
   $folderDialog = New-Object System.Windows.Forms.FolderBrowserDialog
@@ -98,6 +129,10 @@ function SelectFolder {
 }
 
 function CloneRepos {
+  if (-not (EnsureAuthenticated)) {
+    return
+  }
+
   $username = $usernameBox.Text.Trim()
   $targetDir = $folderBox.Text.Trim()
 
@@ -111,15 +146,8 @@ function CloneRepos {
     return
   }
 
-  UpdateStatus "🔄 Checking authentication..."
-  $authStatus = PowerShellExec("gh auth status --hostname github.com")
-  if ($authStatus -match "You are not logged into any GitHub hosts") {
-    UpdateStatus "🔑 Logging in to GitHub..."
-    Start-Process pwsh -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command gh auth login; Read-Host 'Press Enter to continue'" -NoNewWindow -Wait
-  }
-
   UpdateStatus "📡 Fetching repositories..."
-  $repos = PowerShellExec("gh repo list $username --json name --jq '.[].name'" ).Split("`n")
+  $repos = PowerShellExec("gh repo list $username --json name --jq '.[].name'").Split("`n")
 
   if (-not (Test-Path -Path $targetDir)) {
     New-Item -ItemType Directory -Path $targetDir | Out-Null
