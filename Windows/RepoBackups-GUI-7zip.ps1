@@ -1,18 +1,33 @@
+
+#* Non Native 7zip method but includes the hidden .git folder of each repo which takes alot of space
 #! ADMIN NOT REQUIRED
 #! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
 #! It will create a second .ps1 script called RepoBackups-TaskScheduler.ps1 in the user's Bin directory. That task scheduler script will be used to run the backup script daily at 3 AM.
 #! New repo's have to be added in the scipt below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
 
 
-# Check if git is installed
-$gitInstalled = Get-Command git -ErrorAction SilentlyContinue
-if ($null -eq $gitInstalled) {
-  Write-Output "Git is not installed. Installing Git..."
-  winget install -e --id Git.Git
+# Check if git and 7-zip are installed
+function Install-RequiredTools {
+  # Check if Git is installed
+  if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Output "Installing Git..."
+    winget install -e --id Git.Git
+  }
+  else {
+    Write-Output "Git is already installed."
+  }
+
+  # Check if 7-Zip is installed
+  if (-not (Test-Path "C:\Program Files\7-Zip\7z.exe")) {
+    Write-Output "Installing 7-Zip..."
+    winget install -e --id 7zip.7zip
+  }
+  else {
+    Write-Output "7-Zip is already installed."
+  }
 }
-else {
-  Write-Output "Git is already installed."
-}
+Install-RequiredTools
+
 
 # Windows Form GUI
 Add-Type -AssemblyName System.Windows.Forms
@@ -101,10 +116,13 @@ function Show-BackupForm {
 function DownloadRepos {
   try {
     $BackupDir = "$env:USERPROFILE\GitHub-BACKUPS"
+    $TempDir = "$env:TEMP\GitHubBackupTemp"
     $Date = Get-Date -Format "yyyy-MM-dd"
     $ZipFile = "$BackupDir\pwr-repo-backup-$Date.zip"
 
     if (!(Test-Path $BackupDir)) { New-Item -ItemType Directory -Path $BackupDir -Force }
+    if (Test-Path $TempDir) { Remove-Item -Path $TempDir -Recurse -Force } # Ensure clean temp dir
+    New-Item -ItemType Directory -Path $TempDir -Force
 
     $Repos = @(
       "https://github.com/rocketpowerinc/linux-greeter.git",
@@ -115,23 +133,15 @@ function DownloadRepos {
 
     foreach ($Repo in $Repos) {
       $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
-      $RepoPath = "$BackupDir\$RepoName"
-      if (Test-Path $RepoPath) {
-        git -C $RepoPath pull
-      }
-      else {
-        git clone $Repo $RepoPath
-      }
+      $RepoPath = "$TempDir\$RepoName"
+      git clone $Repo $RepoPath
     }
 
-    # Exclude previous .zip files from being included in the new backup
-    Compress-Archive -Path (Get-ChildItem -Path $BackupDir -Directory) -DestinationPath $ZipFile -Force
+    # Zip only the newly cloned repositories
+    & "C:\Program Files\7-Zip\7z.exe" a -r $ZipFile "$TempDir\*"
 
-    foreach ($Repo in $Repos) {
-      $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
-      $RepoPath = "$BackupDir\$RepoName"
-      if (Test-Path $RepoPath) { Remove-Item -Path $RepoPath -Recurse -Force }
-    }
+    # Clean up temp directory
+    Remove-Item -Path $TempDir -Recurse -Force
 
     [System.Windows.Forms.MessageBox]::Show("Backup Completed: $ZipFile.")
   }
@@ -154,10 +164,13 @@ function ToggleBackupSchedule {
     # Task does not exist, create it (Enable)
     $ScriptContent = @'
 $BackupDir = "$env:USERPROFILE\GitHub-BACKUPS"
+$TempDir = "$env:TEMP\GitHubBackupTemp"
 $Date = Get-Date -Format "yyyy-MM-dd"
 $ZipFile = "$BackupDir\pwr-repo-backup-$Date.zip"
 
 if (!(Test-Path $BackupDir)) { New-Item -ItemType Directory -Path $BackupDir -Force }
+if (Test-Path $TempDir) { Remove-Item -Path $TempDir -Recurse -Force } # Clean temp dir
+New-Item -ItemType Directory -Path $TempDir -Force
 
 $Repos = @(
     "https://github.com/rocketpowerinc/linux-greeter.git",
@@ -168,19 +181,15 @@ $Repos = @(
 
 foreach ($Repo in $Repos) {
     $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
-    $RepoPath = "$BackupDir\$RepoName"
-    if (Test-Path $RepoPath) { git -C $RepoPath pull }
-    else { git clone $Repo $RepoPath }
+    $RepoPath = "$TempDir\$RepoName"
+    git clone $Repo $RepoPath
 }
 
-# Exclude previous .zip files from being included in the new backup
-Compress-Archive -Path (Get-ChildItem -Path $BackupDir -Directory) -DestinationPath $ZipFile -Force
+# Zip only the new cloned repositories
+& "C:\Program Files\7-Zip\7z.exe" a -r $ZipFile "$TempDir\*"
 
-foreach ($Repo in $Repos) {
-    $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
-    $RepoPath = "$BackupDir\$RepoName"
-    if (Test-Path $RepoPath) { Remove-Item -Path $RepoPath -Recurse -Force }
-}
+# Clean up temp directory
+Remove-Item -Path $TempDir -Recurse -Force
 '@
 
     if (!(Test-Path $env:USERPROFILE\Bin)) { New-Item -ItemType Directory -Path $env:USERPROFILE\Bin -Force }
@@ -199,6 +208,7 @@ foreach ($Repo in $Repos) {
   # Update status label
   Update-Status
 }
+
 
 # Show the form
 Show-BackupForm
