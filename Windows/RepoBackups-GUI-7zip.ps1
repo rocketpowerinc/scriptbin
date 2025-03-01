@@ -3,6 +3,7 @@
 #! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
 #! It will create a second .ps1 script called RepoBackups-TaskScheduler.ps1 in the user's Bin directory. That task scheduler script will be used to run the backup script daily at 3 AM.
 #! New repo's have to be added in the script below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
+#! This Script Goes in $env:USERPROFILE\Bin
 
 # Check if git and 7-zip are installed
 function Install-RequiredTools {
