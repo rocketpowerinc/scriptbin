@@ -1,5 +1,5 @@
 
-#* Non Native 7zip method but includes the hidden .git folder of each repo which takes alot of space
+#* This script has to install 7zip becasue the native Compress-Archive method could not include the hidden .git folder of each repo
 #! ADMIN NOT REQUIRED
 #! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
 #! It will create a second .ps1 script called RepoBackups-TaskScheduler.ps1 in the user's Bin directory. That task scheduler script will be used to run the backup script daily at 3 AM.
