@@ -1,10 +1,8 @@
-
-#* This script has to install 7zip becasue the native Compress-Archive method could not include the hidden .git folder of each repo
+#* This script has to install 7zip because the native Compress-Archive method could not include the hidden .git folder of each repo
 #! ADMIN NOT REQUIRED
 #! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
 #! It will create a second .ps1 script called RepoBackups-TaskScheduler.ps1 in the user's Bin directory. That task scheduler script will be used to run the backup script daily at 3 AM.
-#! New repo's have to be added in the scipt below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
-
+#! New repo's have to be added in the script below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
 
 # Check if git and 7-zip are installed
 function Install-RequiredTools {
@@ -27,7 +25,6 @@ function Install-RequiredTools {
   }
 }
 Install-RequiredTools
-
 
 # Windows Form GUI
 Add-Type -AssemblyName System.Windows.Forms
@@ -68,7 +65,7 @@ function Show-BackupForm {
   $buttonDownload.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
   $buttonDownload.ForeColor = [System.Drawing.Color]::White
   $buttonDownload.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-  $buttonDownload.Add_Click({ DownloadRepos })
+  $buttonDownload.Add_Click({ DownloadRepos -ProgressBar $progressBar -Button $buttonDownload })
 
   # Schedule Button
   $buttonSchedule = New-Object Windows.Forms.Button
@@ -85,6 +82,14 @@ function Show-BackupForm {
   $labelStatus.Size = New-Object Drawing.Size(250, 30)
   $labelStatus.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Bold)
 
+  # Progress Bar (Spinner)
+  $progressBar = New-Object Windows.Forms.ProgressBar
+  $progressBar.Location = New-Object Drawing.Point(120, 190)
+  $progressBar.Size = New-Object Drawing.Size(250, 20)
+  $progressBar.Style = "Continuous"  # Can be "Marquee" for indeterminate Spinner
+  $progressBar.Visible = $false
+  $progressBar.ForeColor = [System.Drawing.Color]::LimeGreen
+
   function Update-Status {
     $status = CheckTaskStatus
     if ($status -eq "Enabled") {
@@ -99,14 +104,14 @@ function Show-BackupForm {
     }
   }
 
-
   Update-Status
 
   # Add elements to form
-  $form.Controls.Add($titleLabel)   # Add the title label here
+  $form.Controls.Add($titleLabel)
   $form.Controls.Add($buttonDownload)
   $form.Controls.Add($buttonSchedule)
   $form.Controls.Add($labelStatus)
+  $form.Controls.Add($progressBar)
 
   $form.Add_Shown({ $form.Activate() })
   [void] $form.ShowDialog()
@@ -114,6 +119,10 @@ function Show-BackupForm {
 
 # Function to backup repositories
 function DownloadRepos {
+  param (
+    [System.Windows.Forms.ProgressBar]$ProgressBar,
+    [System.Windows.Forms.Button]$Button
+  )
   try {
     $BackupDir = "$env:USERPROFILE\GitHub-BACKUPS"
     $TempDir = "$env:TEMP\GitHubBackupTemp"
@@ -131,10 +140,18 @@ function DownloadRepos {
       "https://github.com/rocketpowerinc/scriptbin.git"
     )
 
+    # Show and configure progress bar
+    $ProgressBar.Visible = $true
+    $ProgressBar.Maximum = $Repos.Count
+    $ProgressBar.Value = 0
+    $Button.Enabled = $false  # Disable button during operation
+
     foreach ($Repo in $Repos) {
       $RepoName = ($Repo -split '/')[-1] -replace '\.git$', ''
       $RepoPath = "$TempDir\$RepoName"
       git clone $Repo $RepoPath
+      $ProgressBar.Value += 1  # Increment progress
+      [System.Windows.Forms.Application]::DoEvents()  # Update UI
     }
 
     # Zip only the newly cloned repositories
@@ -143,9 +160,15 @@ function DownloadRepos {
     # Clean up temp directory
     Remove-Item -Path $TempDir -Recurse -Force
 
+    # Hide progress bar and re-enable button
+    $ProgressBar.Visible = $false
+    $Button.Enabled = $true
+
     [System.Windows.Forms.MessageBox]::Show("Backup Completed: $ZipFile.")
   }
   catch {
+    $ProgressBar.Visible = $false
+    $Button.Enabled = $true
     [System.Windows.Forms.MessageBox]::Show("An error occurred: $_")
   }
 }
@@ -211,7 +234,6 @@ Remove-Item -Path $TempDir -Recurse -Force
   # Open Task Scheduler after enabling/disabling the task
   Start-Process "taskschd.msc"
 }
-
 
 # Show the form
 Show-BackupForm
