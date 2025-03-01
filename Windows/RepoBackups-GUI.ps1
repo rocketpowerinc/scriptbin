@@ -4,24 +4,20 @@
 #! If I add repo's I have to add it in the scipt below twice. Once in the DownloadRepos function and once in the ToggleBackupSchedule function.
 
 
-
-#* Checks if git is installed
+# Check if git is installed
 $gitInstalled = Get-Command git -ErrorAction SilentlyContinue
-
 if ($null -eq $gitInstalled) {
   Write-Output "Git is not installed. Installing Git..."
-  # Install Git using winget
   winget install -e --id Git.Git
 }
 else {
   Write-Output "Git is already installed."
 }
 
-
-#* Windows Form GUI
+# Windows Form GUI
 Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
 
-# Function to check if the scheduled task exists and is enabled
 function CheckTaskStatus {
   $TaskName = "GitHubBackup"
   $task = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
@@ -33,55 +29,66 @@ function CheckTaskStatus {
   }
 }
 
-# Function to create and display the form
 function Show-BackupForm {
   $form = New-Object Windows.Forms.Form
-  $form.Text = "GitHub Backup Utility"
-  $form.Size = New-Object Drawing.Size(500, 250)
+  $form.Text = "🚀 GitHub Backup Utility"
+  $form.Size = New-Object Drawing.Size(500, 300)
   $form.StartPosition = "CenterScreen"
-  $form.BackColor = [System.Drawing.Color]::FromArgb(45, 45, 48) # Dark mode background
+  $form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
+  $form.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 10)
 
-  # Backup Repositories button
+  # Title Label
+  $titleLabel = New-Object Windows.Forms.Label
+  $titleLabel.Text = "GitHub Backup Tool"
+  $titleLabel.AutoSize = $true
+  $titleLabel.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 14, [System.Drawing.FontStyle]::Bold)
+  $titleLabel.ForeColor = [System.Drawing.Color]::White
+  $titleLabel.Location = New-Object Drawing.Point(150, 10)
+
+  # Backup Button
   $buttonDownload = New-Object Windows.Forms.Button
-  $buttonDownload.Text = "Backup Repositories"
-  $buttonDownload.Size = New-Object Drawing.Size(200, 50)
-  $buttonDownload.Location = New-Object Drawing.Point(30, 50)
-  $buttonDownload.BackColor = [System.Drawing.Color]::FromArgb(62, 62, 66)
+  $buttonDownload.Text = "📥 Backup Repositories"
+  $buttonDownload.Size = New-Object Drawing.Size(250, 50)
+  $buttonDownload.Location = New-Object Drawing.Point(120, 60)
+  $buttonDownload.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
   $buttonDownload.ForeColor = [System.Drawing.Color]::White
+  $buttonDownload.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
   $buttonDownload.Add_Click({ DownloadRepos })
 
-  # Schedule Backup button (spaced properly)
+  # Schedule Button
   $buttonSchedule = New-Object Windows.Forms.Button
-  $buttonSchedule.Text = "Enable Daily Backup"
-  $buttonSchedule.Size = New-Object Drawing.Size(200, 50)
-  $buttonSchedule.Location = New-Object Drawing.Point(30, 120)  # Increased vertical spacing
-  $buttonSchedule.BackColor = [System.Drawing.Color]::FromArgb(62, 62, 66)
+  $buttonSchedule.Size = New-Object Drawing.Size(250, 50)
+  $buttonSchedule.Location = New-Object Drawing.Point(120, 130)
+  $buttonSchedule.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
   $buttonSchedule.ForeColor = [System.Drawing.Color]::White
+  $buttonSchedule.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
   $buttonSchedule.Add_Click({ ToggleBackupSchedule })
 
   # Task Status Label
   $labelStatus = New-Object Windows.Forms.Label
-  $labelStatus.Location = New-Object Drawing.Point(30, 190)
-  $labelStatus.Size = New-Object Drawing.Size(400, 30)
-  $labelStatus.Font = New-Object System.Drawing.Font("Arial", 12, [System.Drawing.FontStyle]::Bold)
+  $labelStatus.Location = New-Object Drawing.Point(120, 200)
+  $labelStatus.Size = New-Object Drawing.Size(250, 30)
+  $labelStatus.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 12, [System.Drawing.FontStyle]::Bold)
 
   function Update-Status {
     $status = CheckTaskStatus
     if ($status -eq "Enabled") {
-      $labelStatus.Text = "Task Scheduler: ENABLED"
+      $labelStatus.Text = "✅ Task Scheduler: ENABLED"
       $labelStatus.ForeColor = [System.Drawing.Color]::LimeGreen
-      $buttonSchedule.Text = "Disable Daily Backup"
+      $buttonSchedule.Text = "🚫 Disable Daily Backup"
     }
     else {
-      $labelStatus.Text = "Task Scheduler: DISABLED"
+      $labelStatus.Text = "❌ Task Scheduler: DISABLED"
       $labelStatus.ForeColor = [System.Drawing.Color]::Red
-      $buttonSchedule.Text = "Enable Daily Backup"
+      $buttonSchedule.Text = "🕒 Enable Daily Backup"
     }
   }
+
 
   Update-Status
 
   # Add elements to form
+  $form.Controls.Add($titleLabel)   # Add the title label here
   $form.Controls.Add($buttonDownload)
   $form.Controls.Add($buttonSchedule)
   $form.Controls.Add($labelStatus)
