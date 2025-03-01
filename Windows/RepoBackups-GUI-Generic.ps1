@@ -36,6 +36,7 @@ $form.Controls.Add($folderBox)
 $browseButton = New-Object System.Windows.Forms.Button
 $browseButton.Text = "📁 Browse..."
 $browseButton.Location = New-Object System.Drawing.Point(160, 75)
+$browseButton.Size = New-Object System.Drawing.Size(220, 30)
 $browseButton.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
 $browseButton.ForeColor = [System.Drawing.Color]::White
 $browseButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
@@ -45,11 +46,13 @@ $form.Controls.Add($browseButton)
 $cloneButton = New-Object System.Windows.Forms.Button
 $cloneButton.Text = "📥 Clone Repos"
 $cloneButton.Location = New-Object System.Drawing.Point(160, 110)
-$cloneButton.BackColor = [System.Drawing.Color]::FromArgb(70, 130, 180)
+$cloneButton.Size = New-Object System.Drawing.Size(220, 30)  # Same size as Browse button
+$cloneButton.BackColor = [System.Drawing.Color]::FromArgb(34, 177, 76)  # Green color (RGB: 34, 177, 76)
 $cloneButton.ForeColor = [System.Drawing.Color]::White
 $cloneButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
 $cloneButton.Add_Click({ CloneRepos })
 $form.Controls.Add($cloneButton)
+
 
 $statusLabel = New-Object System.Windows.Forms.Label
 $statusLabel.Text = "📡 Status: Waiting..."
