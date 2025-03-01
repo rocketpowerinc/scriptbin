@@ -138,7 +138,9 @@ function DownloadRepos {
       "https://github.com/rocketpowerinc/linux-greeter.git",
       "https://github.com/rocketpowerinc/appbundles.git",
       "https://github.com/rocketpowerinc/assets",
-      "https://github.com/rocketpowerinc/scriptbin.git"
+      "https://github.com/rocketpowerinc/scriptbin.git",
+      "https://github.com/ChrisTitusTech/mybash.git",
+      "https://github.com/ChrisTitusTech/powershell-profile.git"
     )
 
     # Show and configure progress bar
@@ -200,7 +202,9 @@ $Repos = @(
     "https://github.com/rocketpowerinc/linux-greeter.git",
     "https://github.com/rocketpowerinc/appbundles.git",
     "https://github.com/rocketpowerinc/assets",
-    "https://github.com/rocketpowerinc/scriptbin.git"
+    "https://github.com/rocketpowerinc/scriptbin.git",
+    "https://github.com/ChrisTitusTech/mybash.git",
+    "https://github.com/ChrisTitusTech/powershell-profile.git"
 )
 
 foreach ($Repo in $Repos) {
