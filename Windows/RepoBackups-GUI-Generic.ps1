@@ -1,3 +1,32 @@
+#! ADMIN NOT REQUIRED
+#! Description: A PowerShell script to back up GitHub repositories using the logged-in user's account via gh.
+#! This Script Goes in $env:USERPROFILE\Bin
+
+
+# Check if git and gh are installed
+function Install-RequiredTools {
+  # Check if Git is installed
+  if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
+    Write-Output "Installing Git..."
+    winget install -e --id Git.Git
+  }
+  else {
+    Write-Output "Git is already installed."
+  }
+
+  # Check if GitHub CLI (gh) is installed
+  if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
+    Write-Output "Installing GH - GitHub CLI..."
+    winget install -e --id GitHub.cli
+  }
+  else {
+    Write-Output "GH - GitHub CLI is already installed."
+  }
+}
+
+Install-RequiredTools
+
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
