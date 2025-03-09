@@ -235,9 +235,17 @@ echo "############## "
 echo "# File Types # "
 echo "############## "
 
+echo "Folder"
+printf "\uF07B\n"
+printf "\e[33m\uF07B\e[0m\n" #yellow
+
 echo "File"
 printf "\uF15B\n"
 printf "\e[34m\uF15B\e[0m\n" #blue
+
+echo "Text File"
+printf "\uF573\n"
+printf "\e[37m\uF573\e[0m\n" #white
 
 echo "PDF"
 printf "\uF1C1\n"
@@ -335,6 +343,41 @@ echo "Cloud"
 printf "\uF0C2\n"
 printf "\e[37m\uF0C2\e[0m\n" #white
 
+echo "Hidden"
+printf "\uF6FA\n"
+printf "\e[90m\uF6FA\e[0m\n" #grey
+
+echo "Mute"
+printf "\uF026\n"
+printf "\e[31m\uF026\e[0m\n" #red
+
+echo "Volume Down"
+printf "\uF027\n"
+printf "\e[33m\uF027\e[0m\n" #yellow
+
+echo "Volume Up"
+printf "\uF028\n"
+printf "\e[32m\uF028\e[0m\n" #green
+
+echo "Up"
+printf "\u25B2\n"
+printf "\e[34m\u25B2\e[0m\n" #blue
+
+echo "Down"
+printf "\u25BC\n"
+printf "\e[34m\u25BC\e[0m\n" #blue
+
+echo "Downvote"
+printf "\uF165\n"
+printf "\e[31m\uF165\e[0m\n" #red
+
+echo "Downvote"
+printf "\uF088\n"
+printf "\e[31m\uF088\e[0m\n" #red
+
+echo "Star"
+printf "\u2606\n"
+printf "\e[33m\u2606\e[0m\n" #yellow
 
 echo "########################## "
 echo "# Hardware & Electronics # "
@@ -508,6 +551,25 @@ echo "Pin"
 printf "\uF3C5\n"
 printf "\e[31m\uF3C5\e[0m\n" #red
 
+echo "Trophy"
+printf "\uF091\n"
+printf "\e[33m\uF091\e[0m\n" #yellow
+
+echo "Clock"
+printf "\uF0E4\n"
+printf "\e[37m\uF0E4\e[0m\n" #white
+
+echo "Handshake"
+printf "\uF2B5\n"
+printf "\e[32m\uF2B5\e[0m\n" #green
+
+echo "Envelope"
+printf "\uF2B6\n"
+printf "\e[36m\uF2B6\e[0m\n" #cyan
+
+echo "Medal"
+printf "\uF5A2\n"
+printf "\e[33m\uF5A2\e[0m\n" #yellow
 
 echo "################# "
 echo "#      Unknown  # "
@@ -566,4 +628,3 @@ printf "\uF3C4\n"
 printf "\e[90m\uF3C4\e[0m\n" #grey
 
 #####################################################
-
