@@ -311,6 +311,31 @@ echo "Recycle"
 printf "\uF1B8\n"
 printf "\e[34m\uF1B8\e[0m\n" #blue
 
+echo "Swap"
+printf "\uF2F1\n"
+printf "\e[33m\uF2F1\e[0m\n" #yellow
+
+echo "Gears"
+printf "\uF085\n"
+printf "\e[37m\uF085\e[0m\n" #white
+
+echo "Wrench"
+printf "\uF0AD\n"
+printf "\e[33m\uF0AD\e[0m\n" #yellow
+
+echo "Hammer"
+printf "\uF6E3\n"
+printf "\e[32m\uF6E3\e[0m\n" #green
+
+echo "Plug"
+printf "\uF1E6\n"
+printf "\e[36m\uF1E6\e[0m\n" #cyan
+
+echo "Cloud"
+printf "\uF0C2\n"
+printf "\e[37m\uF0C2\e[0m\n" #white
+
+
 echo "########################## "
 echo "# Hardware & Electronics # "
 echo "########################## "
@@ -467,6 +492,23 @@ echo "Smiley"
 printf "\uF599\n"
 printf "\e[33m\uF599\e[0m\n" #yellow
 
+echo "Robot"
+printf "\uF4BE\n"
+printf "\e[35m\uF4BE\e[0m\n" #magenta
+
+echo "Shower"
+printf "\uF2CC\n"
+printf "\e[34m\uF2CC\e[0m\n" #blue
+
+echo "Brain"
+printf "\uF5DC\n"
+printf "\e[32m\uF5DC\e[0m\n" #green
+
+echo "Pin"
+printf "\uF3C5\n"
+printf "\e[31m\uF3C5\e[0m\n" #red
+
+
 echo "################# "
 echo "#      Unknown  # "
 echo "################# "
@@ -519,48 +561,9 @@ echo "Unknown"
 printf "\uF6A2\n"
 printf "\e[90m\uF6A2\e[0m\n" #grey
 
-#####################################################
-
-echo "Gears"
-printf "\uF085\n"
-printf "\e[37m\uF085\e[0m\n" #white
-
-echo "Wrench"
-printf "\uF0AD\n"
-printf "\e[33m\uF0AD\e[0m\n" #yellow
-
-echo "Hammer"
-printf "\uF6E3\n"
-printf "\e[32m\uF6E3\e[0m\n" #green
-
-echo "Plug"
-printf "\uF1E6\n"
-printf "\e[36m\uF1E6\e[0m\n" #cyan
-
-echo "Cloud"
-printf "\uF0C2\n"
-printf "\e[37m\uF0C2\e[0m\n" #white
-
-echo "Robot"
-printf "\uF4BE\n"
-printf "\e[35m\uF4BE\e[0m\n" #magenta
-
-echo "Shower"
-printf "\uF2CC\n"
-printf "\e[34m\uF2CC\e[0m\n" #blue
-
-echo "Brain"
-printf "\uF5DC\n"
-printf "\e[32m\uF5DC\e[0m\n" #green
-
-echo "Swap"
-printf "\uF2F1\n"
-printf "\e[33m\uF2F1\e[0m\n" #yellow
-
 echo "Unknown"
 printf "\uF3C4\n"
 printf "\e[90m\uF3C4\e[0m\n" #grey
 
-echo "Pin"
-printf "\uF3C5\n"
-printf "\e[31m\uF3C5\e[0m\n" #red
+#####################################################
+
