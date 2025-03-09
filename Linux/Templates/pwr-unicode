@@ -64,10 +64,6 @@ echo "Kali"
 printf "\uF31F\n"
 printf "\e[30m\uF31F\e[0m\n" #black
 
-echo "Tux (Linux)"
-printf "\uF31A\n"
-printf "\e[32m\uF31A\e[0m\n" #green
-
 echo "Raspberry Pi"
 printf "\uF315\n"
 printf "\e[31m\uF315\e[0m\n" #red
