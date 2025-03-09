@@ -1,0 +1,566 @@
+#!/usr/bin/env bash
+echo "##################### "
+echo "# Operating Systems # "
+echo "##################### "
+
+echo "Windows"
+printf "\uF17A\n"
+printf "\e[34m\uF17A\e[0m\n" #blue
+
+echo "macOS"
+printf "\uF179\n"
+printf "\e[90m\uF179\e[0m\n" #grey
+
+echo "Linux"
+printf "\uF17C\n"
+printf "\e[32m\uF17C\e[0m\n" #green
+
+# Linux Distros
+echo "Debian"
+printf "\uF306\n"
+printf "\e[31m\uF306\e[0m\n" #red
+
+echo "Ubuntu"
+printf "\uF31B\n"
+printf "\e[55m\uF31B\e[0m\n" #orange
+
+echo "Arch"
+printf "\uF303\n"
+printf "\e[97m\uF303\e[0m\n" #white
+
+echo "Manjaro"
+printf "\uF312\n"
+printf "\e[33m\uF312\e[0m\n" #yellow
+
+echo "Fedora"
+printf "\uF30A\n"
+printf "\e[34m\uF30A\e[0m\n" #blue
+
+echo "Red Hat"
+printf "\uF316\n"
+printf "\e[91m\uF316\e[0m\n" #dark red
+
+echo "CentOS"
+printf "\uF304\n"
+printf "\e[31m\uF304\e[0m\n" #red
+
+echo "Alpine"
+printf "\uF300\n"
+printf "\e[36m\uF300\e[0m\n" #cyan
+
+echo "NixOS"
+printf "\uF313\n"
+printf "\e[95m\uF313\e[0m\n" #purple
+
+echo "Gentoo"
+printf "\uF30D\n"
+printf "\e[90m\uF30D\e[0m\n" #grey
+
+echo "openSUSE"
+printf "\uF314\n"
+printf "\e[32m\uF314\e[0m\n" #green
+
+echo "Kali"
+printf "\uF31F\n"
+printf "\e[30m\uF31F\e[0m\n" #black
+
+echo "Tux (Linux)"
+printf "\uF31A\n"
+printf "\e[32m\uF31A\e[0m\n" #green
+
+echo "Raspberry Pi"
+printf "\uF315\n"
+printf "\e[31m\uF315\e[0m\n" #red
+
+echo "Elementary OS"
+printf "\uF309\n"
+printf "\e[90m\uF309\e[0m\n" #grey
+
+echo "Zorin OS"
+printf "\uF320\n"
+printf "\e[32m\uF320\e[0m\n" #green
+
+echo "MX Linux"
+printf "\uF35E\n"
+printf "\e[90m\uF35E\e[0m\n" #grey
+
+echo "Raspberry Pi"
+printf "\uF315\n"
+printf "\e[31m\uF315\e[0m\n" #red
+
+echo "######################### "
+echo "# Programming Languages # "
+echo "######################### "
+
+echo "C++"
+printf "\uF26D\n"
+printf "\e[34m\uF26D\e[0m\n" #blue
+
+echo "Python"
+printf "\uF3E2\n"
+printf "\e[34m\uF3E2\e[0m\n" #blue
+
+echo "JavaScript"
+printf "\uF3B8\n"
+printf "\e[93m\uF3B8\e[0m\n" #yellow
+
+echo "Java"
+printf "\uF4E4\n"
+printf "\e[94m\uF4E4\e[0m\n" #light blue
+
+echo "Rust"
+printf "\uE7A8\n"
+printf "\e[36m\uE7A8\e[0m\n" #cyan
+
+echo "Go"
+printf "\uE626\n"
+printf "\e[32m\uE626\e[0m\n" #green
+
+echo "HTML5"
+printf "\uF13C\n"
+printf "\e[91m\uF13C\e[0m\n" #red
+
+echo "SQL Database"
+printf "\uF1C0\n"
+printf "\e[33m\uF1C0\e[0m\n" #yellow
+
+echo "##################### "
+echo "# Development Tools # "
+echo "##################### "
+
+echo "Git"
+printf "\uF1D3\n"
+printf "\e[31m\uF1D3\e[0m\n" #red
+
+echo "GitHub"
+printf "\uF09B\n"
+printf "\e[95m\uF09B\e[0m\n" #purple
+
+echo "GitLab"
+printf "\uF296\n"
+printf "\e[91m\uF296\e[0m\n" #dark red
+
+echo "VS Code"
+printf "\uE70C\n"
+printf "\e[36m\uE70C\e[0m\n" #cyan
+
+echo "Docker"
+printf "\uF308\n"
+printf "\e[34m\uF308\e[0m\n" #blue
+
+# AWS
+echo "AWS"
+printf "\uF375\n"
+printf "\e[33m\uF375\e[0m\n" #yellow
+
+echo "############ "
+echo "# Browsers # "
+echo "############ "
+
+echo "Chrome"
+printf "\uF268\n"
+printf "\e[32m\uF268\e[0m\n" #green
+
+echo "Firefox"
+printf "\uF269\n"
+printf "\e[31m\uF269\e[0m\n" #red
+
+echo "Opera"
+printf "\uF26A\n"
+printf "\e[33m\uF26A\e[0m\n" #yellow
+
+echo "Edge"
+printf "\uF26B\n"
+printf "\e[36m\uF26B\e[0m\n" #cyan
+
+echo "Safari"
+printf "\uF14E\n"
+printf "\e[36m\uF14E\e[0m\n" #cyan
+
+echo "############### "
+echo "# Trade Marks # "
+echo "############### "
+
+# Amazon
+echo "Amazon"
+printf "\uF270\n"
+printf "\e[34m\uF270\e[0m\n" #blue
+
+# Google
+echo "Google"
+printf "\uF1A0\n"
+printf "\e[34m\uF1A0\e[0m\n" #blue
+
+echo "Google +"
+printf "\uF2B3\n"
+printf "\e[94m\uF2B3\e[0m\n" #light blue
+
+echo "YouTube"
+printf "\uF16A\n"
+printf "\e[31m\uF16A\e[0m\n" #red
+
+echo "Instagram"
+printf "\uF16D\n"
+printf "\e[35m\uF16D\e[0m\n" #magenta
+
+echo "Twitter"
+printf "\uF099\n"
+printf "\e[38;5;32m\uF099\e[0m\n" #blue
+
+echo "Slack"
+printf "\uF198\n"
+printf "\e[90m\uF198\e[0m\n" #grey
+
+echo "Spotify"
+printf "\uF1BC\n"
+printf "\e[32m\uF1BC\e[0m\n" #green
+
+echo "Pinterest"
+printf "\uF231\n"
+printf "\e[38;5;13m\uF231\e[0m\n" #light purple
+
+echo "Snapchat"
+printf "\uF2AC\n"
+printf "\e[33m\uF2AC\e[0m\n" #yellow
+
+echo "Reddit"
+printf "\uF1A1\n"
+printf "\e[38;5;214m\uF1A1\e[0m\n" #orange
+
+echo "Discord"
+printf "\uF392\n"
+printf "\e[38;5;12m\uF392\e[0m\n" #purple
+
+echo "############## "
+echo "# File Types # "
+echo "############## "
+
+echo "File"
+printf "\uF15B\n"
+printf "\e[34m\uF15B\e[0m\n" #blue
+
+echo "PDF"
+printf "\uF1C1\n"
+printf "\e[31m\uF1C1\e[0m\n" #red
+
+echo "Word Document"
+printf "\uF1C2\n"
+printf "\e[32m\uF1C2\e[0m\n" #green
+
+echo "Excel Spreadsheet"
+printf "\uF1C3\n"
+printf "\e[33m\uF1C3\e[0m\n" #yellow
+
+echo "PowerPoint Presentation"
+printf "\uF1C4\n"
+printf "\e[34m\uF1C4\e[0m\n" #blue
+
+echo "Image File"
+printf "\uF1C5\n"
+printf "\e[36m\uF1C5\e[0m\n" #cyan
+
+echo "zip File"
+printf "\uF1C6\n"
+printf "\e[35m\uF1C6\e[0m\n" #magenta
+
+echo "Audio File"
+printf "\uF1C7\n"
+printf "\e[37m\uF1C7\e[0m\n" #white
+
+echo "Video File"
+printf "\uF1C8\n"
+printf "\e[90m\uF1C8\e[0m\n" #grey
+
+echo "Code File"
+printf "\uF1C9\n"
+printf "\e[92m\uF1C9\e[0m\n" #light green
+
+echo "Window"
+printf "\uF2D0\n"
+printf "\e[37m\uF2D0\e[0m\n" #white
+
+echo "############## "
+echo "# Operations # "
+echo "############## "
+
+echo "Clipboard"
+printf "\uF0C5\n"
+printf "\e[37m\uF0C5\e[0m\n" #white
+
+echo "Save"
+printf "\uF0C7\n"
+printf "\e[32m\uF0C7\e[0m\n" #green
+
+echo "Lock"
+printf "\uF023\n"
+printf "\e[31m\uF023\e[0m\n" #red
+
+echo "Key"
+printf "\uF084\n"
+printf "\e[33m\uF084\e[0m\n" #yellow
+
+echo "Trash Bin"
+printf "\uF1F8\n"
+printf "\e[31m\uF1F8\e[0m\n" #red
+
+echo "Trash Restore"
+printf "\uF2ED\n"
+printf "\e[32m\uF2ED\e[0m\n" #green
+
+echo "Recycle"
+printf "\uF1B8\n"
+printf "\e[34m\uF1B8\e[0m\n" #blue
+
+echo "########################## "
+echo "# Hardware & Electronics # "
+echo "########################## "
+
+echo "Desktop"
+printf "\uF26C\n"
+printf "\e[35m\uF26C\e[0m\n" #magenta
+
+echo "Laptop"
+printf "\uF109\n"
+printf "\e[90m\uF109\e[0m\n" #grey
+
+echo "Tablet"
+printf "\uF10A\n"
+printf "\e[36m\uF10A\e[0m\n" #cyan
+
+echo "Mobile"
+printf "\uF10B\n"
+printf "\e[32m\uF10B\e[0m\n" #green
+
+echo "Chip"
+printf "\uF2DB\n"
+printf "\e[33m\uF2DB\e[0m\n" #yellow
+
+echo "Server"
+printf "\uF233\n"
+printf "\e[31m\uF233\e[0m\n" #red
+
+echo "USB"
+printf "\uF287\n"
+printf "\e[91m\uF287\e[0m\n" #light red
+
+echo "Controller"
+printf "\uF11B\n"
+printf "\e[32m\uF11B\e[0m\n" #green
+
+echo "Keyboard"
+printf "\uF11C\n"
+printf "\e[36m\uF11C\e[0m\n" #cyan
+
+echo "Network"
+printf "\uF0E8\n"
+printf "\e[34m\uF0E8\e[0m\n" #blue
+
+echo "WiFi"
+printf "\uF1EB\n"
+printf "\e[36m\uF1EB\e[0m\n" #cyan
+
+echo "Database"
+printf "\uF1E0\n"
+printf "\e[32m\uF1E0\e[0m\n" #green
+
+echo "User"
+printf "\uF2C0\n"
+printf "\e[37m\uF2C0\e[0m\n" #white
+
+echo "User-Circled"
+printf "\uF2BE\n"
+printf "\e[33m\uF2BE\e[0m\n" #yellow
+
+echo "Code"
+printf "\uF121\n"
+printf "\e[36m\uF121\e[0m\n" #cyan
+
+echo "Bug"
+printf "\uF188\n"
+printf "\e[31m\uF188\e[0m\n" #red
+
+echo "########################## "
+echo "#          MISC          # "
+echo "########################## "
+
+echo "Bitcoin"
+printf "\e[37m\u20BF\e[0m\n"       #white
+printf "\e[38;5;226m\u20BF\e[0m\n" #yellow
+
+echo "Ethereum"
+printf "\uF42E\n"
+printf "\e[38;5;8m\uF42E\e[0m\n" #dark grey
+
+echo "Soda"
+printf "\uF3AE\n"
+printf "\e[38;5;214m\uF3AE\e[0m\n" #orange
+
+echo "Snowflake"
+printf "\uF2DC\n"
+printf "\e[38;5;32m\uF2DC\e[0m\n" #true blue
+
+echo "Airplane"
+printf "\uF1D8\n"
+printf "\e[91m\uF1D8\e[0m\n" #light red
+
+echo "Thermometer"
+printf "\uF2C9\n"
+printf "\e[31m\uF2C9\e[0m\n" #red
+
+echo "Diamond"
+printf "\uF3A5\n"
+printf "\e[37m\uF3A5\e[0m\n" #white
+
+echo "Black Diamond Suit"
+printf "\u2666\n"
+printf "\e[30m\u2666\e[0m\n" #black
+
+echo "White Diamond Suit"
+printf "\u2662\n"
+printf "\e[97m\u2662\e[0m\n" #white
+
+echo "Octopus"
+printf "\uF3A6\n"
+printf "\e[34m\uF3A6\e[0m\n" #blue
+
+echo "Circled E"
+printf "\u24BA\n"
+printf "\e[34m\u24BA\e[0m\n" #blue
+
+echo "Fullwidth E"
+printf "\uFF25\n"
+printf "\e[33m\uFF25\e[0m\n" #yellow
+
+echo "Devil"
+printf "\uF30C\n"
+printf "\e[34m\uF30C\e[0m\n" #blue
+
+echo "Car"
+printf "\uF1B9\n"
+printf "\e[33m\uF1B9\e[0m\n" #yellow
+
+echo "Talk"
+printf "\uF075\n"
+printf "\e[36m\uF075\e[0m\n" #cyan
+
+echo "Phone"
+printf "\uF2A0\n"
+printf "\e[32m\uF2A0\e[0m\n" #green
+
+echo "Rocket"
+printf "\uF135\n"
+printf "\e[91m\uF135\e[0m\n" #light red
+
+echo "Rocket2"
+printf "\uF197\n"
+printf "\e[91m\uF197\e[0m\n" #light red
+
+echo "Moon"
+printf "\uF6C3\n"
+printf "\e[34m\uF6C3\e[0m\n" #blue
+
+echo "Circle"
+printf "\uF76F\n"
+printf "\e[33m\uF76F\e[0m\n" #yellow
+
+echo "Smiley"
+printf "\uF599\n"
+printf "\e[33m\uF599\e[0m\n" #yellow
+
+echo "################# "
+echo "#      Unknown  # "
+echo "################# "
+
+echo "Unknown"
+printf "\uF3B0\n"
+printf "\e[37m\uF3B0\e[0m\n" #white
+
+echo "Unknown"
+printf "\uF3B2\n"
+printf "\e[90m\uF3B2\e[0m\n" #grey
+
+echo "Unknown"
+printf "\u1D400\n"
+printf "\e[32m\u1D400\e[0m\n" #green
+
+echo "Unknown"
+printf "\u1D434\n"
+printf "\e[36m\u1D434\e[0m\n" #cyan
+
+echo "Unknown"
+printf "\u1D49C\n"
+printf "\e[35m\u1D49C\e[0m\n" #magenta
+
+echo "Unknown"
+printf "\uF1D5\n"
+printf "\e[90m\uF1D5\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF1D6\n"
+printf "\e[90m\uF1D6\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF3CC\n"
+printf "\e[90m\uF3CC\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF221\n"
+printf "\e[90m\uF221\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF5D0\n"
+printf "\e[90m\uF5D0\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF5BF\n"
+printf "\e[90m\uF5BF\e[0m\n" #grey
+
+echo "Unknown"
+printf "\uF6A2\n"
+printf "\e[90m\uF6A2\e[0m\n" #grey
+
+#####################################################
+
+echo "Gears"
+printf "\uF085\n"
+printf "\e[37m\uF085\e[0m\n" #white
+
+echo "Wrench"
+printf "\uF0AD\n"
+printf "\e[33m\uF0AD\e[0m\n" #yellow
+
+echo "Hammer"
+printf "\uF6E3\n"
+printf "\e[32m\uF6E3\e[0m\n" #green
+
+echo "Plug"
+printf "\uF1E6\n"
+printf "\e[36m\uF1E6\e[0m\n" #cyan
+
+echo "Cloud"
+printf "\uF0C2\n"
+printf "\e[37m\uF0C2\e[0m\n" #white
+
+echo "Robot"
+printf "\uF4BE\n"
+printf "\e[35m\uF4BE\e[0m\n" #magenta
+
+echo "Shower"
+printf "\uF2CC\n"
+printf "\e[34m\uF2CC\e[0m\n" #blue
+
+echo "Brain"
+printf "\uF5DC\n"
+printf "\e[32m\uF5DC\e[0m\n" #green
+
+echo "Swap"
+printf "\uF2F1\n"
+printf "\e[33m\uF2F1\e[0m\n" #yellow
+
+echo "Unknown"
+printf "\uF3C4\n"
+printf "\e[90m\uF3C4\e[0m\n" #grey
+
+echo "Pin"
+printf "\uF3C5\n"
+printf "\e[31m\uF3C5\e[0m\n" #red
