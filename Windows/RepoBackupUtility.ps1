@@ -136,6 +136,8 @@ function DownloadRepos {
     New-Item -ItemType Directory -Path $TempDir -Force
 
     $Repos = @(
+      "https://github.com/rocketpowerinc/windows-greeter.git",
+      "https://github.com/rocketpowerinc/mac-greeter.git",
       "https://github.com/rocketpowerinc/linux-greeter.git",
       "https://github.com/rocketpowerinc/appbundles.git",
       "https://github.com/rocketpowerinc/assets",
@@ -201,6 +203,8 @@ if (Test-Path $TempDir) { Remove-Item -Path $TempDir -Recurse -Force } # Clean t
 New-Item -ItemType Directory -Path $TempDir -Force
 
 $Repos = @(
+    "https://github.com/rocketpowerinc/windows-greeter.git",
+    "https://github.com/rocketpowerinc/mac-greeter.git",
     "https://github.com/rocketpowerinc/linux-greeter.git",
     "https://github.com/rocketpowerinc/appbundles.git",
     "https://github.com/rocketpowerinc/assets",
