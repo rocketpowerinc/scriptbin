@@ -567,6 +567,12 @@ echo "Medal"
 printf "\uF5A2\n"
 printf "\e[33m\uF5A2\e[0m\n" #yellow
 
+echo "Bomb"
+printf "\e[32m\U0001F4A3\e[0m\n" # Green
+
+echo "Collision"
+printf "\e[31m\U0001F4A5\e[0m\n" # Red
+
 echo "################# "
 echo "#      Unknown  # "
 echo "################# "
