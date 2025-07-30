@@ -140,11 +140,16 @@ function DownloadRepos {
       "https://github.com/rocketpowerinc/mac-greeter.git",
       "https://github.com/rocketpowerinc/linux-greeter.git",
       "https://github.com/rocketpowerinc/appbundles.git",
-      "https://github.com/rocketpowerinc/assets",
+      "https://github.com/rocketpowerinc/assets.git",
       "https://github.com/rocketpowerinc/scriptbin.git",
       "https://github.com/rocketpowerinc/website.git",
       "https://github.com/rocketpowerinc/dotfiles.git",
       "https://github.com/ChrisTitusTech/mybash.git",
+      "https://github.com/rocketpowerinc/go-pwr.git",
+      "https://github.com/rocketpowerinc/bluebuild-iso.git",
+      "https://github.com/rocketpowerinc/ublue-iso.git",
+      "https://github.com/rocketpowerinc/bookmarks.git",
+      "https://github.com/rocketpowerinc/gummy.git",
       "https://github.com/ChrisTitusTech/powershell-profile.git"
     )
 
