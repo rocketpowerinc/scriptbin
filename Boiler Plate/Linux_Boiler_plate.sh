@@ -1,14 +1,30 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Define the repository URL and the download path
+#*Tags
+#Linux #Mac #Server #WSL
+#Ubuntu #Debian #Fedora #Arch #NixOS #RaspberryPi
+#ARM64/AArch64 #x86_64
+
+
+
+
+############* Temp CLone Repository Snippet ############
+# Config
 REPO_URL="https://github.com/rocketpowerinc/xxx.git"
-DOWNLOAD_PATH="$HOME/Downloads/xxx"
+DOWNLOAD_PATH="$HOME/Downloads/Temp/xxx"
 
-# Clean up
-rm -rf "$DOWNLOAD_PATH"
+# Make sure parent directory exists
+mkdir -p "$(dirname "$DOWNLOAD_PATH")"
 
-# Clone the repository
-git clone "$REPO_URL" "$DOWNLOAD_PATH" || show_error "Failed to clone the repository."
+# Remove old copy if it exists
+if [ -d "$DOWNLOAD_PATH" ]; then
+    echo "Removing old folder: $DOWNLOAD_PATH"
+    rm -rf "$DOWNLOAD_PATH"
+fi
 
-# Clean up
-rm -rf "$DOWNLOAD_PATH"
+# Clone repository
+echo "Cloning $REPO_URL into $DOWNLOAD_PATH..."
+git clone "$REPO_URL" "$DOWNLOAD_PATH"
+
+echo "Done!"
