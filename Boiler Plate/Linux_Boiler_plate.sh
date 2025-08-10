@@ -2,9 +2,13 @@
 set -euo pipefail
 
 #*Tags
+#bash #pwsh #zsh #fish
 #Linux #Mac #Server #WSL
 #Ubuntu #Debian #Fedora #Arch #NixOS #RaspberryPi
 #ARM64/AArch64 #x86_64
+#Wayland #x11 
+#apt #dnf #pacman #nix #brew
+#Gnome #kde #hyperland #xfce
 
 
 
