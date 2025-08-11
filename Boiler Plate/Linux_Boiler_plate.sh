@@ -8,9 +8,11 @@ set -euo pipefail
 # Distros: Ubuntu Debian Fedora Arch NixOS RaspberryPi
 # Architectures: ARM64/AArch64 x86_64
 # DisplayServers: Wayland x11
-# PackageManagers: apt dnf pacman nix brew
+# PackageManagers: apt dnf pacman nix brew flatpak snap
 # DesktopEnvironments: Gnome kde hyprland xfce
-# Categories: utility development git
+# Categories: utility development customization
+# Privileges: admin user
+
 
 
 
