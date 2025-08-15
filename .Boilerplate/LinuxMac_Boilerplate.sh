@@ -3,16 +3,17 @@ set -euo pipefail
 
 
 #*Tags:
-# Type: Gum
 # Shell: bash pwsh zsh fish
 # Platforms: Mac Linux Server WSL Docker
 # Hardware: RaspberryPi Steamdeck ROG/Ally/Desktop/Laptop Asus Razor Logitech Nvidia
 # Distros: Ubuntu Debian Fedora Arch NixOS Opensuse Atomic
 # Architectures: ARM64/AArch64 x86_64
 # DisplayServers: Wayland x11
+# Framework: Gum
 # PackageManagers: apt dnf pacman zypper nix brew flatpak snap go python
 # DesktopEnvironments: Gnome kde hyprland xfce
-# Categories: utility development virtualization customization productivity backups apps bookmarks gaming emulation family doomsday Security Privarcy
+# Type: Bootstrap Appbundle
+# Categories: utility development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
 #*############################################
