@@ -8,14 +8,26 @@
 # Privileges: admin
 #*############################################
 
-Write-Host "Setting execution policy to RemoteSigned for the current user  ... Press Enter to continue" -ForegroundColor Green
+Write-Host "Setting execution policy to RemoteSigned for the current user ... Press Enter to continue" -ForegroundColor Green
 Read-Host
 
-$ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
-if ($ExecutionPolicy -eq "RemoteSigned") {
-  Write-Verbose "Execution policy is already set to RemoteSigned for the current user, skipping..." -Verbose
+# Ensure the security module is loaded
+Import-Module Microsoft.PowerShell.Security -ErrorAction Stop
+
+try {
+  $ExecutionPolicy = Get-ExecutionPolicy -Scope CurrentUser
+  if ($ExecutionPolicy -eq "RemoteSigned") {
+    Write-Verbose "Execution policy is already set to RemoteSigned for the current user, skipping..." -Verbose
+  }
+  else {
+    Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+    Write-Host "Execution policy updated." -ForegroundColor Green
+  }
 }
-else {
-  Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+catch {
+  Write-Host "Error: $($_.Exception.Message)" -ForegroundColor Red
 }
-# use this line to see if it worked `Get-ExecutionPolicy -List`
+
+Write-Host "`nFinal Execution Policy settings:" -ForegroundColor Cyan
+Get-ExecutionPolicy -List
