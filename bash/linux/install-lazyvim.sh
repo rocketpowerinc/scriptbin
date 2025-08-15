@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Function to update package database and install dependencies based on the distro
+
+#*Tags:
+# Shell: bash
+# Platforms: Linux Server WSL
+# Distros: Ubuntu Debian Fedora Arch Opensuse RaspberryPi
+# Architectures: ARM64/AArch64 x86_64
+# DisplayServers: Wayland x11
+# PackageManagers: apt dnf pacman zypper
+# DesktopEnvironments: Gnome kde hyprland xfce
+# Categories: productivity
+# Privileges: admin
+
+
+#* Function to update package database and install dependencies based on the distro
 install_dependencies() {
   if [ -f /etc/debian_version ]; then
     # Debian-based

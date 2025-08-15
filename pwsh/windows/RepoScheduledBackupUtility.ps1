@@ -1,3 +1,11 @@
+#*Tags:
+# Shell: pwsh
+# Platforms: Windows
+# Version: Windows10 Windows11
+# Architectures: ARM64/AArch64 x86_64
+# Categories: utility Backups
+# Privileges: user
+
 #* This script has to install 7zip because the native Compress-Archive method could not include the hidden .git folder of each repo
 #! ADMIN NOT REQUIRED
 #! Description: A PowerShell script to backup GitHub repositories and schedule daily backups.
