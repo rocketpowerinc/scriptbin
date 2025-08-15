@@ -4,14 +4,16 @@ set -euo pipefail
 
 #*Tags:
 # Shell: bash pwsh zsh fish
-# Platforms: Mac Linux Server WSL
-# Distros: Ubuntu Debian Fedora Arch NixOS RaspberryPi Opensuse
+# Platforms: Mac Linux Server WSL Docker
+# Hardware: Steamdeck ROG/Ally/Desktop/Laptop Asus Razor RaspberryPi
+# Distros: Ubuntu Debian Fedora Arch NixOS Opensuse Atomic
 # Architectures: ARM64/AArch64 x86_64
 # DisplayServers: Wayland x11
 # PackageManagers: apt dnf pacman zypper nix brew flatpak snap go python
 # DesktopEnvironments: Gnome kde hyprland xfce
-# Categories: utility development customization productivity Backups
+# Categories: utility development customization productivity backups apps bookmarks gaming emulation family doomsday
 # Privileges: admin user
+# Application: tailscale vim github
 
 
 

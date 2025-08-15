@@ -1,11 +1,13 @@
 #*Tags:
 # Shell: pwsh
-# Platforms: Windows Mac Linux Universal
+# Platforms: Windows Mac Linux Universal Docker
+# Hardware: Steamdeck ROG/Ally/Desktop/Laptop Asus Razor
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # PackageManagers: winget choco scoop go python
-# Categories: utility development customization productivity Backups
+# Categories: utility development customization productivity backups apps bookmarks gaming emulation family doomsday
 # Privileges: admin user
+# Application: tailscale vim github
 
 
 ############ Temp Clone Repository Snippet ############
