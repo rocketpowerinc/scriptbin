@@ -149,7 +149,7 @@ function DownloadRepos {
       "https://github.com/rocketpowerinc/bluebuild-iso.git",
       "https://github.com/rocketpowerinc/ublue-iso.git",
       "https://github.com/rocketpowerinc/bookmarks.git",
-      "https://github.com/rocketpowerinc/gummy.git",
+      "https://github.com/rocketpowerinc/docker.git",
       "https://github.com/ChrisTitusTech/powershell-profile.git"
     )
 
@@ -222,7 +222,7 @@ $Repos = @(
     "https://github.com/rocketpowerinc/bluebuild-iso.git",
     "https://github.com/rocketpowerinc/ublue-iso.git",
     "https://github.com/rocketpowerinc/bookmarks.git",
-    "https://github.com/rocketpowerinc/gummy.git",
+    "https://github.com/rocketpowerinc/docker.git",
     "https://github.com/ChrisTitusTech/powershell-profile.git"
 )
 
