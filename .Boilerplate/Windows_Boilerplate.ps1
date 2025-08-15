@@ -1,6 +1,6 @@
 #*Tags:
 # Shell: pwsh
-# Platforms: Windows Mac Linux Universal Docker
+# Platforms: Windows Mac Linux Universal Docker WSL
 # Hardware: Steamdeck ROG/Ally/Desktop/Laptop Asus Razor Logitech Nvidia
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64

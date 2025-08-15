@@ -1,6 +1,6 @@
 #*Tags:
 # Shell: pwsh
-# Platforms: Windows Docker
+# Platforms: Windows Docker WSL
 # Hardware: Desktop Laptop
 # Version: Windows11
 # Architectures: x86_64

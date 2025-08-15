@@ -1,15 +1,11 @@
 #*Tags:
 # Shell: pwsh
-# Platforms: Windows Mac Linux Universal Docker
-# Hardware: Steamdeck ROG/Ally/Desktop/Laptop Asus Razor Logitech Nvidia
+# Platforms: Windows WSL
+# Hardware: Desktop Laptop
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
-# Framework: Gum
-# PackageManagers: winget choco scoop go python
-# Type: Bootstrap appbundle
-# Categories: utility development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
-# Privileges: admin user
-# Application: tailscale vim github
+# Type: Bootstrap
+# Privileges: admin
 #*############################################
 
 Write-Host "Setting execution policy to RemoteSigned for the current user  ... Press Enter to continue" -ForegroundColor Green
