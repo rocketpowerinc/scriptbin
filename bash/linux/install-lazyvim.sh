@@ -5,13 +5,15 @@ set -euo pipefail
 #*Tags:
 # Shell: bash
 # Platforms: Linux Server WSL
-# Distros: Ubuntu Debian Fedora Arch Opensuse RaspberryPi
+# Hardware: Desktop Laptop RaspberryPi
+# Distros: Ubuntu Debian Fedora Arch Opensuse
 # Architectures: ARM64/AArch64 x86_64
 # DisplayServers: Wayland x11
 # PackageManagers: apt dnf pacman zypper
 # DesktopEnvironments: Gnome kde hyprland xfce
 # Categories: productivity
 # Privileges: admin
+# Application: vim
 
 
 #* Function to update package database and install dependencies based on the distro

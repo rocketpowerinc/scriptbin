@@ -1,10 +1,12 @@
 #*Tags:
 # Shell: pwsh
 # Platforms: Windows
+# Hardware: Desktop Laptop
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Categories: utility Backups
 # Privileges: user
+# Application: github
 
 #! ADMIN NOT REQUIRED
 #! Description: A PowerShell script to back up GitHub repositories using the logged-in user's account via gh.

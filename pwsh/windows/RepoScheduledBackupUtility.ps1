@@ -1,10 +1,12 @@
 #*Tags:
 # Shell: pwsh
 # Platforms: Windows
+# Hardware: Desktop Laptop
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Categories: utility Backups
 # Privileges: user
+# Application: github
 
 #* This script has to install 7zip because the native Compress-Archive method could not include the hidden .git folder of each repo
 #! ADMIN NOT REQUIRED

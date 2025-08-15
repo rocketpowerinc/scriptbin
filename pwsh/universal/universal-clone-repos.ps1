@@ -1,10 +1,12 @@
 #*Tags:
 # Shell: pwsh
 # Platforms: Windows Mac Linux Universal
+# Hardware: Desktop Laptop
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Categories: Backups
 # Privileges: user
+# Application: github
 
 # Prompt for GitHub username
 Write-Host "Enter the GitHub username:" -ForegroundColor Magenta
