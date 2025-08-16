@@ -23,9 +23,10 @@ $selected = Write-Output $distrosText | gum choose --no-limit
 
 # Install each selected distro
 $selected -split "`r?`n" | ForEach-Object {
-  $distro = $_.Trim()
+  $distro = $_.Trim()  # VERY IMPORTANT: remove whitespace and carriage returns
   if ($distro) {
     Write-Host "Installing $distro..."
-    wsl.exe --install -d $distro
+    # Use the array form to ensure proper argument passing
+    & wsl.exe --install -d $distro
   }
 }
