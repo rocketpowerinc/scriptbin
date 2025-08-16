@@ -23,7 +23,12 @@ $distros = @(
 $choice = $distros -join "`n" | gum choose --height 10 --cursor ">"
 
 if ($choice) {
-    Write-Host "Installing $choice..."
+    Write-Host ""
+    Write-Host "⚡ Preparing to install $choice..." -ForegroundColor Yellow
+    Write-Host "👉 A new terminal will open. When it does, press ENTER to begin the installation of $choice." -ForegroundColor Green
+    Write-Host ""
+
+    Start-Sleep -Seconds 3
     wsl --install -d $choice
 }
 else {
