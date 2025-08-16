@@ -10,12 +10,10 @@
 # Privileges: admin
 
 #*############################################
-# Get the list of distro names from WSL (skip header and empty lines)
-$distros = wsl.exe --list --online | ForEach-Object {
-  $_.Trim()
-} | Where-Object { $_ -and ($_ -notmatch '^NAME') } | ForEach-Object {
-  ($_ -split '\s+')[0]
-}
+# Get list of distros, skipping headers
+$distros = wsl.exe --list --online | Select-Object -Skip 3 | ForEach-Object {
+  ($_ -split '\s{2,}')[0]   # Split on 2+ spaces to get NAME column
+} | Where-Object { $_ -ne "" }
 
 # Convert to newline-separated string
 $distrosText = $distros -join "`n"
