@@ -19,8 +19,8 @@ $distros = @(
     "kali-linux"
 )
 
-# Let user choose with gum
-$choice = $distros | gum choose --height 10 --cursor ">"
+# Send each distro to gum on its own line
+$choice = $distros -join "`n" | gum choose --height 10 --cursor ">"
 
 if ($choice) {
     Write-Host "Installing $choice..."
