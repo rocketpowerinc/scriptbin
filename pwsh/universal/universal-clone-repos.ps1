@@ -1,7 +1,8 @@
 #*Tags:
+# Name: universal-clone-repos.ps1
 # Shell: pwsh
 # Platforms: Windows Mac Linux Universal
-# Hardware: Desktop Laptop
+# Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Android
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Categories: Backups

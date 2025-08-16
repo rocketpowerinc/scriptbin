@@ -1,11 +1,12 @@
 #*Tags:
+# Name: Bootstrap-ExecutionPolicy.ps1
 # Shell: pwsh
 # Platforms: Windows WSL
-# Hardware: Desktop Laptop
+# Hardware: ROG-Ally ROG-Desktop ROG-Laptop ThinkPad
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Type: Bootstrap
-# Privileges: admin
+# Privileges: admin bootstrap
 #*############################################
 
 Write-Host "Setting execution policy to RemoteSigned for the current user  ... Press Enter to continue" -ForegroundColor Green

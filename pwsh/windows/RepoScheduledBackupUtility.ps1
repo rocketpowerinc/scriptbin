@@ -1,7 +1,8 @@
 #*Tags:
+# Name: RepoScheduledBackupUtility.ps1
 # Shell: pwsh
 # Platforms: Windows
-# Hardware: Desktop Laptop
+# Hardware: ROG-Desktop
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Categories: utility Backups

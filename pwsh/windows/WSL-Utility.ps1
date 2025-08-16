@@ -1,13 +1,14 @@
 #*Tags:
+# Name: WSL-Utility.ps1
 # Shell: pwsh
 # Platforms: Windows Docker WSL
-# Hardware: Desktop Laptop
+# Hardware: ROG-Desktop
 # Version: Windows11
 # Architectures: x86_64
 # Framework: Gum
 # Type: Bootstrap
 # Categories: virtualization
-# Privileges: admin
+# Privileges: admin bootstrap utility
 
 #*############################################
 # WSL Management Menu

@@ -3,9 +3,10 @@ set -euo pipefail
 
 
 #*Tags:
+# Name: lazyvim-install.sh
 # Shell: bash
 # Platforms: Linux Server WSL
-# Hardware: Desktop Laptop RaspberryPi
+# Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Android
 # Distros: Ubuntu Debian Fedora Arch Opensuse
 # Architectures: ARM64/AArch64 x86_64
 # DisplayServers: Wayland x11
