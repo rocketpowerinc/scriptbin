@@ -5,6 +5,7 @@
 # Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Android
 # Version: Windows10 Windows11
 # Architectures: ARM64/AArch64 x86_64
+# Type: Utility
 # Categories: Backups
 # Privileges: user
 # Application: github

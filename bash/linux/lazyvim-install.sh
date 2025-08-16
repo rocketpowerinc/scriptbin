@@ -12,6 +12,7 @@ set -euo pipefail
 # DisplayServers: Wayland x11
 # PackageManagers: apt dnf pacman zypper
 # DesktopEnvironments: Gnome kde hyprland xfce
+# Type: Bootstrap
 # Categories: productivity
 # Privileges: admin
 # Application: vim

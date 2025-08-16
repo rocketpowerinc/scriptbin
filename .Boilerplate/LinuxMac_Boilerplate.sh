@@ -13,8 +13,8 @@ set -euo pipefail
 # Framework: Gum
 # PackageManagers: apt dnf pacman zypper nix brew flatpak snap go python
 # DesktopEnvironments: Gnome kde hyprland xfce
-# Type: Bootstrap Appbundle
-# Categories: bootstrap utility development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
+# Type: Bootstrap Appbundle Utility
+# Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
 # 3rd-party: Titus

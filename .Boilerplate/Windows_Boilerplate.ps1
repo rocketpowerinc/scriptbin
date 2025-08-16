@@ -7,8 +7,8 @@
 # Architectures: ARM64/AArch64 x86_64
 # Framework: Gum
 # PackageManagers: winget choco scoop go python
-# Type: Bootstrap appbundle
-# Categories: bootstrap utility development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
+# Type: Bootstrap Appbundle Utility
+# Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
 # 3rd-party: Titus

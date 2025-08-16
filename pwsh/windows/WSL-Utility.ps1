@@ -7,7 +7,7 @@
 # Architectures: x86_64
 # Framework: Gum
 # Type: Bootstrap
-# Categories: virtualization
+# Categories: virtualization development
 # Privileges: admin bootstrap utility
 
 #*############################################
