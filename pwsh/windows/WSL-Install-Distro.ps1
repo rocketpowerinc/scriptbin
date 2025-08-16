@@ -25,28 +25,37 @@ if (-not (Get-Command gum -ErrorAction SilentlyContinue)) {
 }
 
 # --- get distro list ---
-$distros = & wsl --list --online 2>$null |
-Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch '^The following') } |
-ForEach-Object {
-  ($_ -replace '\s{2,}.*$', '').Trim()
-} |
-Where-Object { $_ } |
-Sort-Object -Unique
+$raw = & wsl --list --online 2>$null |
+Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch '^The following') }
+
+$distros = @()
+foreach ($line in $raw) {
+  # Capture the actual name (first column) and friendly name (rest)
+  if ($line -match '^(?<name>\S+)\s+(?<friendly>.+)$') {
+    $distros += [PSCustomObject]@{
+      Name     = $matches['name']
+      Friendly = $matches['friendly']
+    }
+  }
+}
 
 if (-not $distros -or $distros.Count -eq 0) {
   Write-Error "Couldn't retrieve the online distro list."
   exit 1
 }
 
-# --- choose distro with gum ---
-$choice = $distros | & gum choose --height 15 --cursor ">" --header "Select a WSL distro to install"
-if (-not $choice) {
+# --- choose distro with gum (show friendly names) ---
+$choiceFriendly = $distros.Friendly | & gum choose --height 15 --cursor ">" --header "Select a WSL distro to install"
+if (-not $choiceFriendly) {
   Write-Host "No selection made. Exiting."
   exit 0
 }
 
+# Map friendly name back to actual distro name
+$choice = ($distros | Where-Object { $_.Friendly -eq $choiceFriendly }).Name
+
 # Optional confirmation
-if (-not (& gum confirm "Install '$choice' with WSL now?")) {
+if (-not (& gum confirm "Install '$choiceFriendly' with WSL now?")) {
   Write-Host "Cancelled."
   exit 0
 }
@@ -57,7 +66,7 @@ Write-Host "Running: wsl --install -d $choice" -ForegroundColor Cyan
 $code = $LASTEXITCODE
 
 if ($code -eq 0) {
-  Write-Host "✅ '$choice' installation command executed."
+  Write-Host "✅ '$choiceFriendly' installation command executed."
 }
 else {
   Write-Error "wsl exited with code $code."
