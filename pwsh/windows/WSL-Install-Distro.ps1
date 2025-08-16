@@ -52,29 +52,41 @@ $distros | ForEach-Object { Write-Host "  $_" }
 $distrosText = $distros -join "`n"
 
 # Use Gum to select multiple distros in a vertical list (height 25)
-$selected = Write-Output $distrosText | gum choose --no-limit --height 25
-
-if (-not $selected) {
-  Write-Host "No distributions selected."
-  exit 0
+Write-Host "Please select distributions to install (use Space to select, Enter to confirm):" -ForegroundColor Yellow
+try {
+    $selected = Write-Output $distrosText | gum choose --no-limit --height 25
+    Write-Host "Selected: $selected" -ForegroundColor Green
+} catch {
+    Write-Host "Gum selection failed or was cancelled." -ForegroundColor Red
+    exit 1
 }
 
+if (-not $selected -or $selected.Trim() -eq "") {
+    Write-Host "No distributions selected." -ForegroundColor Yellow
+    exit 0
+}
+
+Write-Host "Proceeding with installation of selected distributions..." -ForegroundColor Cyan
+
 # Install each selected distro
-$selected -split "`r?`n" | ForEach-Object {
-  $distro = $_.Trim()
-  if ($distro) {
-    Write-Host "Installing $distro..." -ForegroundColor Cyan
-    try {
-      wsl.exe --install -d $distro
-      if ($LASTEXITCODE -eq 0) {
-        Write-Host "Successfully installed $distro" -ForegroundColor Green
-      }
-      else {
-        Write-Host "Failed to install $distro (exit code: $LASTEXITCODE)" -ForegroundColor Red
-      }
+$selectedDistros = $selected -split "`r?`n" | Where-Object { $_.Trim() }
+Write-Host "Will install $($selectedDistros.Count) distributions:" -ForegroundColor Green
+$selectedDistros | ForEach-Object { Write-Host "  - $_" -ForegroundColor Green }
+
+foreach ($distro in $selectedDistros) {
+    $distro = $distro.Trim()
+    if ($distro) {
+        Write-Host "`nInstalling $distro..." -ForegroundColor Cyan
+        try {
+            $result = wsl.exe --install -d $distro
+            if ($LASTEXITCODE -eq 0) {
+                Write-Host "Successfully installed $distro" -ForegroundColor Green
+            } else {
+                Write-Host "Failed to install $distro (exit code: $LASTEXITCODE)" -ForegroundColor Red
+                Write-Host "Output: $result" -ForegroundColor Red
+            }
+        } catch {
+            Write-Host "Error installing $distro`: $_" -ForegroundColor Red
+        }
     }
-    catch {
-      Write-Host "Error installing $distro`: $_" -ForegroundColor Red
-    }
-  }
 }
