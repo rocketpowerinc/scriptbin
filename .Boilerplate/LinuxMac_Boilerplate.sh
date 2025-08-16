@@ -17,7 +17,7 @@ set -euo pipefail
 # Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
-# 3rd-party: Titus
+# Third-party: Titus
 #*############################################
 
 

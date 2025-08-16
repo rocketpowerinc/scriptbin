@@ -16,7 +16,7 @@ set -euo pipefail
 # Type: Bootstrap Appbundle Utility
 # Categories: development customization
 # Privileges: admin
-# 3rd-party: Titus
+# Third-party: Titus
 
 
 #*############################################
