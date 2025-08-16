@@ -11,9 +11,6 @@
 
 #*############################################
 
-# Install-WSLWithGum.ps1
-# Lets you pick a WSL distro via gum, then runs: wsl --install -d <distro>
-
 # --- prerequisites ---
 if (-not (Get-Command wsl -ErrorAction SilentlyContinue)) {
   Write-Error "WSL is not available on this system."
@@ -24,38 +21,28 @@ if (-not (Get-Command gum -ErrorAction SilentlyContinue)) {
   exit 1
 }
 
-# --- get distro list ---
-$raw = & wsl --list --online 2>$null |
-Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch '^The following') }
-
-$distros = @()
-foreach ($line in $raw) {
-  # Capture the actual name (first column) and friendly name (rest)
-  if ($line -match '^(?<name>\S+)\s+(?<friendly>.+)$') {
-    $distros += [PSCustomObject]@{
-      Name     = $matches['name']
-      Friendly = $matches['friendly']
-    }
-  }
+# --- get distro names ---
+$distros = & wsl --list --online 2>$null |
+Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch '^The following') } |
+ForEach-Object {
+  # Take everything until two or more spaces (the NAME column)
+  ($_ -replace '\s{2,}.*$', '').Trim()
 }
 
 if (-not $distros -or $distros.Count -eq 0) {
-  Write-Error "Couldn't retrieve the online distro list."
+  Write-Error "No distros found."
   exit 1
 }
 
-# --- choose distro with gum (show friendly names) ---
-$choiceFriendly = $distros.Friendly | & gum choose --height 15 --cursor ">" --header "Select a WSL distro to install"
-if (-not $choiceFriendly) {
+# --- choose distro ---
+$choice = $distros | & gum choose --height 15 --cursor ">" --header "Select a WSL distro to install"
+if (-not $choice) {
   Write-Host "No selection made. Exiting."
   exit 0
 }
 
-# Map friendly name back to actual distro name
-$choice = ($distros | Where-Object { $_.Friendly -eq $choiceFriendly }).Name
-
 # Optional confirmation
-if (-not (& gum confirm "Install '$choiceFriendly' with WSL now?")) {
+if (-not (& gum confirm "Install '$choice' with WSL now?")) {
   Write-Host "Cancelled."
   exit 0
 }
@@ -66,7 +53,7 @@ Write-Host "Running: wsl --install -d $choice" -ForegroundColor Cyan
 $code = $LASTEXITCODE
 
 if ($code -eq 0) {
-  Write-Host "✅ '$choiceFriendly' installation command executed."
+  Write-Host "✅ '$choice' installation command executed."
 }
 else {
   Write-Error "wsl exited with code $code."
