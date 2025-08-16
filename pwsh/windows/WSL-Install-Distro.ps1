@@ -24,21 +24,14 @@ if (-not (Get-Command gum -ErrorAction SilentlyContinue)) {
   exit 1
 }
 
-# --- get distro list (try --quiet first, then fallback to parsing) ---
-$distros = @()
-try {
-  $q = & wsl --list --online --quiet 2>$null
-  if ($q) { $distros = $q }
-}
-catch { }
-
-if (-not $distros) {
-  $raw = & wsl --list --online 2>$null
-  $distros = $raw |
-  Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch 'The following') } |
-  ForEach-Object { ($_ -split '\s+')[0] } |
-  Where-Object { $_ }
-}
+# --- get distro list ---
+$distros = & wsl --list --online 2>$null |
+Where-Object { $_ -and ($_ -notmatch '^\s*NAME\b') -and ($_ -notmatch '^The following') } |
+ForEach-Object {
+  ($_ -replace '\s{2,}.*$', '').Trim()
+} |
+Where-Object { $_ } |
+Sort-Object -Unique
 
 if (-not $distros -or $distros.Count -eq 0) {
   Write-Error "Couldn't retrieve the online distro list."
