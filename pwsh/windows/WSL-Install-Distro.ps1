@@ -10,22 +10,19 @@
 # Privileges: admin
 
 #*############################################
-# Define available distros
-$distros = @(
-    "Debian",
-    "Ubuntu",
-    "Ubuntu-24.04",
-    "archlinux",
-    "kali-linux"
-)
 
-# Send each distro to gum on its own line
-$choice = $distros -join "`n" | gum choose --height 10 --cursor ">"
+# Use gum to choose a WSL distro and capture the selected command
+$command = gum choose `
+    "wsl --install -d Debian" `
+    "wsl --install -d Ubuntu" `
+    "wsl --install -d Ubuntu-24.04" `
+    "wsl --install -d Archlinux" `
+    "wsl --install -d Kali-linux" `
+    --cursor "> " `
+    --cursor.foreground 99 `
+    --selected.foreground 99
 
-if ($choice) {
-    Write-Host "👉 Press ENTER to begin the installation of $choice." -ForegroundColor Green
-    wsl --install -d $choice
-}
-else {
-    Write-Host "No distro selected. Exiting."
+# Run the selected command if the user made a choice
+if ($command) {
+    Invoke-Expression $command
 }
