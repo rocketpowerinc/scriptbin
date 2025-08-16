@@ -22,12 +22,12 @@ function Show-WSLMenu {
   $choice = gum choose `
     "Install WSL" `
     "Update WSL" `
-    "Install a Distro" `
+    "Install a Distro (Hardcoded)" `
     "Check WSL Status" `
     "List Installed Distros" `
     "List Available Distros" `
     "Set Default Distribution" `
-    "Unregister (uninstall) a Distro" `
+    "Unregister (uninstall) a Distro (Hardcoded)" `
     "Exit" `
     --cursor "> " `
     --cursor.foreground 99 `
@@ -43,7 +43,7 @@ function Show-WSLMenu {
       Write-Host "Updating WSL..." -ForegroundColor Green
       wsl --update
     }
-    "Install a Distro" {
+    "Install a Distro (Hardcoded)" {
       Show-DistroInstallMenu
     }
     "Check WSL Status" {
@@ -61,7 +61,7 @@ function Show-WSLMenu {
     "Set Default Distribution" {
       Show-SetDefaultMenu
     }
-    "Unregister (uninstall) a Distro" {
+    "Unregister (uninstall) a Distro (Hardcoded)" {
       Show-UnregisterMenu
     }
     "Exit" {
@@ -160,11 +160,14 @@ function Show-SetDefaultMenu {
 
   Write-Host "Select a distribution to set as default:" -ForegroundColor Cyan
 
-  # Use hardcoded options for reliability since we know what they are
+  # For now, use the specific distributions we know are installed
+  # This avoids the parsing issues while still being accurate
   $selectedDistro = gum choose `
     "Debian" `
     "Ubuntu" `
-    "OracleLinux_7_9" `
+    "Ubuntu 24.04 LTS" `
+    "Arch Linux" `
+    "Kali Linux" `
     "Back to Main Menu" `
     --cursor "> " `
     --cursor.foreground 99 `
@@ -176,18 +179,24 @@ function Show-SetDefaultMenu {
   elseif ($selectedDistro) {
     Write-Host "Setting '$selectedDistro' as default distribution..." -ForegroundColor Green
 
-    # Debug: Show exact string details
-    Write-Host "DEBUG: Length: $($selectedDistro.Length)" -ForegroundColor Magenta
-    Write-Host "DEBUG: Bytes: $([System.Text.Encoding]::UTF8.GetBytes($selectedDistro) -join ' ')" -ForegroundColor Magenta
+    # Map display names to actual WSL distribution names
+    $actualDistroName = switch ($selectedDistro) {
+      "Debian" { "Debian" }
+      "Ubuntu" { "Ubuntu" }
+      "Ubuntu 24.04 LTS" { "Ubuntu-24.04" }
+      "Arch Linux" { "archlinux" }
+      "Kali Linux" { "kali-linux" }
+      default { $selectedDistro }
+    }
 
-    # Clean the string thoroughly
-    $cleanDistro = $selectedDistro.Trim().Replace("`r", "").Replace("`n", "").Replace("`0", "")
-    Write-Host "DEBUG: Clean distro: '$cleanDistro'" -ForegroundColor Magenta
+    # Debug: Show exact string details
+    Write-Host "DEBUG: Display name: '$selectedDistro'" -ForegroundColor Magenta
+    Write-Host "DEBUG: Actual WSL name: '$actualDistroName'" -ForegroundColor Magenta
 
     # Execute the command
-    $result = & wsl --set-default $cleanDistro 2>&1
+    $result = & wsl --set-default $actualDistroName 2>&1
     if ($LASTEXITCODE -eq 0) {
-      Write-Host "Successfully set $cleanDistro as default distribution." -ForegroundColor Green
+      Write-Host "Successfully set $actualDistroName as default distribution." -ForegroundColor Green
     }
     else {
       Write-Host "Error setting default: $result" -ForegroundColor Red
@@ -220,11 +229,14 @@ function Show-UnregisterMenu {
 
   Write-Host "Select a distribution to unregister (WARNING: This will delete all data!):" -ForegroundColor Red
 
-  # Use hardcoded options for reliability since we know what they are
+  # For now, use the specific distributions we know are installed
+  # This avoids the parsing issues while still being accurate
   $selectedDistro = gum choose `
     "Debian" `
     "Ubuntu" `
-    "OracleLinux_7_9" `
+    "Ubuntu 24.04 LTS" `
+    "Arch Linux" `
+    "Kali Linux" `
     "Back to Main Menu" `
     --cursor "> " `
     --cursor.foreground 99 `
@@ -238,9 +250,18 @@ function Show-UnregisterMenu {
     $confirm = Read-Host "Type 'YES' to confirm unregistration"
 
     if ($confirm -eq "YES") {
-      Write-Host "Unregistering '$selectedDistro'..." -ForegroundColor Green
-      $trimmedDistro = $selectedDistro.Trim()
-      wsl --unregister $trimmedDistro
+      # Map display names to actual WSL distribution names
+      $actualDistroName = switch ($selectedDistro) {
+        "Debian" { "Debian" }
+        "Ubuntu" { "Ubuntu" }
+        "Ubuntu 24.04 LTS" { "Ubuntu-24.04" }
+        "Arch Linux" { "archlinux" }
+        "Kali Linux" { "kali-linux" }
+        default { $selectedDistro }
+      }
+
+      Write-Host "Unregistering '$actualDistroName'..." -ForegroundColor Green
+      wsl --unregister $actualDistroName
     }
     else {
       Write-Host "Unregistration cancelled." -ForegroundColor Yellow
