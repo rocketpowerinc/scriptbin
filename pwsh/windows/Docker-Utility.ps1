@@ -76,7 +76,7 @@ switch ($choice) {
 
     # Create Docker directories in user profile
     $DockerComposeDestination = Join-Path $env:USERPROFILE "Docker\docker-compose"
-    
+
     Write-Host "Creating Docker directories..." -ForegroundColor Cyan
     if (-not (Test-Path $DockerComposeDestination)) {
       New-Item -ItemType Directory -Path $DockerComposeDestination -Force | Out-Null
