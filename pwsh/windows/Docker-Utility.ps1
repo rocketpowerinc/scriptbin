@@ -45,17 +45,7 @@ switch ($choice) {
     Write-Host ">>> Installing LazyDocker..." -ForegroundColor Cyan
     if (Get-Command scoop -ErrorAction SilentlyContinue) {
       scoop install lazydocker
-    }
-    else {
-      $lzVersion = "0.23.3"  # change if needed
-      $lzZip = "$env:TEMP\lazydocker.zip"
-      $lzUrl = "https://github.com/jesseduffield/lazydocker/releases/download/v$lzVersion/lazydocker_${lzVersion}_Windows_x86_64.zip"
-      Invoke-WebRequest -Uri $lzUrl -OutFile $lzZip
-      Expand-Archive -Path $lzZip -DestinationPath "$env:ProgramFiles\lazydocker" -Force
-      $lzBin = "$env:ProgramFiles\lazydocker"
-      if (-not ($env:PATH -split ";" | ForEach-Object { $_ -eq $lzBin })) {
-        [Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";$lzBin", [System.EnvironmentVariableTarget]::Machine)
-      }
+      Add-Content -Path $PROFILE -Value "Set-Alias lzd lazydocker"
     }
     Write-Host "LazyDocker installation completed." -ForegroundColor Green
   }
@@ -64,7 +54,7 @@ switch ($choice) {
     Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
     # Config
     $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
-    $DownloadPath = Join-Path $env:USERPROFILE "Downloads\Temp\docker-repo"
+    $DownloadPath = Join-Path $env:USERPROFILE "$env:USERPROFILE\Docker\compose"
 
     # Make sure parent directory exists
     $parentDir = Split-Path -Parent $DownloadPath
