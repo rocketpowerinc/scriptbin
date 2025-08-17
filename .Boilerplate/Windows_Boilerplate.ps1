@@ -11,7 +11,7 @@
 # Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
-# Third-party: Titus
+# ThirdParty: Titus
 #*############################################
 
 

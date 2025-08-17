@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-
 #*Tags:
 # Name: <script name>.sh
 # Shell: bash pwsh zsh fish
@@ -17,7 +16,7 @@ set -euo pipefail
 # Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
-# Third-party: Titus
+# ThirdParty: Titus
 #*############################################
 
 
