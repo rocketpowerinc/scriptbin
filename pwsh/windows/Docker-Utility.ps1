@@ -84,7 +84,8 @@ switch ($choice) {
     $SourceDockerCompose = Join-Path $DownloadPath "docker-compose"
     if (Test-Path $SourceDockerCompose) {
       Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
-      # Remove existing content and copy new content
+
+      #* Overwrite existing docker-compose files - no data should get deleted or overwritten
       if (Test-Path $DockerComposeDestination) {
         Remove-Item -Path "$DockerComposeDestination\*" -Recurse -Force
       }
