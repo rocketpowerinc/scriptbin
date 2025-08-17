@@ -54,7 +54,7 @@ switch ($choice) {
     Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
     # Config
     $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
-    $DownloadPath = Join-Path $env:USERPROFILE "$env:USERPROFILE\Docker\compose"
+    $DownloadPath = Join-Path $env:USERPROFILE "Downloads\Temp\Docker"
 
     # Make sure parent directory exists
     $parentDir = Split-Path -Parent $DownloadPath
@@ -73,7 +73,36 @@ switch ($choice) {
     git clone $RepoUrl $DownloadPath
 
     Write-Host "Repo cloned successfully to $DownloadPath" -ForegroundColor Green
+
+    # Create Docker directories in user profile
+    $DockerComposeDestination = Join-Path $env:USERPROFILE "Docker\docker-compose"
+    $DockerDataDestination = Join-Path $env:USERPROFILE "Docker\data"
+
+    Write-Host "Creating Docker directories..." -ForegroundColor Cyan
+    if (-not (Test-Path $DockerComposeDestination)) {
+      New-Item -ItemType Directory -Path $DockerComposeDestination -Force | Out-Null
+    }
+    if (-not (Test-Path $DockerDataDestination)) {
+      New-Item -ItemType Directory -Path $DockerDataDestination -Force | Out-Null
+    }
+
+    # Move docker-compose files from temp to permanent location
+    $SourceDockerCompose = Join-Path $DownloadPath "docker-compose"
+    if (Test-Path $SourceDockerCompose) {
+      Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
+      # Remove existing content and copy new content
+      if (Test-Path $DockerComposeDestination) {
+        Remove-Item -Path "$DockerComposeDestination\*" -Recurse -Force
+      }
+      Copy-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Recurse -Force
+      Write-Host "Docker-compose files moved successfully" -ForegroundColor Green
+    }
+    else {
+      Write-Host "Warning: docker-compose folder not found in cloned repository" -ForegroundColor Yellow
+    }
   }
+
+
 
   "Exit" {
     Write-Host "Goodbye!" -ForegroundColor Yellow
