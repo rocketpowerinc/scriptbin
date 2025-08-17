@@ -76,17 +76,11 @@ switch ($choice) {
 
     # Create Docker directories in user profile
     $DockerComposeDestination = Join-Path $env:USERPROFILE "Docker\docker-compose"
-    $DockerDataDestination = Join-Path $env:USERPROFILE "Docker\data"
-
+    
     Write-Host "Creating Docker directories..." -ForegroundColor Cyan
     if (-not (Test-Path $DockerComposeDestination)) {
       New-Item -ItemType Directory -Path $DockerComposeDestination -Force | Out-Null
-    }
-    if (-not (Test-Path $DockerDataDestination)) {
-      New-Item -ItemType Directory -Path $DockerDataDestination -Force | Out-Null
-    }
-
-    # Move docker-compose files from temp to permanent location
+    }    # Move docker-compose files from temp to permanent location
     $SourceDockerCompose = Join-Path $DownloadPath "docker-compose"
     if (Test-Path $SourceDockerCompose) {
       Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
