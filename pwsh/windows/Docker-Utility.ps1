@@ -80,11 +80,18 @@ switch ($choice) {
       if (Test-Path $DockerComposeDestination) {
         Remove-Item -Path "$DockerComposeDestination\*" -Recurse -Force
       }
-      Copy-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Recurse -Force
+      Move-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Recurse -Force
       Write-Host "Docker-compose files moved successfully" -ForegroundColor Green
     }
     else {
       Write-Host "Warning: docker-compose folder not found in cloned repository" -ForegroundColor Yellow
+    }
+
+    # Clean up temporary download folder
+    Write-Host "Cleaning up temporary folder: $DownloadPath" -ForegroundColor Cyan
+    if (Test-Path $DownloadPath) {
+      Remove-Item -Recurse -Force $DownloadPath
+      Write-Host "Temporary folder removed successfully" -ForegroundColor Green
     }
   }
 
