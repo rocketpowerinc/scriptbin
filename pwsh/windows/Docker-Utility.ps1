@@ -16,8 +16,7 @@
 
 # Show menu
 $choice = gum choose `
-  "Install Docker and Docker Compose" `
-  "Install Docker Desktop" `
+  "Install Docker Desktop (docker engine and compose included)" `
   "Install LazyDocker" `
   "Clone Docker Repo" `
   "Exit" `
@@ -27,15 +26,7 @@ $choice = gum choose `
   --height 15
 
 switch ($choice) {
-  "Install Docker and Docker Compose" {
-    Write-Host ">>> Installing Docker Desktop (includes Docker & Docker Compose)..." -ForegroundColor Cyan
-    $dockerInstaller = "$env:TEMP\DockerDesktopInstaller.exe"
-    Invoke-WebRequest -Uri "https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe" -OutFile $dockerInstaller
-    Start-Process -FilePath $dockerInstaller -Wait
-    Write-Host "Docker Desktop installation finished. Please log out and log in again if required." -ForegroundColor Green
-  }
-
-  "Install Docker Desktop" {
+  "Install Docker Desktop (docker engine and compose included)" {
     Write-Host ">>> Installing Docker Desktop via Winget..." -ForegroundColor Cyan
     winget install -e --id Docker.DockerDesktop
     Write-Host "Docker Desktop installation via Winget completed." -ForegroundColor Green
