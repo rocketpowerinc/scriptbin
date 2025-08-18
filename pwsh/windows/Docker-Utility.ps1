@@ -80,7 +80,7 @@ switch ($choice) {
       if (Test-Path $DockerComposeDestination) {
         Remove-Item -Path "$DockerComposeDestination\*" -Recurse -Force
       }
-      Move-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Recurse -Force
+      Move-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Force
       Write-Host "Docker-compose files moved successfully" -ForegroundColor Green
     }
     else {
