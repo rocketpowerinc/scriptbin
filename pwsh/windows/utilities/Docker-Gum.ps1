@@ -1,5 +1,5 @@
 #*Tags:
-# Name: <script name>.ps1
+# Name: Docker-Gum.ps1
 # Shell: pwsh
 # Platforms: Windows Docker WSL Server
 # Hardware: ROG-Desktop ROG-Laptop ThinkPad

@@ -1,5 +1,5 @@
 #*Tags:
-# Name: WSL-Utility.ps1
+# Name: WSL-Gum.ps1
 # Shell: pwsh
 # Platforms: Windows Docker WSL
 # Hardware: ROG-Desktop

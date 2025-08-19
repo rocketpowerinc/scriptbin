@@ -1,5 +1,5 @@
 #*Tags:
-# Name: Bootstrap-ExecutionPolicy.ps1
+# Name: ExecutionPolicy.ps1
 # Shell: pwsh
 # Platforms: Windows WSL
 # Hardware: ROG-Ally ROG-Desktop ROG-Laptop ThinkPad

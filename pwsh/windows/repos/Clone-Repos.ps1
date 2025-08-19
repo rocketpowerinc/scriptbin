@@ -1,5 +1,5 @@
 #*Tags:
-# Name: RepoCloneUtility.ps1
+# Name: Clone-Repos.ps1
 # Shell: pwsh
 # Platforms: Windows
 # Hardware: ROG-Desktop
