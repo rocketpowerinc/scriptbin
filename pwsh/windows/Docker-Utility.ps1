@@ -19,6 +19,7 @@ $choice = gum choose `
   "Install Docker Desktop (docker engine and compose included)" `
   "Install LazyDocker" `
   "Clone Docker Repo" `
+  "Deploy Containers" `
   "Exit" `
   --cursor "> " `
   --cursor.foreground 99 `
@@ -92,6 +93,55 @@ switch ($choice) {
     if (Test-Path $DownloadPath) {
       Remove-Item -Recurse -Force $DownloadPath
       Write-Host "Temporary folder removed successfully" -ForegroundColor Green
+    }
+  }
+
+  "Deploy Containers" {
+    Write-Host ">>> Selecting Docker Compose file..." -ForegroundColor Cyan
+    $DockerComposeDir = Join-Path $env:USERPROFILE "Docker\docker-compose"
+
+    if (-not (Test-Path $DockerComposeDir)) {
+      Write-Host "Error: Docker compose directory not found at $DockerComposeDir" -ForegroundColor Red
+      Write-Host "Please run 'Clone Docker Repo' first to set up the directory structure." -ForegroundColor Yellow
+      return
+    }
+
+    # Use gum file to select a docker-compose.yml file
+    $selectedFile = gum file $DockerComposeDir --file
+
+    if (-not $selectedFile) {
+      Write-Host "No file selected. Exiting..." -ForegroundColor Yellow
+      return
+    }
+
+    # Check if the selected file is a docker-compose file
+    $fileName = Split-Path -Leaf $selectedFile
+    if ($fileName -notmatch "docker-compose.*\.ya?ml$") {
+      Write-Host "Warning: Selected file '$fileName' doesn't appear to be a docker-compose file." -ForegroundColor Yellow
+      $confirm = Read-Host "Do you want to continue anyway? (y/N)"
+      if ($confirm -notmatch "^[yY]") {
+        Write-Host "Operation cancelled." -ForegroundColor Yellow
+        return
+      }
+    }
+
+    # Get the directory containing the selected file
+    $composeDir = Split-Path -Parent $selectedFile
+
+    Write-Host "Deploying containers from: $selectedFile" -ForegroundColor Cyan
+    Write-Host "Changing directory to: $composeDir" -ForegroundColor Cyan
+
+    # Change to the directory and run docker compose
+    Push-Location $composeDir
+    try {
+      docker compose up -d
+      Write-Host "Containers deployed successfully!" -ForegroundColor Green
+    }
+    catch {
+      Write-Host "Error deploying containers: $_" -ForegroundColor Red
+    }
+    finally {
+      Pop-Location
     }
   }
 
