@@ -13,7 +13,7 @@ set -euo pipefail
 # PackageManagers: apt dnf pacman zypper nix brew flatpak snap go python
 # DesktopEnvironments: Gnome kde hyprland xfce
 # Type: Bootstrap Appbundle Utility
-# Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
+# Categories: development virtualization containerization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
 # Privileges: admin user
 # Application: tailscale vim github
 # ThirdParty: Titus

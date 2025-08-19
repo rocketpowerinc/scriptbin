@@ -1,17 +1,15 @@
 #*Tags:
 # Name: <script name>.ps1
 # Shell: pwsh
-# Platforms: Windows Mac Linux Universal Docker WSL
-# Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Asus Razor Logitech Nvidia Android
-# Version: Windows10 Windows11
+# Platforms: Windows Docker WSL Server
+# Hardware: ROG-Desktop ROG-Laptop ThinkPad
+# Version: Windows11
 # Architectures: ARM64/AArch64 x86_64
 # Framework: Gum
 # PackageManagers: winget choco scoop go python
 # Type: Bootstrap Appbundle Utility
-# Categories: development virtualization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
-# Privileges: admin user
-# Application: tailscale vim github
-# ThirdParty: Titus
+# Categories: containerization
+# Privileges: admin
 #*############################################
 
 # Show menu
