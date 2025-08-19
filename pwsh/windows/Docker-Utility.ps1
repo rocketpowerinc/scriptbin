@@ -77,12 +77,25 @@ switch ($choice) {
     if (Test-Path $SourceDockerCompose) {
       Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
 
-      #* Overwrite existing docker-compose files - no data should get deleted or overwritten
-      if (Test-Path $DockerComposeDestination) {
-        Remove-Item -Path "$DockerComposeDestination\*" -Recurse -Force
+      # Get all subdirectories in the source
+      $sourceFolders = Get-ChildItem -Path $SourceDockerCompose -Directory
+
+      foreach ($folder in $sourceFolders) {
+        $destinationFolder = Join-Path $DockerComposeDestination $folder.Name
+
+        # Create destination folder if it doesn't exist
+        if (-not (Test-Path $destinationFolder)) {
+          New-Item -ItemType Directory -Path $destinationFolder -Force | Out-Null
+          Write-Host "Created folder: $destinationFolder" -ForegroundColor Green
+        }
+
+        # Copy all contents from source folder to destination, overwriting existing files but preserving others
+        Write-Host "Copying contents from $($folder.Name)..." -ForegroundColor Cyan
+        Copy-Item -Path "$($folder.FullName)\*" -Destination $destinationFolder -Recurse -Force
+        Write-Host "Copied: $($folder.Name) contents to $destinationFolder" -ForegroundColor Green
       }
-      Move-Item -Path "$SourceDockerCompose\*" -Destination $DockerComposeDestination -Force
-      Write-Host "Docker-compose files moved successfully" -ForegroundColor Green
+
+      Write-Host "Docker-compose files moved successfully (existing files preserved, matching files overwritten)" -ForegroundColor Green
     }
     else {
       Write-Host "Warning: docker-compose folder not found in cloned repository" -ForegroundColor Yellow
