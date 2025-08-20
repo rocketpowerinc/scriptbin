@@ -59,9 +59,8 @@ if (Test-Path $boilerplateDir) {
   Remove-Item -Recurse -Force $boilerplateDir
 }
 
-Clear-Host
-# Move cursor to top-left position
-[Console]::SetCursorPosition(0, 0)
+# Clear screen completely and reset cursor
+cls
 Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
 Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
 
