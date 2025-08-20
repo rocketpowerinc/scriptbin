@@ -1,29 +1,16 @@
-# Define app name
-$app = "xxxxxxxx"
+#! Moving the Dotfile
 
-# Common Sources
-$source      = Join-Path $env:USERPROFILE "Downloads\Temp\dotfiles\$app"
-#Common Destinations
-$destination = Join-Path $env:USERPROFILE "Docker\docker-compose\$app"
-
-Write-Host "Copying files from:" -ForegroundColor Cyan
-Write-Host "  $source" -ForegroundColor Yellow
-Write-Host "to:" -ForegroundColor Cyan
-Write-Host "  $destination" -ForegroundColor Yellow
-
-# Make sure the source exists
-if (-not (Test-Path $source)) {
-    Write-Error "Source path does not exist: $source"
-    exit 1
-}
+# Define source and destination paths
+$source      = Join-Path $env:USERPROFILE "Downloads\Temp\dotfiles\glance\glance.yml"
+$destination = Join-Path $env:USERPROFILE "Docker\docker-compose\glance\config\glance.yml"
 
 # Ensure destination directory exists
-if (-not (Test-Path $destination)) {
-    New-Item -ItemType Directory -Path $destination -Force | Out-Null
-    Write-Host "Created destination directory: $destination" -ForegroundColor Green
+$destDir = Split-Path -Parent $destination
+if (-not (Test-Path $destDir)) {
+    New-Item -ItemType Directory -Path $destDir -Force | Out-Null
 }
 
-# Copy contents (recursive, overwrite)
-Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force
+# Move the file (overwrite if it exists)
+Move-Item -Path $source -Destination $destination -Force
 
-Write-Host "✅ Copy complete!" -ForegroundColor Green
+Write-Host "File moved successfully to $destination" -ForegroundColor Green
