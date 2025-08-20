@@ -36,4 +36,4 @@ if (Test-Path $DownloadPath) {
 Write-Host "Cloning $RepoUrl into $DownloadPath..."
 git clone $RepoUrl $DownloadPath
 
-Write-Host "Done!"
+Write-Host "Temp folder cloned/refreshed successfully!" -ForegroundColor Green

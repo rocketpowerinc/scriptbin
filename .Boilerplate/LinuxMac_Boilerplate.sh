@@ -39,6 +39,8 @@ fi
 echo "Cloning $REPO_URL into $DOWNLOAD_PATH..."
 git clone "$REPO_URL" "$DOWNLOAD_PATH"
 
-echo "Done!"
+echo -e '\033[0;32mTemp folder cloned/refreshed successfully!\033[0m'
+
+
 
 
