@@ -18,7 +18,7 @@ do {
   $choice = gum choose `
     "Install Docker Desktop (docker engine and compose included)" `
     "Install LazyDocker" `
-    "Clone Docker Repo" `
+    "Clone/Refresh Docker Repo" `
     "Deploy Containers" `
     "Exit" `
     --cursor "> " `
@@ -46,7 +46,7 @@ do {
       $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     }
 
-    "Clone Docker Repo" {
+    "Clone/Refresh Docker Repo" {
       Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
       # Config
       $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
@@ -122,7 +122,7 @@ do {
 
         if (-not (Test-Path $DockerComposeDir)) {
           Write-Host "Error: Docker compose directory not found at $DockerComposeDir" -ForegroundColor Red
-          Write-Host "Please run 'Clone Docker Repo' first to set up the directory structure." -ForegroundColor Yellow
+          Write-Host "Please run 'Clone/Refresh Docker Repo' first to set up the directory structure." -ForegroundColor Yellow
           break
         }
 
