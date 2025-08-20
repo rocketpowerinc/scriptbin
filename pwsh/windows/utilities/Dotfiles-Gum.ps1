@@ -37,6 +37,7 @@ git clone $RepoUrl $DownloadPath
 $vscodeDir = Join-Path $DownloadPath ".vscode"
 $readmeFile = Join-Path $DownloadPath "readme.md"
 $gitDir = Join-Path $DownloadPath ".git"
+$boilerplateDir = Join-Path $DownloadPath ".boilerplate"
 
 if (Test-Path $vscodeDir) {
   Write-Host "Removing .vscode directory..." -ForegroundColor Yellow
@@ -53,7 +54,14 @@ if (Test-Path $gitDir) {
   Remove-Item -Recurse -Force $gitDir
 }
 
+if (Test-Path $boilerplateDir) {
+  Write-Host "Removing .boilerplate directory..." -ForegroundColor Yellow
+  Remove-Item -Recurse -Force $boilerplateDir
+}
+
 Clear-Host
+# Move cursor to top-left position
+[Console]::SetCursorPosition(0, 0)
 Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
 Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
 
