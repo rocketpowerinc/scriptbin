@@ -10,6 +10,77 @@
 # Type: Bootstrap Appbundle Utility
 # Categories: containerization
 # Privileges: admin
+
+# Function to clone/refresh the Docker repo and update docker-compose files
+function Clone-RefreshDockerRepo {
+  Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
+  # Config
+  $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
+  $DownloadPath = Join-Path $env:USERPROFILE "Downloads\Temp\Docker"
+
+  # Make sure parent directory exists
+  $parentDir = Split-Path -Parent $DownloadPath
+  if (-not (Test-Path $parentDir)) {
+    New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
+  }
+
+  # Remove old copy if it exists
+  if (Test-Path $DownloadPath) {
+    Write-Host "Removing old folder: $DownloadPath"
+    Remove-Item -Recurse -Force $DownloadPath
+  }
+
+  # Clone repository
+  Write-Host "Cloning $RepoUrl into $DownloadPath..."
+  git clone $RepoUrl $DownloadPath
+
+  Write-Host "Repo cloned successfully to $DownloadPath" -ForegroundColor Green
+
+  # Create Docker directories in user profile
+  $DockerComposeDestination = Join-Path $env:USERPROFILE "Docker\docker-compose"
+
+  Write-Host "Creating Docker directories..." -ForegroundColor Cyan
+  if (-not (Test-Path $DockerComposeDestination)) {
+    New-Item -ItemType Directory -Path $DockerComposeDestination -Force | Out-Null
+  }    # Move docker-compose files from temp to permanent location
+  $SourceDockerCompose = Join-Path $DownloadPath "docker-compose"
+  if (Test-Path $SourceDockerCompose) {
+    Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
+
+    # Get all subdirectories in the source
+    $sourceFolders = Get-ChildItem -Path $SourceDockerCompose -Directory
+
+    foreach ($folder in $sourceFolders) {
+      $destinationFolder = Join-Path $DockerComposeDestination $folder.Name
+
+      # Create destination folder if it doesn't exist
+      if (-not (Test-Path $destinationFolder)) {
+        New-Item -ItemType Directory -Path $destinationFolder -Force | Out-Null
+        Write-Host "Created folder: $destinationFolder" -ForegroundColor Green
+      }
+
+      # Copy all contents from source folder to destination, overwriting existing files but preserving others
+      Write-Host "Copying contents from $($folder.Name)..." -ForegroundColor Cyan
+      Copy-Item -Path "$($folder.FullName)\*" -Destination $destinationFolder -Recurse -Force
+      Write-Host "Copied: $($folder.Name) contents to $destinationFolder" -ForegroundColor Green
+    }
+
+    Write-Host "Docker-compose files moved successfully (existing files preserved, matching files overwritten)" -ForegroundColor Green
+  }
+  else {
+    Write-Host "Warning: docker-compose folder not found in cloned repository" -ForegroundColor Yellow
+  }
+
+  # Clean up temporary download folder
+  Write-Host "Cleaning up temporary folder: $DownloadPath" -ForegroundColor Cyan
+  if (Test-Path $DownloadPath) {
+    Remove-Item -Recurse -Force $DownloadPath
+    Write-Host "Temporary folder removed successfully" -ForegroundColor Green
+  }
+  Write-Host "Press any key to continue..." -ForegroundColor Yellow
+  $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+}
+
 #*############################################
 # Make Sure Docker is Running
 function start-docker {
@@ -59,75 +130,6 @@ do {
 
     "Clone/Refresh Docker Repo" {
       Clone-RefreshDockerRepo
-    }
-    # Function to clone/refresh the Docker repo and update docker-compose files
-    function Clone-RefreshDockerRepo {
-      Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
-      # Config
-      $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
-      $DownloadPath = Join-Path $env:USERPROFILE "Downloads\Temp\Docker"
-
-      # Make sure parent directory exists
-      $parentDir = Split-Path -Parent $DownloadPath
-      if (-not (Test-Path $parentDir)) {
-        New-Item -ItemType Directory -Path $parentDir -Force | Out-Null
-      }
-
-      # Remove old copy if it exists
-      if (Test-Path $DownloadPath) {
-        Write-Host "Removing old folder: $DownloadPath"
-        Remove-Item -Recurse -Force $DownloadPath
-      }
-
-      # Clone repository
-      Write-Host "Cloning $RepoUrl into $DownloadPath..."
-      git clone $RepoUrl $DownloadPath
-
-      Write-Host "Repo cloned successfully to $DownloadPath" -ForegroundColor Green
-
-      # Create Docker directories in user profile
-      $DockerComposeDestination = Join-Path $env:USERPROFILE "Docker\docker-compose"
-
-      Write-Host "Creating Docker directories..." -ForegroundColor Cyan
-      if (-not (Test-Path $DockerComposeDestination)) {
-        New-Item -ItemType Directory -Path $DockerComposeDestination -Force | Out-Null
-      }    # Move docker-compose files from temp to permanent location
-      $SourceDockerCompose = Join-Path $DownloadPath "docker-compose"
-      if (Test-Path $SourceDockerCompose) {
-        Write-Host "Moving docker-compose files to $DockerComposeDestination..." -ForegroundColor Cyan
-
-        # Get all subdirectories in the source
-        $sourceFolders = Get-ChildItem -Path $SourceDockerCompose -Directory
-
-        foreach ($folder in $sourceFolders) {
-          $destinationFolder = Join-Path $DockerComposeDestination $folder.Name
-
-          # Create destination folder if it doesn't exist
-          if (-not (Test-Path $destinationFolder)) {
-            New-Item -ItemType Directory -Path $destinationFolder -Force | Out-Null
-            Write-Host "Created folder: $destinationFolder" -ForegroundColor Green
-          }
-
-          # Copy all contents from source folder to destination, overwriting existing files but preserving others
-          Write-Host "Copying contents from $($folder.Name)..." -ForegroundColor Cyan
-          Copy-Item -Path "$($folder.FullName)\*" -Destination $destinationFolder -Recurse -Force
-          Write-Host "Copied: $($folder.Name) contents to $destinationFolder" -ForegroundColor Green
-        }
-
-        Write-Host "Docker-compose files moved successfully (existing files preserved, matching files overwritten)" -ForegroundColor Green
-      }
-      else {
-        Write-Host "Warning: docker-compose folder not found in cloned repository" -ForegroundColor Yellow
-      }
-
-      # Clean up temporary download folder
-      Write-Host "Cleaning up temporary folder: $DownloadPath" -ForegroundColor Cyan
-      if (Test-Path $DownloadPath) {
-        Remove-Item -Recurse -Force $DownloadPath
-        Write-Host "Temporary folder removed successfully" -ForegroundColor Green
-      }
-      Write-Host "Press any key to continue..." -ForegroundColor Yellow
-      $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     }
 
     "Deploy Containers" {
