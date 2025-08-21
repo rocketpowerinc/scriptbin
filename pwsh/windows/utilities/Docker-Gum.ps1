@@ -60,6 +60,7 @@ do {
     "Clone/Refresh Docker Repo" {
       Clone-RefreshDockerRepo
     }
+    # Function to clone/refresh the Docker repo and update docker-compose files
     function Clone-RefreshDockerRepo {
       Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
       # Config

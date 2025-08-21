@@ -12,7 +12,7 @@
 
 #*############################################
 # WSL Management Menu
-#*############################################
+
 
 function Show-WSLMenu {
   Write-Host "WSL Management Menu" -ForegroundColor Cyan
