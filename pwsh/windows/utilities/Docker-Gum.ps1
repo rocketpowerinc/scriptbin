@@ -11,8 +11,19 @@
 # Categories: containerization
 # Privileges: admin
 #*############################################
+# Make Sure Docker is Running
+function start-docker {
+  if (Get-Process -Name "Docker Desktop" -ErrorAction SilentlyContinue) {
+    Write-Host "Docker engine is running" -ForegroundColor Green
+  }
+  else {
+    Write-Host "Starting Docker Desktop..." -ForegroundColor Yellow
+    Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+  }
+}
+start-docker
 
-# Main loop to keep the menu running
+#* Main loop to keep the menu running
 do {
   # Show menu
   $choice = gum choose `
@@ -47,6 +58,9 @@ do {
     }
 
     "Clone/Refresh Docker Repo" {
+      Clone-RefreshDockerRepo
+    }
+    function Clone-RefreshDockerRepo {
       Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
       # Config
       $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
@@ -116,13 +130,13 @@ do {
     }
 
     "Deploy Containers" {
+      Clone-RefreshDockerRepo
       do {
         Write-Host ">>> Selecting Docker Compose file..." -ForegroundColor Cyan
         $DockerComposeDir = Join-Path $env:USERPROFILE "Docker\docker-compose"
 
         if (-not (Test-Path $DockerComposeDir)) {
           Write-Host "Error: Docker compose directory not found at $DockerComposeDir" -ForegroundColor Red
-          Write-Host "Please run 'Clone/Refresh Docker Repo' first to set up the directory structure." -ForegroundColor Yellow
           break
         }
 
