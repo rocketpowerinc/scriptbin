@@ -65,7 +65,7 @@ while :; do
   # Use gum to pick a file within the cloned dir
   selected_file="$(gum file "$DOWNLOAD_PATH" || true)"
 
-  if [[ -z "${selected_file:-}" ]]; then
+  if [ -z "${selected_file:-}" ]; then
     echo -e "${YELLOW}No file selected. Exiting...${RESET}"
     break
   fi
@@ -84,16 +84,20 @@ while :; do
     else
       echo -e "${YELLOW}bash not found; cannot execute .sh files automatically.${RESET}"
     fi
-  echo
-  printf "%s" "Do you want to run/select another script? (Y/n) "
-  IFS= read -r answer || true
-  [[ "${answer:-}" =~ ^[Nn]$ ]] && break
+    echo
+    printf "%s" "Do you want to run/select another script? (Y/n) "
+    IFS= read -r answer || true
+    case "${answer:-}" in
+      [Nn]) break;;
+    esac
   else
     echo -e "${GREEN}Selected file: $selected_file${RESET}"
     echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
-  echo
-  printf "%s" "Do you want to select another file? (Y/n) "
-  IFS= read -r answer || true
-  [[ "${answer:-}" =~ ^[Nn]$ ]] && break
+    echo
+    printf "%s" "Do you want to select another file? (Y/n) "
+    IFS= read -r answer || true
+    case "${answer:-}" in
+      [Nn]) break;;
+    esac
   fi
 done
