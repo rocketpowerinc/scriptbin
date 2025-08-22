@@ -56,7 +56,7 @@ git clone --depth=1 "$REPO_URL" "$DOWNLOAD_PATH"
 echo -e "${GREEN}Temp Dotfiles folder cloned/refreshed successfully!${RESET}"
 echo -e "${MAGENTA}Please select a pwr-path script to place your selected dotfile configs${RESET}"
 echo -e "${BLUE}Press Enter to continue...${RESET}"
-read -r _
+read -r dummy
 
 # --- main loop ----------------------------------------------------------------
 while :; do
