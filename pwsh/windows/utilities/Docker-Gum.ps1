@@ -183,9 +183,11 @@ do {
 
         # Ask if user wants to deploy another container
         Write-Host ""
-        Write-Host "Do you want to deploy another container? (y/N)" -ForegroundColor Yellow
+        Write-Host "Do you want to deploy another container? (Y/n)" -ForegroundColor Yellow
         $deployAnother = Read-Host
-        if ($deployAnother -notmatch "^[yY]") {
+        if ($deployAnother -eq "" -or $deployAnother -match "^[yY]") {
+          # continue loop
+        } else {
           break
         }
       } while ($true)
