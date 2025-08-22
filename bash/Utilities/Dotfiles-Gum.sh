@@ -73,7 +73,8 @@ while :; do
   # Determine extension (lowercased)
   filename="${selected_file##*/}"
   ext="${filename##*.}"
-  ext="${ext,,}"  # lowercase
+  # lowercase in a portable way (works on older bash: e.g. macOS /bin/bash)
+  ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 
   if [[ "$ext" == "sh" ]]; then
     if command -v bash >/dev/null 2>&1; then
