@@ -62,7 +62,6 @@ if (Test-Path $boilerplateDir) {
 
 Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
 Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
-Write-Host ""
 Write-Host "Press Enter to continue..." -ForegroundColor Blue
 [void][System.Console]::ReadLine()
 
