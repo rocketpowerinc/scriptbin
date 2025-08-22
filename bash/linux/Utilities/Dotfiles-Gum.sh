@@ -75,20 +75,20 @@ while :; do
   ext="${filename##*.}"
   ext="${ext,,}"  # lowercase
 
-  if [[ "$ext" == "ps1" ]]; then
-    if command -v pwsh >/dev/null 2>&1; then
-      echo -e "${CYAN}Running PowerShell script: $selected_file${RESET}"
-      pwsh -NoLogo -NoProfile -File "$selected_file"
+  if [[ "$ext" == "sh" ]]; then
+    if command -v bash >/dev/null 2>&1; then
+      echo -e "${CYAN}Running Bash script: $selected_file${RESET}"
+      bash -- "$selected_file"
       echo -e "${GREEN}Script execution completed.${RESET}"
     else
-      echo -e "${YELLOW}pwsh not found; cannot execute .ps1 files automatically.${RESET}"
+      echo -e "${YELLOW}bash not found; cannot execute .sh files automatically.${RESET}"
     fi
     echo
     read -rp "Do you want to run/select another script? (Y/n) " answer || true
     [[ "${answer:-}" =~ ^[Nn]$ ]] && break
   else
     echo -e "${GREEN}Selected file: $selected_file${RESET}"
-    echo -e "${YELLOW}This is not a PowerShell script (.ps1), so it won't be executed automatically.${RESET}"
+    echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
     echo
     read -rp "Do you want to select another file? (Y/n) " answer || true
     [[ "${answer:-}" =~ ^[Nn]$ ]] && break
