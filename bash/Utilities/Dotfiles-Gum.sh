@@ -2,7 +2,7 @@
 set -euo pipefail
 
 #*Tags:
-# Name: <script name>.sh
+# Name: Dotfiles-Gum.sh
 # Shell: bash pwsh zsh fish
 # Platforms: Mac Linux Server WSL Docker
 # Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Asus Razor Logitech Nvidia Android
