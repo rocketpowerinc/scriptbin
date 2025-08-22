@@ -59,14 +59,14 @@ if (Test-Path $boilerplateDir) {
   Remove-Item -Recurse -Force $boilerplateDir
 }
 
-# Clear screen completely and reset cursor
-clear-host
-Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
-Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
 
 # Main loop for file selection and execution
 do {
+  # Clear screen completely and reset cursor to top
   clear-host
+  Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
+  Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
+
   # Use gum file to select a file
   $selectedFile = gum file $DownloadPath
 
