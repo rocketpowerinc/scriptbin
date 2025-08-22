@@ -60,7 +60,7 @@ if (Test-Path $boilerplateDir) {
 }
 
 # Clear screen completely and reset cursor
-cls
+clear-host
 Write-Host "Temp Dotfiles folder cloned/refreshed successfully!" -ForegroundColor Green
 Write-Host "Please Select a pwr-path script to place your selected dotfile configs" -ForegroundColor Magenta
 

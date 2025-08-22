@@ -12,7 +12,7 @@
 # Privileges: admin
 
 # Function to clone/refresh the Docker repo and update docker-compose files
-function Clone-RefreshDockerRepo {
+function CloneRefreshDockerRepo {
   Write-Host ">>> Cloning Docker repo..." -ForegroundColor Cyan
   # Config
   $RepoUrl = "https://github.com/rocketpowerinc/docker.git"
@@ -129,11 +129,11 @@ do {
     }
 
     "Clone/Refresh Docker Repo" {
-      Clone-RefreshDockerRepo
+      CloneRefreshDockerRepo
     }
 
     "Deploy Containers" {
-      Clone-RefreshDockerRepo
+      CloneRefreshDockerRepo
       do {
         Write-Host ">>> Selecting Docker Compose file..." -ForegroundColor Cyan
         $DockerComposeDir = Join-Path $env:USERPROFILE "Docker\docker-compose"
