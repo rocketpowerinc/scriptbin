@@ -1,3 +1,11 @@
+# --- prompt function to avoid unset variable issues ---
+prompt_user() {
+  # $1: prompt message
+  local ans=""
+  printf "%s" "$1"
+  read -r ans || true
+  printf '%s' "${ans:-}"
+}
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -85,20 +93,16 @@ while :; do
       echo -e "${YELLOW}bash not found; cannot execute .sh files automatically.${RESET}"
     fi
     echo
-    printf "%s" "Do you want to run/select another script? (Y/n) "
-    answer=""
-    read -r answer || true
-    case "${answer:-}" in
+    answer=$(prompt_user "Do you want to run/select another script? (Y/n) ")
+    case "$answer" in
       [Nn]) break;;
     esac
   else
     echo -e "${GREEN}Selected file: $selected_file${RESET}"
     echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
     echo
-    printf "%s" "Do you want to select another file? (Y/n) "
-    answer=""
-    read -r answer || true
-    case "${answer:-}" in
+    answer=$(prompt_user "Do you want to select another file? (Y/n) ")
+    case "$answer" in
       [Nn]) break;;
     esac
   fi
