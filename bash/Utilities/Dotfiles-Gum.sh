@@ -86,7 +86,7 @@ while :; do
     fi
     echo
     printf "%s" "Do you want to run/select another script? (Y/n) "
-    IFS= read -r answer || true
+    read -r answer || answer=""
     case "${answer:-}" in
       [Nn]) break;;
     esac
@@ -95,7 +95,7 @@ while :; do
     echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
     echo
     printf "%s" "Do you want to select another file? (Y/n) "
-    IFS= read -r answer || true
+    read -r answer || answer=""
     case "${answer:-}" in
       [Nn]) break;;
     esac
