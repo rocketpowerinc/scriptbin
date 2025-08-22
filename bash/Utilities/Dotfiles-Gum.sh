@@ -84,14 +84,16 @@ while :; do
     else
       echo -e "${YELLOW}bash not found; cannot execute .sh files automatically.${RESET}"
     fi
-    echo
-    read -rp "Do you want to run/select another script? (Y/n) " answer || true
-    [[ "${answer:-}" =~ ^[Nn]$ ]] && break
+  echo
+  printf "%s" "Do you want to run/select another script? (Y/n) "
+  IFS= read -r answer || true
+  [[ "${answer:-}" =~ ^[Nn]$ ]] && break
   else
     echo -e "${GREEN}Selected file: $selected_file${RESET}"
     echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
-    echo
-    read -rp "Do you want to select another file? (Y/n) " answer || true
-    [[ "${answer:-}" =~ ^[Nn]$ ]] && break
+  echo
+  printf "%s" "Do you want to select another file? (Y/n) "
+  IFS= read -r answer || true
+  [[ "${answer:-}" =~ ^[Nn]$ ]] && break
   fi
 done
