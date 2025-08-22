@@ -66,6 +66,7 @@ Write-Host "Please Select a pwr-path script to place your selected dotfile confi
 
 # Main loop for file selection and execution
 do {
+  clear-host
   # Use gum file to select a file
   $selectedFile = gum file $DownloadPath
 
