@@ -65,7 +65,7 @@ if (Test-Path $boilerplateDir) {
 # Main loop for file selection and execution
 do {
   # Clear screen completely and reset cursor to top
-  Start-Sleep 2s
+  Start-Sleep 4s
   clear-host
 
   # Use gum file to select a file
