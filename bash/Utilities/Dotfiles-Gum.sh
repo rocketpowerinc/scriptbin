@@ -86,7 +86,8 @@ while :; do
     fi
     echo
     printf "%s" "Do you want to run/select another script? (Y/n) "
-    read -r answer || answer=""
+    answer=""
+    read -r answer || true
     case "${answer:-}" in
       [Nn]) break;;
     esac
@@ -95,7 +96,8 @@ while :; do
     echo -e "${YELLOW}This is not a Bash script (.sh), so it won't be executed automatically.${RESET}"
     echo
     printf "%s" "Do you want to select another file? (Y/n) "
-    read -r answer || answer=""
+    answer=""
+    read -r answer || true
     case "${answer:-}" in
       [Nn]) break;;
     esac
