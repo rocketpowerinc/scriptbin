@@ -49,7 +49,7 @@ git clone --depth=1 "$REPO_URL" "$DOWNLOAD_PATH"
 
 # --- clean extras -------------------------------------------------------------
 [[ -d "$DOWNLOAD_PATH/.vscode"      ]] && { echo -e "${YELLOW}Removing .vscode directory...${RESET}";      rm -rf -- "$DOWNLOAD_PATH/.vscode"; }
-[[ -f "$DOWNLOAD_PATH/readme.md"    ]] && { echo -e "${YELLOW}Removing readme.md file...${RESET}";         rm -f  -- "$DOWNLOAD_PATH/readme.md"; }
+[[ -f "$DOWNLOAD_PATH/README.md"    ]] && { echo -e "${YELLOW}Removing readme.md file...${RESET}";         rm -f  -- "$DOWNLOAD_PATH/readme.md"; }
 [[ -d "$DOWNLOAD_PATH/.git"         ]] && { echo -e "${YELLOW}Removing .git directory...${RESET}";         rm -rf -- "$DOWNLOAD_PATH/.git"; }
 [[ -d "$DOWNLOAD_PATH/.boilerplate" ]] && { echo -e "${YELLOW}Removing .boilerplate directory...${RESET}"; rm -rf -- "$DOWNLOAD_PATH/.boilerplate"; }
 
