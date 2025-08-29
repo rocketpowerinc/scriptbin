@@ -72,6 +72,7 @@ while :; do
     --height 15)
 
   case "$choice" in
+    "Install Docker Desktop (docker engine and compose included)")
       echo "Place Holder..."; read -r _
       ;;
     "Install LazyDocker")
@@ -105,6 +106,9 @@ while :; do
     "Exit")
       echo "Goodbye!"
       exit 0
+      ;;
+    *)
+      echo "Invalid option. Press Enter to continue..."; read -r _
       ;;
   esac
 done
