@@ -63,7 +63,7 @@ clone_refresh_docker_repo() {
 # --- main gum menu loop ---
 while :; do
   choice=$(gum choose \
-    "Install Docker Desktop (docker engine and compose included)" \
+    "Install Docker" \
     "Install LazyDocker" \
     "Clone/Refresh Docker Repo" \
     "Deploy Containers" \
