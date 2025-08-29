@@ -50,7 +50,7 @@ clone_refresh_docker_repo() {
       cp -r "$folder"* "$dest_folder" 2>/dev/null || true
       echo "Copied: $(basename "$folder") contents to $dest_folder"
     done
-    echo "Docker-compose files moved successfully (existing files preserved, matching files overwritten)"
+    echo "$(tput setaf 2)Docker-compose files moved successfully (existing files preserved, matching files overwritten)$(tput sgr0)"
   else
     echo "Warning: docker-compose folder not found in cloned repository"
   fi
@@ -97,7 +97,7 @@ while :; do
         compose_dir="$(dirname "$selected_file")"
         echo "Deploying containers from: $selected_file"
         echo "Changing directory to: $compose_dir"
-        (cd "$compose_dir" && docker compose up -d && echo "Containers deployed successfully!" || echo "Error deploying containers.")
+        (cd "$compose_dir" && sudo docker compose up -d && echo "Containers deployed successfully!" || echo "Error deploying containers.")
         echo
         read -rp "Do you want to deploy another container? (Y/n) " deploy_another
         [[ -z "$deploy_another" || "$deploy_another" =~ ^[yY] ]] || break
