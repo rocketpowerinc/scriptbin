@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+
 
 #*Tags:
 # Name: <script name>.sh

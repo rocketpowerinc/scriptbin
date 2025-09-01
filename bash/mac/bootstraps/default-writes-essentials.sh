@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # Disable natural scrolling
 defaults write -g com.apple.swipescrolldirection -bool false

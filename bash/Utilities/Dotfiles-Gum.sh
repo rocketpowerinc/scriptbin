@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-set -euo pipefail
+
 
 #*Tags:
 # Name: Dotfiles-Gum.sh
-# Shell: bash pwsh zsh fish
+# Shell: bash zsh fish
 # Platforms: Mac Linux Server WSL Docker
 # Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Asus Razor Logitech Nvidia Android
 # Distros: Ubuntu Debian Fedora Arch NixOS Opensuse Atomic
@@ -13,10 +13,8 @@ set -euo pipefail
 # PackageManagers: apt dnf pacman zypper nix brew flatpak snap go python
 # DesktopEnvironments: Gnome kde hyprland xfce
 # Type: Bootstrap Appbundle Utility
-# Categories: development virtualization containerization customization productivity backups bookmarks gaming emulation family doomsday Security Privacy
-# Privileges: admin user
-# Application: tailscale vim github
-# ThirdParty: Titus
+# Categories: development customization
+# Privileges: admin
 #*############################################
 
 
