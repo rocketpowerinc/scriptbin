@@ -70,8 +70,8 @@ do {
   # Clear screen completely and reset cursor to top
   clear-host
 
-  # Use gum file to select a file
-  $selectedFile = gum file $DownloadPath
+  # Use gum file to select a file with increased height
+  $selectedFile = gum file --height 20 $DownloadPath
 
   if (-not $selectedFile) {
     Write-Host "No file selected. Exiting..." -ForegroundColor Yellow
