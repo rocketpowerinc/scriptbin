@@ -63,7 +63,7 @@ while :; do
   clear
 
   # Use gum to pick a file within the cloned dir
-  selected_file="$(gum file "$DOWNLOAD_PATH" || true)"
+  selected_file="$(gum file --height 20 "$DOWNLOAD_PATH" || true)"
 
   if [ -z "${selected_file:-}" ]; then
     echo -e "${YELLOW}No file selected. Exiting...${RESET}"
