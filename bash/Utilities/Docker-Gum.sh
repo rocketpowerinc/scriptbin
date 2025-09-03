@@ -2,7 +2,7 @@
 
 
 #*Tags:
-# Name: <script name>.sh
+# Name: Docker-Gum.sh
 # Shell: bash pwsh zsh fish
 # Platforms: Mac Linux Server WSL Docker
 # Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad Asus Razor Logitech Nvidia Android
