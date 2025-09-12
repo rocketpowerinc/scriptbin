@@ -155,10 +155,10 @@ do {
 
         Write-Host "Found $($composeFiles.Count) docker-compose files" -ForegroundColor Green
 
-        # Create relative paths for display (remove the base path for cleaner display)
+        # Create relative paths for display (remove the base path for cleaner display) and sort alphabetically
         $displayFiles = $composeFiles | ForEach-Object { 
           $_.Replace($DockerComposeDir, "").TrimStart('\') 
-        }
+        } | Sort-Object
 
         # Use gum choose to select from the list
         $selectedDisplay = ($displayFiles -join "`n") | gum choose --height 20
