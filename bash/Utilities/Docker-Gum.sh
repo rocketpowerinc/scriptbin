@@ -86,8 +86,36 @@ while :; do
       while :; do
         echo ">>> Selecting Docker Compose file..."
         [ -d "$DOCKER_COMPOSE_DEST" ] || { echo "Error: Docker compose directory not found at $DOCKER_COMPOSE_DEST"; break; }
-        selected_file=$(gum file "$DOCKER_COMPOSE_DEST" || true)
-        [ -n "$selected_file" ] || { echo "No file selected. Returning to main menu..."; break; }
+
+        # Find all docker-compose files recursively
+        mapfile -t compose_files < <(find "$DOCKER_COMPOSE_DEST" -name "docker-compose*.yml" -o -name "docker-compose*.yaml" 2>/dev/null)
+
+        if [ ${#compose_files[@]} -eq 0 ]; then
+          echo "No docker-compose files found in $DOCKER_COMPOSE_DEST"
+          break
+        fi
+
+        echo "Found ${#compose_files[@]} docker-compose files"
+
+        # Create relative paths for display and sort alphabetically
+        declare -a display_files
+        for file in "${compose_files[@]}"; do
+          relative_path="${file#$DOCKER_COMPOSE_DEST/}"
+          display_files+=("$relative_path")
+        done
+
+        # Sort the display files array
+        IFS=$'\n' sorted_files=($(sort <<<"${display_files[*]}"))
+        unset IFS
+
+        # Use gum choose to select from the list
+        selected_display=$(printf '%s\n' "${sorted_files[@]}" | gum choose --height 20)
+
+        [ -n "$selected_display" ] || { echo "No file selected. Returning to main menu..."; break; }
+
+        # Get the full path of the selected file
+        selected_file="$DOCKER_COMPOSE_DEST/$selected_display"
+
         file_name="$(basename "$selected_file")"
         if [[ ! "$file_name" =~ docker-compose.*\.ya?ml$ ]]; then
           echo "Warning: Selected file '$file_name' doesn't appear to be a docker-compose file."
