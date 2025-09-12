@@ -144,7 +144,8 @@ do {
         }
 
         # Find all docker-compose files recursively and use gum choose to select one
-        $composeFiles = Get-ChildItem -Path $DockerComposeDir -Recurse -Filter "docker-compose*.yml" | ForEach-Object { $_.FullName }
+        $composeFiles = @()
+        $composeFiles += Get-ChildItem -Path $DockerComposeDir -Recurse -Filter "docker-compose*.yml" | ForEach-Object { $_.FullName }
         $composeFiles += Get-ChildItem -Path $DockerComposeDir -Recurse -Filter "docker-compose*.yaml" | ForEach-Object { $_.FullName }
 
         if ($composeFiles.Count -eq 0) {
@@ -152,13 +153,15 @@ do {
           break
         }
 
+        Write-Host "Found $($composeFiles.Count) docker-compose files" -ForegroundColor Green
+
         # Create relative paths for display (remove the base path for cleaner display)
         $displayFiles = $composeFiles | ForEach-Object { 
           $_.Replace($DockerComposeDir, "").TrimStart('\') 
         }
 
         # Use gum choose to select from the list
-        $selectedDisplay = $displayFiles | gum choose --height 20
+        $selectedDisplay = ($displayFiles -join "`n") | gum choose --height 20
 
         if (-not $selectedDisplay) {
           Write-Host "No file selected. Returning to main menu..." -ForegroundColor Yellow
@@ -166,9 +169,7 @@ do {
         }
 
         # Get the full path of the selected file
-        $selectedFile = Join-Path $DockerComposeDir $selectedDisplay
-
-        # Check if the selected file is a docker-compose file
+        $selectedFile = Join-Path $DockerComposeDir $selectedDisplay        # Check if the selected file is a docker-compose file
         $fileName = Split-Path -Leaf $selectedFile
         if ($fileName -notmatch "docker-compose.*\.ya?ml$") {
           Write-Host "Warning: Selected file '$fileName' doesn't appear to be a docker-compose file." -ForegroundColor Yellow
