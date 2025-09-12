@@ -68,22 +68,62 @@ Write-Host "Press Enter to continue..." -ForegroundColor Blue
 # Main loop for file selection and execution
 do {
   # Clear screen completely and reset cursor to top
-  clear-host
+  Clear-Host
 
-  # Use gum file to select a file with increased height
-  $selectedFile = gum file --height 20 $DownloadPath
+  # Find all .ps1 and .sh script files recursively
+  $scriptFiles = @()
+  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.ps1" | ForEach-Object { $_.FullName }
+  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.sh" | ForEach-Object { $_.FullName }
 
-  if (-not $selectedFile) {
+  if ($scriptFiles.Count -eq 0) {
+    Write-Host "No .ps1 or .sh script files found in $DownloadPath" -ForegroundColor Yellow
+    break
+  }
+
+  Write-Host "Found $($scriptFiles.Count) script files (.ps1 and .sh)" -ForegroundColor Green
+
+  # Create relative paths for display and sort alphabetically
+  $displayFiles = $scriptFiles | ForEach-Object { 
+    $_.Replace($DownloadPath, "").TrimStart('\') 
+  } | Sort-Object
+
+  # Use gum choose to select from the list
+  $selectedDisplay = $displayFiles | Write-Output | gum choose --height 20
+
+  if (-not $selectedDisplay) {
     Write-Host "No file selected. Exiting..." -ForegroundColor Yellow
     break
   }
 
-  # Check if the selected file is a PowerShell script
+  # Get the full path of the selected file
+  $selectedFile = Join-Path $DownloadPath $selectedDisplay
+
+  # Check if the selected file is a PowerShell or bash script
   $fileExtension = [System.IO.Path]::GetExtension($selectedFile)
   if ($fileExtension -eq ".ps1") {
     Write-Host "Running PowerShell script: $selectedFile" -ForegroundColor Cyan
     pwsh -File $selectedFile
     Write-Host "Script execution completed." -ForegroundColor Green
+    Write-Host ""
+    $runAnother = Read-Host "Do you want to run another script? (Y/n)"
+    if ($runAnother -match "^[nN]") {
+      break
+    }
+  }
+  elseif ($fileExtension -eq ".sh") {
+    if (Get-Command bash -ErrorAction SilentlyContinue) {
+      Write-Host "Running Bash script: $selectedFile" -ForegroundColor Cyan
+      bash $selectedFile
+      Write-Host "Script execution completed." -ForegroundColor Green
+    }
+    elseif (Get-Command wsl -ErrorAction SilentlyContinue) {
+      Write-Host "Running Bash script via WSL: $selectedFile" -ForegroundColor Cyan
+      wsl bash $selectedFile
+      Write-Host "Script execution completed." -ForegroundColor Green
+    }
+    else {
+      Write-Host "Bash not found. Cannot execute .sh files automatically." -ForegroundColor Yellow
+    }
     Write-Host ""
     $runAnother = Read-Host "Do you want to run another script? (Y/n)"
     if ($runAnother -match "^[nN]") {
