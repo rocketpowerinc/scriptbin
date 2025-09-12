@@ -64,9 +64,13 @@ while :; do
   declare -a all_files=()  # Initialize empty array each iteration
   while IFS= read -r -d '' file; do
     if [ -f "$file" ]; then
-      # Check if file has .sh or .ps1 extension
+      # Check if file has .sh or .ps1 extension and exclude pwsh/profile.ps1
       case "${file,,}" in
         *.sh|*.ps1)
+          # Skip pwsh/profile.ps1
+          if [[ "$file" =~ pwsh/profile\.ps1$ ]]; then
+            continue
+          fi
           relative_path="${file#$DOWNLOAD_PATH/}"
           all_files+=("$relative_path")
           ;;

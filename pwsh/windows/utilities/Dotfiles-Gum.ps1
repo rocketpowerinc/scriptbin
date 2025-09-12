@@ -70,10 +70,19 @@ do {
   # Clear screen completely and reset cursor to top
   Clear-Host
 
-  # Find all .ps1 and .sh script files recursively
+  # Find all .ps1 and .sh script files recursively, excluding hidden/unwanted directories
   $scriptFiles = @()
-  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.ps1" | ForEach-Object { $_.FullName }
-  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.sh" | ForEach-Object { $_.FullName }
+  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.ps1" | Where-Object { 
+    $_.FullName -notmatch '[\\/]\.vscode[\\/]' -and 
+    $_.FullName -notmatch '[\\/]\.git[\\/]' -and 
+    $_.FullName -notmatch '[\\/]\.boilerplate[\\/]' -and
+    $_.FullName -notmatch '[\\/]pwsh[\\/]profile\.ps1$'
+  } | ForEach-Object { $_.FullName }
+  $scriptFiles += Get-ChildItem -Path $DownloadPath -Recurse -Filter "*.sh" | Where-Object { 
+    $_.FullName -notmatch '[\\/]\.vscode[\\/]' -and 
+    $_.FullName -notmatch '[\\/]\.git[\\/]' -and 
+    $_.FullName -notmatch '[\\/]\.boilerplate[\\/]'
+  } | ForEach-Object { $_.FullName }
 
   if ($scriptFiles.Count -eq 0) {
     Write-Host "No .ps1 or .sh script files found in $DownloadPath" -ForegroundColor Yellow
@@ -88,7 +97,7 @@ do {
   } | Sort-Object
 
   # Use gum choose to select from the list
-  $selectedDisplay = $displayFiles | Write-Output | gum choose --height 20
+  $selectedDisplay = ($displayFiles -join "`n") | gum choose --height 20
 
   if (-not $selectedDisplay) {
     Write-Host "No file selected. Exiting..." -ForegroundColor Yellow
