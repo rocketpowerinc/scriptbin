@@ -60,13 +60,37 @@ read -r dummy
 while :; do
   clear
 
-  # Use gum to pick a file within the cloned dir
-  selected_file="$(gum file --height 20 "$DOWNLOAD_PATH" || true)"
+  # Find all .sh and .ps1 script files recursively and create relative paths for display
+  declare -a all_files
+  while IFS= read -r -d '' file; do
+    if [ -f "$file" ]; then
+      # Check if file has .sh or .ps1 extension
+      case "${file,,}" in
+        *.sh|*.ps1)
+          relative_path="${file#$DOWNLOAD_PATH/}"
+          all_files+=("$relative_path")
+          ;;
+      esac
+    fi
+  done < <(find "$DOWNLOAD_PATH" -type f -print0 2>/dev/null | sort -z)
 
-  if [ -z "${selected_file:-}" ]; then
+  if [ ${#all_files[@]} -eq 0 ]; then
+    echo -e "${YELLOW}No .sh or .ps1 script files found in $DOWNLOAD_PATH${RESET}"
+    break
+  fi
+
+  echo "Found ${#all_files[@]} script files (.sh and .ps1)"
+
+  # Use gum choose to select from the list
+  selected_relative=$(printf '%s\n' "${all_files[@]}" | gum choose --height 20)
+
+  if [ -z "${selected_relative:-}" ]; then
     echo -e "${YELLOW}No file selected. Exiting...${RESET}"
     break
   fi
+
+  # Get the full path of the selected file
+  selected_file="$DOWNLOAD_PATH/$selected_relative"
 
   # Determine extension (lowercased)
   filename="${selected_file##*/}"
@@ -81,6 +105,24 @@ while :; do
       echo -e "${GREEN}Script execution completed.${RESET}"
     else
       echo -e "${YELLOW}bash not found; cannot execute .sh files automatically.${RESET}"
+    fi
+    echo
+    printf "%s" "Do you want to run/select another script? (Y/n) "
+    read -r answer || answer=""
+    case "${answer:-}" in
+      [Nn]) break;;
+    esac
+  elif [[ "$ext" == "ps1" ]]; then
+    if command -v pwsh >/dev/null 2>&1; then
+      echo -e "${CYAN}Running PowerShell script: $selected_file${RESET}"
+      pwsh -File "$selected_file"
+      echo -e "${GREEN}Script execution completed.${RESET}"
+    elif command -v powershell >/dev/null 2>&1; then
+      echo -e "${CYAN}Running PowerShell script: $selected_file${RESET}"
+      powershell -File "$selected_file"
+      echo -e "${GREEN}Script execution completed.${RESET}"
+    else
+      echo -e "${YELLOW}PowerShell not found; cannot execute .ps1 files automatically.${RESET}"
     fi
     echo
     printf "%s" "Do you want to run/select another script? (Y/n) "
