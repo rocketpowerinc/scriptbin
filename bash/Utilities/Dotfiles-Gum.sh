@@ -64,8 +64,9 @@ while :; do
   declare -a all_files=()  # Initialize empty array each iteration
   while IFS= read -r -d '' file; do
     if [ -f "$file" ]; then
-      # Check if file has .sh or .ps1 extension and exclude pwsh/profile.ps1
-      case "${file,,}" in
+      # Check if file has .sh or .ps1 extension and exclude pwsh/profile.ps1 (using portable lowercase conversion)
+      file_lower="$(printf '%s' "$file" | tr '[:upper:]' '[:lower:]')"
+      case "$file_lower" in
         *.sh|*.ps1)
           # Skip pwsh/profile.ps1
           if [[ "$file" =~ pwsh/profile\.ps1$ ]]; then
