@@ -88,14 +88,11 @@ while :; do
         [ -d "$DOCKER_COMPOSE_DEST" ] || { echo "Error: Docker compose directory not found at $DOCKER_COMPOSE_DEST"; break; }
 
         # Find all docker-compose files recursively and remove duplicates
-        # Use a more robust method to avoid duplicates
-        declare -A unique_files
-        while IFS= read -r -d '' file; do
-          unique_files["$file"]=1
-        done < <(find "$DOCKER_COMPOSE_DEST" \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" \) -print0 2>/dev/null)
-        
-        # Convert associative array keys to regular array and sort
-        mapfile -t compose_files < <(printf '%s\n' "${!unique_files[@]}" | sort)
+        # Use a portable method that works with older bash versions
+        compose_files=()
+        while IFS= read -r file; do
+          compose_files+=("$file")
+        done < <(find "$DOCKER_COMPOSE_DEST" \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" \) -type f 2>/dev/null | sort | uniq)
 
         if [ ${#compose_files[@]} -eq 0 ]; then
           echo "No docker-compose files found in $DOCKER_COMPOSE_DEST"
