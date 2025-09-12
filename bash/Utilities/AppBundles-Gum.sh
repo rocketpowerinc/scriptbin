@@ -18,7 +18,9 @@
 # ThirdParty: Titus
 #*############################################
 
-
+# --- colors -------------------------------------------------------------------
+# (works in most terminals)
+GREEN="\033[0;32m"; YELLOW="\033[0;33m"; MAGENTA="\033[0;35m"; BLUE="\033[0;34m"; CYAN="\033[0;36m"; RESET="\033[0m"
 
 ############* Temp CLone Repository Snippet ############
 # Config
@@ -46,13 +48,32 @@ echo -e '\033[0;32mTemp folder cloned/refreshed successfully!\033[0m'
 while :; do
   clear
 
-  # Use gum to pick a file within the cloned dir
-  selected_file="$(gum file --height 20 "$DOWNLOAD_PATH" || true)"
+  # Find all files recursively and create relative paths for display
+  declare -a all_files
+  while IFS= read -r -d '' file; do
+    if [ -f "$file" ]; then
+      relative_path="${file#$DOWNLOAD_PATH/}"
+      all_files+=("$relative_path")
+    fi
+  done < <(find "$DOWNLOAD_PATH" -type f -print0 2>/dev/null | sort -z)
 
-  if [ -z "${selected_file:-}" ]; then
-    echo -e "${YELLOW}No file selected. Exiting...${RESET}"
+  if [ ${#all_files[@]} -eq 0 ]; then
+    echo "No files found in $DOWNLOAD_PATH"
     break
   fi
+
+  echo "Found ${#all_files[@]} files"
+
+  # Use gum choose to select from the list
+  selected_relative=$(printf '%s\n' "${all_files[@]}" | gum choose --height 20)
+
+  if [ -z "${selected_relative:-}" ]; then
+    echo "No file selected. Exiting..."
+    break
+  fi
+
+  # Get the full path of the selected file
+  selected_file="$DOWNLOAD_PATH/$selected_relative"
 
   # Determine extension (lowercased)
   filename="${selected_file##*/}"
