@@ -87,8 +87,15 @@ while :; do
         echo ">>> Selecting Docker Compose file..."
         [ -d "$DOCKER_COMPOSE_DEST" ] || { echo "Error: Docker compose directory not found at $DOCKER_COMPOSE_DEST"; break; }
 
-        # Find all docker-compose files recursively
-        mapfile -t compose_files < <(find "$DOCKER_COMPOSE_DEST" -name "docker-compose*.yml" -o -name "docker-compose*.yaml" 2>/dev/null)
+        # Find all docker-compose files recursively and remove duplicates
+        # Use a more robust method to avoid duplicates
+        declare -A unique_files
+        while IFS= read -r -d '' file; do
+          unique_files["$file"]=1
+        done < <(find "$DOCKER_COMPOSE_DEST" \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" \) -print0 2>/dev/null)
+        
+        # Convert associative array keys to regular array and sort
+        mapfile -t compose_files < <(printf '%s\n' "${!unique_files[@]}" | sort)
 
         if [ ${#compose_files[@]} -eq 0 ]; then
           echo "No docker-compose files found in $DOCKER_COMPOSE_DEST"
@@ -97,19 +104,15 @@ while :; do
 
         echo "Found ${#compose_files[@]} docker-compose files"
 
-        # Create relative paths for display and sort alphabetically
+        # Create relative paths for display
         declare -a display_files
         for file in "${compose_files[@]}"; do
           relative_path="${file#$DOCKER_COMPOSE_DEST/}"
           display_files+=("$relative_path")
         done
 
-        # Sort the display files array
-        IFS=$'\n' sorted_files=($(sort <<<"${display_files[*]}"))
-        unset IFS
-
         # Use gum choose to select from the list
-        selected_display=$(printf '%s\n' "${sorted_files[@]}" | gum choose --height 20)
+        selected_display=$(printf '%s\n' "${display_files[@]}" | gum choose --height 20)
 
         [ -n "$selected_display" ] || { echo "No file selected. Returning to main menu..."; break; }
 
