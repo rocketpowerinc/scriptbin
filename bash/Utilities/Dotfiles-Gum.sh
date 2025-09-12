@@ -111,6 +111,7 @@ while :; do
     read -r answer || answer=""
     case "${answer:-}" in
       [Nn]) break;;
+      *) continue;;
     esac
   elif [[ "$ext" == "ps1" ]]; then
     if command -v pwsh >/dev/null 2>&1; then
@@ -129,6 +130,7 @@ while :; do
     read -r answer || answer=""
     case "${answer:-}" in
       [Nn]) break;;
+      *) continue;;
     esac
   else
     echo -e "${GREEN}Selected file: $selected_file${RESET}"
@@ -138,6 +140,7 @@ while :; do
     read -r answer || answer=""
     case "${answer:-}" in
       [Nn]) break;;
+      *) continue;;
     esac
   fi
 done
