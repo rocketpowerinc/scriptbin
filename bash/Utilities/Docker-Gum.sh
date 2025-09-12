@@ -83,30 +83,36 @@ while :; do
       ;;
     "Deploy Containers")
       clone_refresh_docker_repo
+      
+      echo ">>> Scanning for Docker Compose files..."
+      [ -d "$DOCKER_COMPOSE_DEST" ] || { echo "Error: Docker compose directory not found at $DOCKER_COMPOSE_DEST"; continue; }
+
+      # Find all docker-compose files recursively and remove duplicates
+      # Use a portable method that works with older bash versions
+      compose_files=()
+      while IFS= read -r file; do
+        compose_files+=("$file")
+      done < <(find "$DOCKER_COMPOSE_DEST" \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" \) -type f 2>/dev/null | sort | uniq)
+
+      if [ ${#compose_files[@]} -eq 0 ]; then
+        echo "No docker-compose files found in $DOCKER_COMPOSE_DEST"
+        echo "Press Enter to continue..."
+        read -r _
+        continue
+      fi
+
+      echo "Found ${#compose_files[@]} docker-compose files"
+
+      # Create relative paths for display
+      declare -a display_files
+      for file in "${compose_files[@]}"; do
+        relative_path="${file#$DOCKER_COMPOSE_DEST/}"
+        display_files+=("$relative_path")
+      done
+
       while :; do
         echo ">>> Selecting Docker Compose file..."
-        [ -d "$DOCKER_COMPOSE_DEST" ] || { echo "Error: Docker compose directory not found at $DOCKER_COMPOSE_DEST"; break; }
-
-        # Find all docker-compose files recursively and remove duplicates
-        # Use a portable method that works with older bash versions
-        compose_files=()
-        while IFS= read -r file; do
-          compose_files+=("$file")
-        done < <(find "$DOCKER_COMPOSE_DEST" \( -name "docker-compose*.yml" -o -name "docker-compose*.yaml" \) -type f 2>/dev/null | sort | uniq)
-
-        if [ ${#compose_files[@]} -eq 0 ]; then
-          echo "No docker-compose files found in $DOCKER_COMPOSE_DEST"
-          break
-        fi
-
-        echo "Found ${#compose_files[@]} docker-compose files"
-
-        # Create relative paths for display
-        declare -a display_files
-        for file in "${compose_files[@]}"; do
-          relative_path="${file#$DOCKER_COMPOSE_DEST/}"
-          display_files+=("$relative_path")
-        done
+        echo "Available: ${#display_files[@]} docker-compose files"
 
         # Use gum choose to select from the list
         selected_display=$(printf '%s\n' "${display_files[@]}" | gum choose --height 20)
