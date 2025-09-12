@@ -42,32 +42,31 @@ git clone "$REPO_URL" "$DOWNLOAD_PATH"
 
 echo -e '\033[0;32mTemp folder cloned/refreshed successfully!\033[0m'
 
+# Find all .sh and .ps1 script files recursively and create relative paths for display
+declare -a all_files
+while IFS= read -r -d '' file; do
+  if [ -f "$file" ]; then
+    # Check if file has .sh or .ps1 extension (using portable lowercase conversion)
+    file_lower="$(printf '%s' "$file" | tr '[:upper:]' '[:lower:]')"
+    case "$file_lower" in
+      *.sh|*.ps1)
+        relative_path="${file#$DOWNLOAD_PATH/}"
+        all_files+=("$relative_path")
+        ;;
+    esac
+  fi
+done < <(find "$DOWNLOAD_PATH" -type f -print0 2>/dev/null | sort -z)
 
+if [ ${#all_files[@]} -eq 0 ]; then
+  echo "No .sh or .ps1 script files found in $DOWNLOAD_PATH"
+  exit 1
+fi
+
+echo "Found ${#all_files[@]} script files (.sh and .ps1)"
 
 # --- main loop ----------------------------------------------------------------
 while :; do
   clear
-
-  # Find all .sh and .ps1 script files recursively and create relative paths for display
-  declare -a all_files
-  while IFS= read -r -d '' file; do
-    if [ -f "$file" ]; then
-      # Check if file has .sh or .ps1 extension (using portable lowercase conversion)
-      file_lower="$(printf '%s' "$file" | tr '[:upper:]' '[:lower:]')"
-      case "$file_lower" in
-        *.sh|*.ps1)
-          relative_path="${file#$DOWNLOAD_PATH/}"
-          all_files+=("$relative_path")
-          ;;
-      esac
-    fi
-  done < <(find "$DOWNLOAD_PATH" -type f -print0 2>/dev/null | sort -z)
-
-  if [ ${#all_files[@]} -eq 0 ]; then
-    echo "No .sh or .ps1 script files found in $DOWNLOAD_PATH"
-    break
-  fi
-
   echo "Found ${#all_files[@]} script files (.sh and .ps1)"
 
   # Use gum choose to select from the list
