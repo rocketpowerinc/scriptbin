@@ -143,13 +143,30 @@ do {
           break
         }
 
-        # Use gum file to select a docker-compose.yml file
-        $selectedFile = gum file $DockerComposeDir --file
+        # Find all docker-compose files recursively and use gum choose to select one
+        $composeFiles = Get-ChildItem -Path $DockerComposeDir -Recurse -Filter "docker-compose*.yml" | ForEach-Object { $_.FullName }
+        $composeFiles += Get-ChildItem -Path $DockerComposeDir -Recurse -Filter "docker-compose*.yaml" | ForEach-Object { $_.FullName }
 
-        if (-not $selectedFile) {
+        if ($composeFiles.Count -eq 0) {
+          Write-Host "No docker-compose files found in $DockerComposeDir" -ForegroundColor Red
+          break
+        }
+
+        # Create relative paths for display (remove the base path for cleaner display)
+        $displayFiles = $composeFiles | ForEach-Object { 
+          $_.Replace($DockerComposeDir, "").TrimStart('\') 
+        }
+
+        # Use gum choose to select from the list
+        $selectedDisplay = $displayFiles | gum choose --height 20
+
+        if (-not $selectedDisplay) {
           Write-Host "No file selected. Returning to main menu..." -ForegroundColor Yellow
           break
         }
+
+        # Get the full path of the selected file
+        $selectedFile = Join-Path $DockerComposeDir $selectedDisplay
 
         # Check if the selected file is a docker-compose file
         $fileName = Split-Path -Leaf $selectedFile
@@ -187,7 +204,8 @@ do {
         $deployAnother = Read-Host
         if ($deployAnother -eq "" -or $deployAnother -match "^[yY]") {
           # continue loop
-        } else {
+        }
+        else {
           break
         }
       } while ($true)
