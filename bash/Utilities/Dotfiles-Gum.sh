@@ -61,7 +61,7 @@ while :; do
   clear
 
   # Find all .sh and .ps1 script files recursively and create relative paths for display
-  declare -a all_files
+  declare -a all_files=()  # Initialize empty array each iteration
   while IFS= read -r -d '' file; do
     if [ -f "$file" ]; then
       # Check if file has .sh or .ps1 extension
