@@ -52,8 +52,9 @@ while :; do
   declare -a all_files
   while IFS= read -r -d '' file; do
     if [ -f "$file" ]; then
-      # Check if file has .sh or .ps1 extension
-      case "${file,,}" in
+      # Check if file has .sh or .ps1 extension (using portable lowercase conversion)
+      file_lower="$(printf '%s' "$file" | tr '[:upper:]' '[:lower:]')"
+      case "$file_lower" in
         *.sh|*.ps1)
           relative_path="${file#$DOWNLOAD_PATH/}"
           all_files+=("$relative_path")
