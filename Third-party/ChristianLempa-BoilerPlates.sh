@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 #*Tags:
 # Name: ChristianLempa-BoilerPlates.sh
