@@ -21,6 +21,7 @@ set -euo pipefail
 
 curl -fsSL https://raw.githubusercontent.com/christianlempa/boilerplates/main/scripts/install.sh | bash
 
+# I Put this here so it doesn't close terminal
 echo
-echo "Press Enter to close..."
+echo "..."
 read
