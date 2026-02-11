@@ -20,3 +20,7 @@ set -euo pipefail
 #*############################################
 
 curl -fsSL https://raw.githubusercontent.com/christianlempa/boilerplates/main/scripts/install.sh | bash
+
+echo
+echo "Press Enter to close..."
+read
