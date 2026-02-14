@@ -4,8 +4,18 @@ set -euo pipefail
 echo "==> ClipCascade installer starting..."
 
 # Install Dependencies
-sudo apt update
-sudo apt install python3-tk python3-venv xclip wl-clipboard -y
+sudo apt update && sudo apt install -y \
+python3 \
+python3-pip \
+python3-venv \
+python3-tk \
+python3-gi \
+python3-gi-cairo \
+gir1.2-gtk-3.0 \
+gir1.2-gdk-3.0 \
+xclip \
+wl-clipboard \
+dunst
 
 APP_DIR="$HOME/Downloads/ClipCascade"
 ZIP_FILE="/tmp/ClipCascade_Linux.zip"
