@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+#*Tags:
+# Name: clipcascade-install-ubuntu.sh
+# Shell: bash
+# Platforms: Linux
+# Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad
+# Distros: Ubuntu Debian
+# Architectures: ARM64/AArch64 x86_64
+# DisplayServers: Wayland
+# PackageManagers: python
+# DesktopEnvironments: Gnome
+# Type: Bootstrap
+# Categories: productivity
+# Privileges: admin
+# Application: ClipCascade
+
 echo "==> ClipCascade installer starting..."
 
 # Install Dependencies

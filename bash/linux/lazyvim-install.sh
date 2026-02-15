@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 #*Tags:
 # Name: lazyvim-install.sh
 # Shell: bash

@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+#*Tags:
+# Name: Docker-Gum.sh
+# Shell: bash
+# Platforms: Linux
+# Hardware: RaspberryPi Steamdeck ROG-Ally ROG-Desktop ROG-Laptop ThinkPad
+# Distros: Ubunto Debian Arch Nix
+# Architectures: ARM64/AArch64 x86_64
+# DisplayServers: Wayland X11 Server
+# PackageManagers: docker
+# DesktopEnvironments: Gnome kde hyprland xfce
+# Type: Bootstrap
+# Categories: productivity
+# Privileges: admin
+# Application: Docker Homelab
 # ==========================================================
 # Docker Gum Utility
 # ==========================================================
