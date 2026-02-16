@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
-unset BOLD
 
 # ===============================
 # Configuration
@@ -12,52 +11,10 @@ BASE_DIR="$HOME/Pictures/Wallpapers"
 RESOLUTION="3840x2160"
 DEST="$BASE_DIR/$RESOLUTION"
 SPARSE_PATH="wallpapers/$RESOLUTION"
-SLIDESHOW_DELAY=5   # 600 = 10 minutes
-PID_FILE="$HOME/.cache/wallpaper-shuffle.pid"
+SLIDESHOW_DELAY=5
 
 # ===============================
-# Utility Functions
-# ===============================
-
-is_running() {
-    [ -f "$PID_FILE" ] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null
-}
-
-stop_running() {
-    if is_running; then
-        echo "🛑 Stopping wallpaper shuffle..."
-        kill "$(cat "$PID_FILE")" || true
-        rm -f "$PID_FILE"
-        echo "✅ Stopped."
-    else
-        echo "✔ No running instance found."
-    fi
-}
-
-# ===============================
-# Handle Commands
-# ===============================
-
-case "${1:-start}" in
-    stop)
-        stop_running
-        exit 0
-        ;;
-    restart)
-        stop_running
-        ;;
-    status)
-        if is_running; then
-            echo "🟢 Running (PID $(cat "$PID_FILE"))"
-        else
-            echo "🔴 Not running"
-        fi
-        exit 0
-        ;;
-esac
-
-# ===============================
-# Clone Only If Missing
+# Ensure Wallpapers Exist
 # ===============================
 
 if [ ! -d "$DEST" ]; then
@@ -85,41 +42,41 @@ else
 fi
 
 # ===============================
-# Choose Subfolder with gum
+# Select Folder (gum only first run)
 # ===============================
 
-echo
-echo "🎨 Choose a wallpaper category:"
+CACHE_FILE="$HOME/.cache/wallpaper-shuffle-folder"
+mkdir -p "$(dirname "$CACHE_FILE")"
 
-mapfile -t SUBFOLDERS < <(
-    find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort
-)
+if [ ! -f "$CACHE_FILE" ]; then
+    echo
+    echo "🎨 Choose a wallpaper category:"
 
-if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
-    echo "❌ No subfolders found."
-    exit 1
+    mapfile -t SUBFOLDERS < <(
+        find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort
+    )
+
+    if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
+        echo "❌ No subfolders found."
+        exit 1
+    fi
+
+    SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | gum choose --header="Select Wallpaper Folder")
+
+    echo "$SELECTED" > "$CACHE_FILE"
+else
+    SELECTED=$(cat "$CACHE_FILE")
 fi
-
-SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | gum choose --header="Select Wallpaper Folder")
 
 DIR="$DEST/$SELECTED"
 
-echo
-echo "🖼️ Selected: $SELECTED"
+echo "🖼️ Using folder: $SELECTED"
+echo "🚀 Starting slideshow..."
 
 # ===============================
-# Prevent Duplicate Instances
+# Slideshow Loop (Foreground)
 # ===============================
 
-stop_running
-
-# ===============================
-# Start Background Slideshow
-# ===============================
-
-echo "🚀 Starting slideshow in background..."
-
-(
 while true; do
     img=$(find "$DIR" -type f \( \
         -iname "*.jpg" -o \
@@ -135,11 +92,3 @@ while true; do
 
     sleep "$SLIDESHOW_DELAY"
 done
-) > /dev/null 2>&1 &
-
-echo $! > "$PID_FILE"
-
-disown
-
-echo "✅ Wallpaper shuffle running."
-echo "   Use: $(basename "$0") stop"
