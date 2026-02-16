@@ -85,7 +85,8 @@ fi
 CACHE_FILE="$HOME/.cache/wallpaper-shuffle-folder"
 mkdir -p "$(dirname "$CACHE_FILE")"
 
-if [ ! -f "$CACHE_FILE" ]; then
+# If we are in selection mode, OR the cache doesn't exist, we run the picker
+if [[ "${1:-}" == "--select" ]] || [ ! -f "$CACHE_FILE" ]; then
     mapfile -t SUBFOLDERS < <(find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
 
     if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
@@ -93,13 +94,19 @@ if [ ! -f "$CACHE_FILE" ]; then
         exit 1
     fi
 
-    # If running in a service (no TTY), auto-pick first folder. Otherwise, use gum.
-    if [ ! -t 0 ]; then
+    if [ ! -t 0 ] && [[ "${1:-}" != "--select" ]]; then
         SELECTED="${SUBFOLDERS[0]}"
     else
-        SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | gum choose --header="Select Wallpaper Folder")
+        SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
     fi
+
     echo "$SELECTED" > "$CACHE_FILE"
+    echo "📂 Selected: $SELECTED"
+
+    # CRITICAL: If we just wanted to select, exit now so we don't start a second loop!
+    if [[ "${1:-}" == "--select" ]]; then
+        exit 0
+    fi
 else
     SELECTED=$(cat "$CACHE_FILE")
 fi
