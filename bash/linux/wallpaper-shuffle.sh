@@ -43,13 +43,20 @@ EOF
 fi
 
 # ==========================================
-# 2. Bootstrap logic
+# 2. Bootstrap & Selection logic
 # ==========================================
-# If script is run without --run, it sets up the service and exits
+# If script is run with --select, it just picks a folder and exits.
+# If run with no flags, it sets up the service and exits.
 if [[ "${1:-}" != "--run" ]]; then
-    systemctl --user enable --now wallpaper-shuffle
-    echo "🚀 Wallpaper shuffle has been enabled and started via systemd."
-    exit 0
+    if [[ "${1:-}" == "--select" ]]; then
+        # We delete the cache so the selection logic in Section 4 triggers
+        rm -f "$HOME/.cache/wallpaper-shuffle-folder"
+        echo "📂 Opening folder selection..."
+    else
+        systemctl --user enable --now wallpaper-shuffle
+        echo "🚀 Wallpaper shuffle has been enabled and started via systemd."
+        exit 0
+    fi
 fi
 
 # ===============================
