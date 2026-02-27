@@ -15,16 +15,16 @@ echo "==> ClipCascade installer starting (Arch Linux)..."
 # Install Dependencies
 echo "==> Installing dependencies via pacman..."
 sudo pacman -Sy --needed --noconfirm \
-  python \
-  python-pip \
-  tk \
-  python-gobject \
-  gtk3 \
-  xclip \
-  wl-clipboard \
-  dunst \
-  wget \
-  unzip
+    python \
+    python-pip \
+    tk \
+    python-gobject \
+    gtk3 \
+    xclip \
+    wl-clipboard \
+    dunst \
+    wget \
+    unzip
 
 APP_DIR="$HOME/Downloads/ClipCascade"
 ZIP_FILE="/tmp/ClipCascade_Linux.zip"
