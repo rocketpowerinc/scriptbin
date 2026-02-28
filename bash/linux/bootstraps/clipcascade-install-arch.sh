@@ -13,54 +13,41 @@ set -euo pipefail
 echo "==> ClipCascade installer starting (Arch Linux)..."
 
 # Install Dependencies
-echo "==> Installing dependencies via pacman..."
-sudo pacman -Syu --needed --noconfirm \
-    base-devel \
-    python \
-    python-pip \
-    tk \
-    python-gobject \
-    gtk3 \
-    xdg-utils \
-    ffmpeg \
-    freetype2 \
-    lcms2 \
-    libjpeg-turbo \
-    libtiff \
-    libwebp \
-    openjpeg2 \
-    zlib \
-    libxcb \
-    xclip \
-    wl-clipboard \
-    dunst \
-    wget \
-    unzip
+echo "==> Installing base dependencies via pacman..."
+sudo pacman -Syu --noconfirm python python-pip python-gobject xclip wl-clipboard dunst xdg-utils
+sudo pacman -S --noconfirm python-gobject gtk3
 
 PYTHON_BIN="python"
-if pacman -Si python313 >/dev/null 2>&1; then
-    echo "==> Installing python313 for better Pillow compatibility..."
-    sudo pacman -S --needed --noconfirm python313
+echo "==> Installing paru (AUR helper)..."
+if ! command -v paru >/dev/null 2>&1; then
+    sudo pacman -S --needed base-devel git
+    git clone https://aur.archlinux.org/paru.git
+    cd paru
+    makepkg -si
+    cd ..
+    rm -rf paru
 fi
 
-if command -v python3.13 >/dev/null 2>&1; then
-    PYTHON_BIN="python3.13"
-fi
+echo "==> Installing pyenv via paru..."
+paru -S --noconfirm pyenv
 
-echo "==> Using Python interpreter: $PYTHON_BIN"
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+echo "==> Installing Python 3.12.0 via pyenv..."
+pyenv install -s 3.12.0
 
 APP_DIR="$HOME/Downloads/ClipCascade"
 ZIP_FILE="/tmp/ClipCascade_Linux.zip"
 SERVICE_FILE="$HOME/.config/systemd/user/clipcascade.service"
 
-# Clean old install
 echo "==> Cleaning old installation..."
 rm -rf "$APP_DIR"
 mkdir -p "$APP_DIR"
 
 echo "==> Downloading latest release..."
-wget -q --show-progress -O "$ZIP_FILE" \
-"https://github.com/Sathvik-Rao/ClipCascade/releases/latest/download/ClipCascade_Linux.zip"
+wget -q --show-progress -O "$ZIP_FILE" "https://github.com/Sathvik-Rao/ClipCascade/releases/latest/download/ClipCascade_Linux.zip"
 
 echo "==> Extracting..."
 unzip -q "$ZIP_FILE" -d "$APP_DIR"
@@ -74,32 +61,27 @@ fi
 
 cd "$APP_DIR"
 
+echo "==> Creating virtual environment..."
+echo "==> Installing Python dependencies..."
 if [ ! -f "requirements.txt" ]; then
     echo "ERROR: requirements.txt not found."
     exit 1
 fi
 
-echo "==> Creating virtual environment..."
-"$PYTHON_BIN" -m venv .venv --system-site-packages
+echo "==> Setting local Python version to 3.12.0..."
+pyenv local 3.12.0
 
-echo "==> Installing Python dependencies..."
-"$APP_DIR/.venv/bin/pip" install --upgrade pip setuptools wheel
+echo "==> Creating virtual environment with Python 3.12..."
+python -m venv .venv
 
-PYTHON_MM="$($APP_DIR/.venv/bin/python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')"
+echo "==> Activating virtual environment..."
+source .venv/bin/activate
 
-if [ "$PYTHON_MM" = "3.14" ]; then
-    echo "==> Python 3.14 detected; using system Pillow to avoid source build failure..."
-    sudo pacman -S --needed --noconfirm python-pillow python-av
+echo "==> Upgrading pip..."
+pip install --upgrade pip
 
-    TMP_REQ="$(mktemp)"
-    grep -Evi '^[[:space:]]*(pillow|av)([[:space:]]*[<>=!~].*)?[[:space:]]*$' requirements.txt > "$TMP_REQ"
-
-    "$APP_DIR/.venv/bin/pip" install -r "$TMP_REQ"
-    rm -f "$TMP_REQ"
-    "$APP_DIR/.venv/bin/python" -c 'import PIL; print("Pillow available:", PIL.__version__); import av; print("PyAV available:", av.__version__)'
-else
-    "$APP_DIR/.venv/bin/pip" install -r requirements.txt
-fi
+echo "==> Installing Python dependencies from requirements.txt..."
+pip install -r requirements.txt
 
 echo "==> Creating systemd user service..."
 mkdir -p "$HOME/.config/systemd/user"

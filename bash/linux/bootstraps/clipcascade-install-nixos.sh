@@ -31,13 +31,13 @@ nix-env -q wl-clipboard >/dev/null 2>&1 || nix-env -iA nixos.wl-clipboard
 
 # Requirements for the installer environment
 nix-shell -p \
-  python3 \
-  python3Packages.virtualenv \
-  python3Packages.pip \
-  python3Packages.tkinter \
-  wget \
-  unzip \
-  --run "$(cat << 'EOF'
+    python3 \
+    python3Packages.virtualenv \
+    python3Packages.pip \
+    python3Packages.tkinter \
+    wget \
+    unzip \
+    --run "$(cat << 'EOF'
 set -e
 
 APP_DIR="$HOME/.local/share/ClipCascade"
