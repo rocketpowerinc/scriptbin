@@ -57,6 +57,9 @@ fi
 # ===============================
 # 4. Select Folder
 # ===============================
+# Always delete the cache file to force new selection
+rm -f "$HOME/.cache/wallpaper-shuffle-folder"
+
 CACHE_FILE="$HOME/.cache/wallpaper-shuffle-folder"
 mkdir -p "$(dirname "$CACHE_FILE")"
 
