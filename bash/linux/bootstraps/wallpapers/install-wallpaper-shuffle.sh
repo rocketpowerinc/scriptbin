@@ -66,9 +66,13 @@ if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
     exit 1
 fi
 
-SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
-DIR="$DEST/$SELECTED"
-echo -e "\033[32m📂 Selected: $SELECTED Folder - Use Ctrl + C to exit\033[0m"
+if [[ "${1:-}" == "--select" ]]; then
+    SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
+    DIR="$DEST/$SELECTED"
+    echo -e "\033[32m📂 Selected: $SELECTED Folder - Use Ctrl + C to exit\033[0m"
+else
+    DIR="$DEST/Misc"
+fi
 
 # ===============================
 # 5. Slideshow Loop
