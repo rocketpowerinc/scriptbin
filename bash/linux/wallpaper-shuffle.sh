@@ -64,6 +64,10 @@ fi
 # ===============================
 if [ ! -d "$DEST" ]; then
     echo "📦 Wallpapers folder not found at $DEST"
+    if [ -d "$HOME/Pictures/Assets" ]; then
+        echo "⚠️  Removing existing $HOME/Pictures/Assets directory..."
+        rm -rf "$HOME/Pictures/Assets"
+    fi
     echo "Cloning wallpapers repository..."
     git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
     echo "✅ Clone complete."
