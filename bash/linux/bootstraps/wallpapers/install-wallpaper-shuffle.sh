@@ -68,7 +68,7 @@ fi
 
 SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
 DIR="$DEST/$SELECTED"
-echo "📂 Selected: $SELECTED Use Ctrl + C to exit"
+echo "📂 Selected: $SELECTED Folder - Use Ctrl + C to exit"
 
 # ===============================
 # 5. Slideshow Loop
