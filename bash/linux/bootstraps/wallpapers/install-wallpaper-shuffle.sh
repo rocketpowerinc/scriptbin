@@ -55,24 +55,20 @@ fi
 
 
 
-# ===============================
-# 4. Folder Selection (optional)
-# ===============================
-if [[ "${1:-}" == "--select" ]]; then
-    mapfile -t SUBFOLDERS < <(find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
 
-    if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
-        echo "❌ No subfolders found in $DEST"
-        exit 1
-    fi
+# ===============================
+# 4. Folder Selection
+# ===============================
+mapfile -t SUBFOLDERS < <(find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
 
-    SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
-    DIR="$DEST/$SELECTED"
-    echo "📂 Selected: $SELECTED"
-    exit 0
-else
-    DIR="$DEST/Misc"
+if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
+    echo "❌ No subfolders found in $DEST"
+    exit 1
 fi
+
+SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
+DIR="$DEST/$SELECTED"
+echo "📂 Selected: $SELECTED"
 
 # ===============================
 # 5. Slideshow Loop
