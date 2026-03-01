@@ -20,7 +20,7 @@ SERVICE_PATH="$HOME/.config/systemd/user/wallpaper-shuffle.service"
 # ===============================
 if [ ! -d "$DEST" ]; then
     echo "❌ Wallpapers folder not found at $DEST"
-    echo "Please run the download-sync-wallpapers script first."
+    echo -e "Please run the \033[38;5;208m\"just download-sync-wallpapers\"\033[0m recipe first."
     read -n 1 -s -r -p "Press any key to continue..."
     exit 1
 fi
