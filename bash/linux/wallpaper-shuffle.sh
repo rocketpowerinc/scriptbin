@@ -80,16 +80,14 @@ fi
 # ===============================
 # 3. Ensure Wallpapers Exist
 # ===============================
-if [ ! -d "$DEST" ]; then
-    echo "📦 Wallpapers folder not found at $DEST"
-    if [ -d "$HOME/Pictures/Assets" ]; then
-        echo "⚠️  Removing existing $HOME/Pictures/Assets directory..."
-        rm -rf "$HOME/Pictures/Assets"
-    fi
-    echo "Cloning wallpapers repository..."
-    git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
-    echo "✅ Clone complete."
+if [ -d "$HOME/Pictures/Assets/.git" ]; then
+    echo "⚠️  Removing existing $HOME/Pictures/Assets directory..."
+    rm -rf "$HOME/Pictures/Assets"
+    # Wait for removal to complete
+    while [ -d "$HOME/Pictures/Assets" ]; do sleep 1; done
 fi
+echo "Cloning wallpapers repository..."
+git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
 
 # ===============================
 # 4. Select Folder
