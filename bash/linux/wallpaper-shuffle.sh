@@ -53,6 +53,24 @@ if [[ "${1:-}" != "--run" ]]; then
         rm -f "$HOME/.cache/wallpaper-shuffle-folder"
         echo "📂 Opening folder selection..."
     else
+        echo "HOME is $HOME"
+        # Ensure wallpapers exist and clone if needed before enabling service
+        if [ ! -d "$DEST" ]; then
+            echo "📦 Wallpapers folder not found at $DEST"
+            if [ -d "$HOME/Pictures/Assets" ]; then
+                echo "⚠️  Removing existing $HOME/Pictures/Assets directory..."
+                rm -rf "$HOME/Pictures/Assets"
+            fi
+            echo "Cloning wallpapers repository..."
+            git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
+            CLONE_STATUS=$?
+            if [ $CLONE_STATUS -eq 0 ]; then
+                echo "✅ Clone complete."
+            else
+                echo "❌ Clone failed with status $CLONE_STATUS."
+                exit 1
+            fi
+        fi
         systemctl --user enable --now wallpaper-shuffle
         echo "🚀 Wallpaper shuffle has been enabled and started via systemd."
         exit 0
