@@ -3,8 +3,9 @@
 set -euo pipefail
 unset BOLD
 
+
 # ===============================
-# Configuration
+# 1. Configuration
 # ===============================
 REPO_URL="https://github.com/rocketpowerinc/assets.git"
 BRANCH="main"
@@ -14,9 +15,19 @@ DEST="$ASSETS_DIR/wallpapers/$RESOLUTION"
 SLIDESHOW_DELAY=600 # 10 Minutes
 SERVICE_PATH="$HOME/.config/systemd/user/wallpaper-shuffle.service"
 
-# ==========================================
-# 1. SystemD Service Creation
-# ==========================================
+# ===============================
+# 2. Ensure Wallpapers Exist
+# ===============================
+if [ ! -d "$DEST" ]; then
+    echo "❌ Wallpapers folder not found at $DEST"
+    echo "Please run the download-sync-wallpapers script first."
+    read -n 1 -s -r -p "Press any key to continue..."
+    exit 1
+fi
+
+# ===============================
+# 3. SystemD Service Creation
+# ===============================
 # This creates the service file automatically if it doesn't exist
 if [ ! -f "$SERVICE_PATH" ]; then
     echo "⚙️  Creating systemd user service..."
@@ -42,40 +53,6 @@ EOF
     echo "✅ Service file created at $SERVICE_PATH"
 fi
 
-# ==========================================
-# 2. Bootstrap & Selection logic
-# ==========================================
-# If script is run with --select, it just picks a folder and exits.
-# If run with no flags, it sets up the service and exits.
-if [[ "${1:-}" != "--run" ]]; then
-    if [[ "${1:-}" == "--select" ]]; then
-        # We delete the cache so the selection logic in Section 4 triggers
-        rm -f "$HOME/.cache/wallpaper-shuffle-folder"
-        echo "📂 Opening folder selection..."
-    else
-        echo "HOME is $HOME"
-        if [ ! -d "$DEST" ]; then
-            echo "❌ Wallpapers folder not found at $DEST"
-            echo "Please run the download-sync-wallpapers script first."
-            exit 1
-        fi
-        systemctl --user restart wallpaper-shuffle
-        echo "🚀 Wallpaper shuffle has been restarted via systemd."
-        exit 0
-    fi
-fi
-
-# ===============================
-# 3. Ensure Wallpapers Exist
-# ===============================
-if [ -d "$HOME/Pictures/Assets/.git" ]; then
-    echo "⚠️  Removing existing $HOME/Pictures/Assets directory..."
-    rm -rf "$HOME/Pictures/Assets"
-    # Wait for removal to complete
-    while [ -d "$HOME/Pictures/Assets" ]; do sleep 1; done
-fi
-echo "Cloning wallpapers repository..."
-git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
 
 # ===============================
 # 4. Select Folder
