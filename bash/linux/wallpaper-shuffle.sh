@@ -54,6 +54,8 @@ if [[ "${1:-}" != "--run" ]]; then
         echo "📂 Opening folder selection..."
     else
         echo "HOME is $HOME"
+        # Stop the systemd service before cloning to avoid concurrent access
+        systemctl --user stop wallpaper-shuffle 2>/dev/null || true
         # Ensure wallpapers exist and clone if needed before enabling service
         if [ ! -d "$DEST" ]; then
             echo "📦 Wallpapers folder not found at $DEST"
@@ -71,8 +73,9 @@ if [[ "${1:-}" != "--run" ]]; then
                 exit 1
             fi
         fi
-        systemctl --user enable --now wallpaper-shuffle
-        echo "🚀 Wallpaper shuffle has been enabled and started via systemd."
+        # Restart the systemd service after cloning
+        systemctl --user restart wallpaper-shuffle
+        echo "🚀 Wallpaper shuffle has been restarted via systemd."
         exit 0
     fi
 fi
