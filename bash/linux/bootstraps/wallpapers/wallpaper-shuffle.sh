@@ -54,17 +54,11 @@ EOF
 fi
 
 
-# ===============================
-# 4. Select Folder
-# ===============================
-# Always delete the cache file to force new selection
-rm -f "$HOME/.cache/wallpaper-shuffle-folder"
 
-CACHE_FILE="$HOME/.cache/wallpaper-shuffle-folder"
-mkdir -p "$(dirname "$CACHE_FILE")"
-
-# If we are in selection mode, OR the cache doesn't exist, we run the picker
-if [[ "${1:-}" == "--select" ]] || [ ! -f "$CACHE_FILE" ]; then
+# ===============================
+# 4. Folder Selection (optional)
+# ===============================
+if [[ "${1:-}" == "--select" ]]; then
     mapfile -t SUBFOLDERS < <(find "$DEST" -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | sort)
 
     if [ "${#SUBFOLDERS[@]}" -eq 0 ]; then
@@ -72,24 +66,13 @@ if [[ "${1:-}" == "--select" ]] || [ ! -f "$CACHE_FILE" ]; then
         exit 1
     fi
 
-    if [ ! -t 0 ] && [[ "${1:-}" != "--select" ]]; then
-        SELECTED="${SUBFOLDERS[0]}"
-    else
-        SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
-    fi
-
-    echo "$SELECTED" > "$CACHE_FILE"
+    SELECTED=$(printf "%s\n" "${SUBFOLDERS[@]}" | env -u BOLD gum choose --header="Select Wallpaper Folder")
+    DIR="$DEST/$SELECTED"
     echo "📂 Selected: $SELECTED"
-
-    # CRITICAL: If we just wanted to select, exit now so we don't start a second loop!
-    if [[ "${1:-}" == "--select" ]]; then
-        exit 0
-    fi
+    exit 0
 else
-    SELECTED=$(cat "$CACHE_FILE")
+    DIR="$DEST/Misc"
 fi
-
-DIR="$DEST/$SELECTED"
 
 # ===============================
 # 5. Slideshow Loop
