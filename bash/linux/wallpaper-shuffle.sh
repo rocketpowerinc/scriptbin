@@ -8,10 +8,9 @@ unset BOLD
 # ===============================
 REPO_URL="https://github.com/rocketpowerinc/assets.git"
 BRANCH="main"
-BASE_DIR="$HOME/Pictures/Wallpapers"
+ASSETS_DIR="$HOME/Pictures/Assets"
 RESOLUTION="3840x2160"
-DEST="$BASE_DIR/$RESOLUTION"
-SPARSE_PATH="wallpapers/$RESOLUTION"
+DEST="$ASSETS_DIR/wallpapers/$RESOLUTION"
 SLIDESHOW_DELAY=600 # 10 Minutes
 SERVICE_PATH="$HOME/.config/systemd/user/wallpaper-shuffle.service"
 
@@ -64,18 +63,9 @@ fi
 # 3. Ensure Wallpapers Exist
 # ===============================
 if [ ! -d "$DEST" ]; then
-    echo "📦 $RESOLUTION not found. Cloning wallpapers..."
-    mkdir -p "$BASE_DIR"
-    cd "$BASE_DIR"
-    git init temp-assets
-    cd temp-assets
-    git remote add origin "$REPO_URL"
-    git config core.sparseCheckout true
-    echo "$SPARSE_PATH/*" >> .git/info/sparse-checkout
-    git pull origin "$BRANCH"
-    mv "$SPARSE_PATH" "$BASE_DIR/"
-    cd "$BASE_DIR"
-    rm -rf temp-assets
+    echo "📦 Wallpapers folder not found at $DEST"
+    echo "Cloning wallpapers repository..."
+    git clone https://github.com/rocketpowerinc/assets.git "$HOME/Pictures/Assets"
     echo "✅ Clone complete."
 fi
 
