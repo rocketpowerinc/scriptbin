@@ -78,11 +78,14 @@ if [[ "${1:-}" == "--select" ]]; then
 fi
 
 # Non-interactive: systemd or manual run
+
 if [ -f "$CACHE_FILE" ]; then
     SELECTED=$(cat "$CACHE_FILE")
 else
-    echo "❌ No folder selected. Run with --select to choose a folder."
-    exit 1
+    # Default to 'Misc' if cache file is missing
+    SELECTED="Misc"
+    echo "$SELECTED" > "$CACHE_FILE"
+    echo -e "\033[33mNo cache file found. Defaulting to: $SELECTED\033[0m"
 fi
 
 DIR="$DEST/$SELECTED"
