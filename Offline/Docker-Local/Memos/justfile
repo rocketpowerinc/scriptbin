@@ -1,0 +1,21 @@
+# Detect OS and set shell
+set shell := ["bash", "-c"]
+set windows-shell := ["pwsh", "-NoProfile", "-Command"]
+
+IMAGE := "neosmemo/memos:0.26"
+TAR := "memos_0.26.tar"
+
+default:
+    @just --list
+
+download-image:
+    docker save -o {{TAR}} {{IMAGE}}
+
+load-image:
+    docker load -i {{TAR}}
+
+compose-up:
+    docker compose up -d
+
+compose-down:
+    docker compose down
