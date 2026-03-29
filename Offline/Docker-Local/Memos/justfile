@@ -9,6 +9,7 @@ default:
     @just --list
 
 download-image:
+    docker pull {{IMAGE}}
     docker save -o {{TAR}} {{IMAGE}}
 
 load-image:
