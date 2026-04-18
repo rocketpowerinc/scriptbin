@@ -50,6 +50,7 @@ Get-Content $inputFile | ForEach-Object {
 
     $command = {
       yt-dlp --no-playlist `
+      --cookies "$scriptRoot\youtube_cookies.txt" ` # Optional: but necessary not to seem like a bot
         -f "bv*[height<=480][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best" `
         -o "$dateFolder/%(title).100s.%(ext)s" `
         "$url"
