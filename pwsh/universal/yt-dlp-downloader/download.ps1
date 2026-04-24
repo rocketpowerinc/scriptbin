@@ -4,6 +4,7 @@
 # - Reads URLs from download.txt (one per line)
 # - Downloads all videos using yt-dlp
 # - Uses smart <=480p MP4 format for YouTube links
+# - Uses cookies for YouTube + Instagram
 # - Saves downloads into a folder named with today's date + time (YYYY-MM-DD_HH-mm)
 # - Logs failures to 00-failed.txt inside the download folder
 # - Writes success message if no failures occur
@@ -41,23 +42,36 @@ Get-Content $inputFile | ForEach-Object {
 
   Write-Host "⬇️ Processing: $url"
 
-  $command = {
-    yt-dlp -o "$dateFolder/%(title).100s.%(ext)s" "$url"
-  }
-
   if ($url -match "youtube\.com|youtu\.be") {
     Write-Host "🎥 YouTube detected — using smart <=480p format"
 
     $command = {
       yt-dlp --no-playlist `
-      --cookies "$scriptRoot\youtube_cookies.txt" ` # Optional: but necessary not to seem like a bot
+        --cookies "$scriptRoot\youtube_cookies.txt" `
         -f "bv*[height<=480][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/best" `
+        -o "$dateFolder/%(title).100s.%(ext)s" `
+        "$url"
+    }
+  }
+  elseif ($url -match "instagram\.com") {
+    Write-Host "📸 Instagram detected — using cookies"
+
+    $command = {
+      yt-dlp `
+        --cookies "$scriptRoot\instagram_cookies.txt" `
+        --user-agent "Mozilla/5.0" `
         -o "$dateFolder/%(title).100s.%(ext)s" `
         "$url"
     }
   }
   else {
     Write-Host "🌐 Other site detected — using default download"
+
+    $command = {
+      yt-dlp `
+        -o "$dateFolder/%(title).100s.%(ext)s" `
+        "$url"
+    }
   }
 
   try {
