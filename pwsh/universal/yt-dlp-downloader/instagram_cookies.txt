@@ -1,0 +1,4 @@
+Download instagram cookies by going to instagram.com and download the cookies with this firefox extension.
+- https://addons.mozilla.org/en-US/firefox/addon/get-cookies-txt-locally/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search
+- https://github.com/kairi003/Get-cookies.txt-LOCALLY/
+then rename the file to instagram_cookies.txt and add that file to the root folder of download.ps1 and download.txt script
