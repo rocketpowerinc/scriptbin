@@ -22,6 +22,7 @@ set "tempScript=%TEMP%\screen-off-%RANDOM%-%RANDOM%.ps1"
   echo.
   echo Add-Type -AssemblyName System.Windows.Forms
   echo $initial = [System.Windows.Forms.Cursor]::Position
+  echo $lastOffCommand = Get-Date
   echo.
   echo while ($true^) {
   echo     Start-Sleep -Milliseconds 200
@@ -31,6 +32,11 @@ set "tempScript=%TEMP%\screen-off-%RANDOM%-%RANDOM%.ps1"
   echo         [MonitorControl]::SendMessage(-1, 0x0112, 0xF170, -1^) ^| Out-Null
   echo         Write-Host "Monitor waking up."
   echo         break
+  echo     }
+  echo.
+  echo     if (((Get-Date^) - $lastOffCommand^).TotalMinutes -ge 20^) {
+  echo         [MonitorControl]::SendMessage(-1, 0x0112, 0xF170, 2^) ^| Out-Null
+  echo         $lastOffCommand = Get-Date
   echo     }
   echo }
 )
